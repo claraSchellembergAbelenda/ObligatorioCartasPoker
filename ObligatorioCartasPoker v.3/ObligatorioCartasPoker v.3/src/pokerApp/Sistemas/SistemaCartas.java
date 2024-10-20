@@ -2,7 +2,7 @@
 package pokerApp.Sistemas;
 
 import java.util.ArrayList;
-import pokerApp.Carta;
+import pokerApp.figurasYCartas.Carta;
 
 public class SistemaCartas {
     private ArrayList<Carta>mazo;

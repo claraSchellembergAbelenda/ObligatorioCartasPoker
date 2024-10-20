@@ -1,7 +1,7 @@
 
 package pokerApp.Sistemas;
 
-import pokerApp.Mano;
+import pokerApp.juego.Mano;
 
 public class SistemaManos {
     Mano manoActual;

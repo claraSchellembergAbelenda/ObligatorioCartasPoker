@@ -1,9 +1,9 @@
 package iu;
 
 import javax.swing.JOptionPane;
-import pokerApp.Sesion;
+import pokerApp.usuarios.Sesion;
 import pokerApp.Sistemas.Fachada;
-import pokerApp.Usuario;
+import pokerApp.usuarios.Usuario;
 
 public class Principal extends javax.swing.JFrame {
 

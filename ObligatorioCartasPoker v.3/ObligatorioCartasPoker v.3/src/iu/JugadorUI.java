@@ -1,7 +1,7 @@
 package iu;
 
 import javax.swing.*;
-import pokerApp.Sesion;
+import pokerApp.usuarios.Sesion;
 
 public class JugadorUI extends JFrame {
 

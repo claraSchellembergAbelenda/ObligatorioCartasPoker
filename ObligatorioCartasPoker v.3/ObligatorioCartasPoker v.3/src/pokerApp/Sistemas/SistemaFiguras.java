@@ -3,7 +3,7 @@ package pokerApp.Sistemas;
 import java.util.ArrayList;
 import java.util.List;
 import jdk.jshell.spi.ExecutionControl.NotImplementedException;
-import pokerApp.Figura;
+import pokerApp.figurasYCartas.Figura;
 
 public class SistemaFiguras {
     private List<Figura> figuras;

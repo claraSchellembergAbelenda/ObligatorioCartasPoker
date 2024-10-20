@@ -1,8 +1,8 @@
 package pokerApp.Sistemas;
 
 import java.util.ArrayList;
-import pokerApp.Jugador;
-import pokerApp.Mesa;
+import pokerApp.usuarios.Jugador;
+import pokerApp.juego.Mesa;
 
 public class SistemaMesa {
     private ArrayList<Mesa> mesas;

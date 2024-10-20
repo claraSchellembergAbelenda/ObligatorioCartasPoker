@@ -3,32 +3,11 @@
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
         <group>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Poker.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Mesa.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Sistemas/Fachada.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Figura.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Carta.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/iu/PanelCartas.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Escalera.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Mano.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Sistemas/SistemaFiguras.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/SinFigura.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Pierna.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Usuario.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/NewJFrame.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Sistemas/SistemaMesa.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/iu/Principal.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Par.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Administrador.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/DialogoEjemplo.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Sistemas/SistemaUsuario.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Jugador.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/TipoFigura.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/EstadoPartida.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Mazo.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Sistemas/SistemaCartas.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/pokerApp/Sistemas/SistemaManos.java</file>
-            <file>file:/Users/maximiliano/Desktop/ObligatorioCartasPoker%202/src/iu/Login.java</file>
+            <file>file:/C:/Users/ClaraSchellembergAbe/source/gitHubObligatorioRepository/ObligatorioCartasPoker/ObligatorioCartasPoker%20v.3/ObligatorioCartasPoker%20v.3/src/iu/VisualizacionCartas.java</file>
+            <file>file:/C:/Users/ClaraSchellembergAbe/source/gitHubObligatorioRepository/ObligatorioCartasPoker/ObligatorioCartasPoker%20v.3/ObligatorioCartasPoker%20v.3/src/pokerApp/Sistemas/Fachada.java</file>
+            <file>file:/C:/Users/ClaraSchellembergAbe/source/gitHubObligatorioRepository/ObligatorioCartasPoker/ObligatorioCartasPoker%20v.3/ObligatorioCartasPoker%20v.3/src/iu/Login.java</file>
+            <file>file:/C:/Users/ClaraSchellembergAbe/source/gitHubObligatorioRepository/ObligatorioCartasPoker/ObligatorioCartasPoker%20v.3/ObligatorioCartasPoker%20v.3/src/iu/AdministradorUI.java</file>
+            <file>file:/C:/Users/ClaraSchellembergAbe/source/gitHubObligatorioRepository/ObligatorioCartasPoker/ObligatorioCartasPoker%20v.3/ObligatorioCartasPoker%20v.3/src/iu/AdministrarMesas.java</file>
         </group>
     </open-files>
 </project-private>

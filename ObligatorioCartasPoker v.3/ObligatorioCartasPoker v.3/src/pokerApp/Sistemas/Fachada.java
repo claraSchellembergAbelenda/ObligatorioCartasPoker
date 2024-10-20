@@ -4,11 +4,11 @@ import java.util.ArrayList;
 import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.Sistemas.SistemaUsuario;
 import java.util.List;
-import pokerApp.Figura;
-import pokerApp.Jugador;
-import pokerApp.Mesa;
-import pokerApp.Sesion;
-import pokerApp.Usuario;
+import pokerApp.figurasYCartas.Figura;
+import pokerApp.usuarios.Jugador;
+import pokerApp.juego.Mesa;
+import pokerApp.usuarios.Sesion;
+import pokerApp.usuarios.Usuario;
 
 public class Fachada {
 
@@ -17,8 +17,7 @@ public class Fachada {
     private SistemaManos sistemaManos;
     private SistemaMesa sistemaMesa;
     
-  
-
+ 
     public Fachada() {
         sistemaUsuario = new SistemaUsuario();
         sistemaFiguras = new SistemaFiguras();

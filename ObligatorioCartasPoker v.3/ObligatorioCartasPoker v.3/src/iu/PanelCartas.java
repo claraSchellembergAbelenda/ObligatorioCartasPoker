@@ -1,8 +1,7 @@
 package iu;
 import java.util.ArrayList;
 import panelCartasPoker.CartaPoker;
-import pokerApp.Carta;
-import pokerApp.DialogoEjemplo;
+import pokerApp.figurasYCartas.Carta;
 
 
 public class PanelCartas {
@@ -16,7 +15,7 @@ public class PanelCartas {
         cartas.add(new Carta(1,CartaPoker.PIQUE));
         cartas.add(new Carta(11,CartaPoker.PIQUE));
         
-        DialogoEjemplo dialogo = new DialogoEjemplo(null, false);
+        VisualizacionCartas dialogo = new VisualizacionCartas(null, false);
         dialogo.setVisible(true);  
        
         dialogo.cargarCartas(cartas);

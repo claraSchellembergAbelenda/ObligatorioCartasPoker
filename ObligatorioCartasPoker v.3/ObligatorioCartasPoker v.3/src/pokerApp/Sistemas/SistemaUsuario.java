@@ -2,10 +2,10 @@ package pokerApp.Sistemas;
 
 import java.util.ArrayList;
 import java.util.List;
-import pokerApp.Administrador;
-import pokerApp.Jugador;
-import pokerApp.Sesion;
-import pokerApp.Usuario;
+import pokerApp.usuarios.Administrador;
+import pokerApp.usuarios.Jugador;
+import pokerApp.usuarios.Sesion;
+import pokerApp.usuarios.Usuario;
 
 public class SistemaUsuario {
     private List<Usuario> usuarios;

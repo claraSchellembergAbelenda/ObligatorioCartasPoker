@@ -1,9 +1,9 @@
 package iu;
 
 import javax.swing.JOptionPane;
-import pokerApp.Sesion;
+import pokerApp.usuarios.Sesion;
 import pokerApp.Sistemas.Fachada;
-import pokerApp.Usuario;
+import pokerApp.usuarios.Usuario;
 
 public class Login extends javax.swing.JDialog {
 
@@ -101,7 +101,7 @@ public class Login extends javax.swing.JDialog {
         login();
     }//GEN-LAST:event_btnLoginActionPerformed
      
-private void login() {
+    private void login() {
         String username = txtUsuario.getText();
         String password = new String(pwdPassword.getPassword());
 
