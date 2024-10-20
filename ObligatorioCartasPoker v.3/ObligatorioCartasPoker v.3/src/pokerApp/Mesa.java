@@ -1,0 +1,241 @@
+package pokerApp;
+
+import java.util.ArrayList;
+
+public class Mesa {
+
+    private ArrayList<Jugador> jugadores;
+    private ArrayList<Mano> manosJugadas;
+    private Mazo cartas;
+    private float apuestaBase;
+    private EstadoPartida estadoPartida;
+    private int cantidadJugadoresRequeridos;
+    private int cantidadJugadoresActual;
+    private int numeroManoActual;
+    private float montoTotalApostado;
+    private float montoTotalRecaudado;
+    private float comision;
+    private Jugador ganador;
+    private Figura figuraGanadora;
+    private int numeroMesa;
+
+    // Constructor
+    public Mesa(int numeroMesa, int cantidadJugadoresRequeridos, float apuestaBase, float comision) {
+        this.jugadores = new ArrayList<>();
+        this.manosJugadas = new ArrayList<>();
+        this.cartas = new Mazo(); // Inicializamos el mazo
+        this.apuestaBase = apuestaBase;
+        this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
+        this.comision = comision;
+        this.estadoPartida = EstadoPartida.ABIERTA; // Estado inicial de la partida
+        this.numeroMesa = numeroMesa;
+        this.montoTotalApostado = 0;
+        this.montoTotalRecaudado = 0;
+        this.cantidadJugadoresActual = 0;
+        this.numeroManoActual = 0;
+    }
+
+    public Mesa(int jugadoresRequeridos, float apuestaBase, float comision) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    
+    // Getters y setters
+    public int getNumeroMesa() {
+        return this.hashCode(); // Usamos el hashCode para generar un número único
+    }
+    
+    public void agregarJugador(Jugador jugador) {
+        if (jugadores.size() < cantidadJugadoresRequeridos) {
+            jugadores.add(jugador);
+            cantidadJugadoresActual++;
+            System.out.println("Jugador agregado a la mesa.");
+        } else {
+            System.out.println("La mesa ya tiene el número máximo de jugadores.");
+        }
+    }
+    
+    
+
+    public ArrayList<Jugador> getJugadores() {
+        return jugadores;
+    }
+
+    // Método para remover un jugador de la mesa
+    public void removerJugador(Jugador jugador) {
+        if (jugadores.remove(jugador)) {
+            cantidadJugadoresActual--;
+        }
+    }
+    
+    public int getCantidadJugadoresRequeridos() {
+        return cantidadJugadoresRequeridos;
+    }
+
+    public int getCantidadJugadoresActual() {
+        return cantidadJugadoresActual;
+    }
+
+    // Método para iniciar la mesa (si se han completado los jugadores)
+    public void iniciarMesa() {
+        if (cantidadJugadoresActual == cantidadJugadoresRequeridos) {
+            estadoPartida = EstadoPartida.JUGANDO;
+            System.out.println("La mesa " + numeroMesa + " ha sido iniciada.");
+        } else {
+            System.out.println("La mesa no puede ser iniciada. Jugadores insuficientes.");
+        }
+    }
+
+    // Método para finalizar la mesa
+    public void finalizarMesa() {
+        estadoPartida = EstadoPartida.FINALIZADA;
+        calcularPozoTotal();
+        System.out.println("La mesa " + numeroMesa + " ha sido finalizada.");
+    }
+
+    // Método para reiniciar la mesa
+    public void reiniciar() {
+        jugadores.clear();
+        manosJugadas.clear();
+        estadoPartida = EstadoPartida.ABIERTA;
+        cantidadJugadoresActual = 0;
+        montoTotalApostado = 0;
+        montoTotalRecaudado = 0;
+        numeroManoActual = 0;
+        System.out.println("La mesa " + numeroMesa + " ha sido reiniciada.");
+    }
+
+    // Método para calcular el pozo total apostado en la mesa
+    public void calcularPozoTotal() {
+        montoTotalApostado = 0;
+        for (Mano mano : manosJugadas) {
+            montoTotalApostado += mano.getPozoApuestas();
+        }
+        montoTotalRecaudado = montoTotalApostado - (montoTotalApostado * comision / 100);
+    }
+
+    // Método para determinar el ganador de la mesa
+    public Jugador determinarGanador() {
+        // Implementar la lógica para determinar el ganador
+        // Aquí puedes evaluar las manos de los jugadores para decidir el ganador
+        return null; // Por ahora retornamos null hasta implementar la lógica
+    }
+
+    // Getters y Setters
+
+
+    public void setJugadores(ArrayList<Jugador> jugadores) {
+        this.jugadores = jugadores;
+    }
+
+    public ArrayList<Mano> getManosJugadas() {
+        return manosJugadas;
+    }
+
+    public void setManosJugadas(ArrayList<Mano> manosJugadas) {
+        this.manosJugadas = manosJugadas;
+    }
+
+    public Mazo getCartas() {
+        return cartas;
+    }
+
+    public void setCartas(Mazo cartas) {
+        this.cartas = cartas;
+    }
+
+    public float getApuestaBase() {
+        return apuestaBase;
+    }
+
+    public void setApuestaBase(float apuestaBase) {
+        this.apuestaBase = apuestaBase;
+    }
+
+    public EstadoPartida getEstadoPartida() {
+        return estadoPartida;
+    }
+
+    public void setEstadoPartida(EstadoPartida estadoPartida) {
+        this.estadoPartida = estadoPartida;
+    }
+
+
+
+    public void setCantidadJugadoresRequeridos(int cantidadJugadoresRequeridos) {
+        this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
+    }
+
+
+
+    public void setCantidadJugadoresActual(int cantidadJugadoresActual) {
+        this.cantidadJugadoresActual = cantidadJugadoresActual;
+    }
+
+    public int getNumeroManoActual() {
+        return numeroManoActual;
+    }
+
+    public void setNumeroManoActual(int numeroManoActual) {
+        this.numeroManoActual = numeroManoActual;
+    }
+
+    public float getMontoTotalApostado() {
+        return montoTotalApostado;
+    }
+
+    public void setMontoTotalApostado(float montoTotalApostado) {
+        this.montoTotalApostado = montoTotalApostado;
+    }
+
+    public float getMontoTotalRecaudado() {
+        return montoTotalRecaudado;
+    }
+
+    public void setMontoTotalRecaudado(float montoTotalRecaudado) {
+        this.montoTotalRecaudado = montoTotalRecaudado;
+    }
+
+    public float getComision() {
+        return comision;
+    }
+
+    public void setComision(float comision) {
+        this.comision = comision;
+    }
+
+    public Jugador getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(Jugador ganador) {
+        this.ganador = ganador;
+    }
+
+    public Figura getFiguraGanadora() {
+        return figuraGanadora;
+    }
+
+    public void setFiguraGanadora(Figura figuraGanadora) {
+        this.figuraGanadora = figuraGanadora;
+    }
+
+   
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
+
+    public Object getJugadoresActuales() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean getJugadoresRequeridos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void setEstado(String finalizada) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
+
+}
