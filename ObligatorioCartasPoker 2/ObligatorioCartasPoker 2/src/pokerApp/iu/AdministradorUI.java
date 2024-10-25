@@ -43,6 +43,8 @@ public class AdministradorUI extends JFrame {
 
     private void crearMesa() {
         // Lógica para crear mesa, podria abrirnos un form y lo llena ahi 
+        
+        
         JOptionPane.showMessageDialog(this, "Creando nueva mesa...");
     }
 }
