@@ -1,3 +1,8 @@
+/build.xml
+/lib/*.jar
+/nbproject/
+*.form
+
 /ObligatorioCartasPoker 2/ObligatorioCartasPoker./build/
 /ObligatorioCartasPoker 2/ObligatorioCartasPoker./nbproject/private/
 /ObligatorioCartasPoker2/ObligatorioCartasPoker/build/
