@@ -1,23 +1,23 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
 package pokerApp.iu;
 
-import javax.swing.JTable;
+import javax.swing.*;
+import pokerApp.usuarios.Sesion;
+import pokerApp.Sistemas.Fachada;
+import pokerApp.juego.Mesa;
+import java.util.ArrayList;
 
-/**
- *
- * @author ClaraSchellembergAbe
- */
 public abstract class InterfazAdministrador extends javax.swing.JDialog {
 
-    /**
-     * Creates new form InterfazAdministrador
-     */
-    public InterfazAdministrador(java.awt.Frame parent, boolean modal) {
+    private Sesion sesion;
+    private Fachada fachada;
+
+    public InterfazAdministrador(java.awt.Frame parent, boolean modal, Sesion sesion, Fachada fachada) {
         super(parent, modal);
+        this.sesion = sesion;
+        this.fachada = fachada;
         initComponents();
+        setTitle("Administrador - " + sesion.getUsuario().getNombreCompleto());
+        setLocationRelativeTo(null); // Centra la ventana en pantalla
     }
 
     /**
@@ -29,71 +29,197 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblBienvenidoAdmin = new javax.swing.JLabel();
+        btnAdministrarMesa = new javax.swing.JButton();
+        btnCrearMesa = new javax.swing.JButton();
+        jMenuBar1 = new javax.swing.JMenuBar();
+        menuOpciones = new javax.swing.JMenu();
+        menuItemLogin = new javax.swing.JMenuItem();
+        menuItemSalir = new javax.swing.JMenuItem();
+
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+        setBackground(new java.awt.Color(102, 51, 0));
+        setFont(new java.awt.Font("Lucida Grande", 3, 13)); // NOI18N
+
+        lblBienvenidoAdmin.setFont(new java.awt.Font("Optima", 1, 14)); // NOI18N
+        lblBienvenidoAdmin.setText("Bienvenido:");
+
+        btnAdministrarMesa.setBackground(new java.awt.Color(153, 51, 0));
+        btnAdministrarMesa.setFont(new java.awt.Font("Optima", 1, 13)); // NOI18N
+        btnAdministrarMesa.setForeground(new java.awt.Color(255, 204, 0));
+        btnAdministrarMesa.setText("Administrar Mesa");
+        btnAdministrarMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnAdministrarMesaActionPerformed(evt);
+            }
+        });
+
+        btnCrearMesa.setBackground(new java.awt.Color(153, 51, 0));
+        btnCrearMesa.setFont(new java.awt.Font("Optima", 1, 13)); // NOI18N
+        btnCrearMesa.setForeground(new java.awt.Color(255, 204, 0));
+        btnCrearMesa.setText("Crear Mesa");
+        btnCrearMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearMesaActionPerformed(evt);
+            }
+        });
+
+        jMenuBar1.setBackground(new java.awt.Color(153, 51, 0));
+        jMenuBar1.setForeground(new java.awt.Color(255, 204, 0));
+
+        menuOpciones.setBackground(new java.awt.Color(255, 204, 0));
+        menuOpciones.setBorder(null);
+        menuOpciones.setText("Opciones");
+
+        menuItemLogin.setText("Login");
+        menuItemLogin.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemLoginActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuItemLogin);
+
+        menuItemSalir.setText("Salir");
+        menuItemSalir.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                menuItemSalirActionPerformed(evt);
+            }
+        });
+        menuOpciones.add(menuItemSalir);
+
+        jMenuBar1.add(menuOpciones);
+
+        setJMenuBar(jMenuBar1);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(145, 145, 145)
+                        .addComponent(btnCrearMesa))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(130, 130, 130)
+                        .addComponent(btnAdministrarMesa))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(158, 158, 158)
+                        .addComponent(lblBienvenidoAdmin)))
+                .addContainerGap(137, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGap(0, 300, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addGap(46, 46, 46)
+                .addComponent(lblBienvenidoAdmin)
+                .addGap(18, 18, 18)
+                .addComponent(btnAdministrarMesa)
+                .addGap(47, 47, 47)
+                .addComponent(btnCrearMesa)
+                .addContainerGap(109, Short.MAX_VALUE))
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(InterfazAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(InterfazAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(InterfazAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(InterfazAdministrador.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+    private void menuItemLoginActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemLoginActionPerformed
+        // TODO add your handling code here:
+    }//GEN-LAST:event_menuItemLoginActionPerformed
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                InterfazAdministrador dialog = new InterfazAdministrador(new javax.swing.JFrame(), true) {
-                    @Override
-                    public JTable cargarTablas(Object o) {
-                        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    private void menuItemSalirActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_menuItemSalirActionPerformed
+        System.exit(0);
+    }//GEN-LAST:event_menuItemSalirActionPerformed
+
+    private void btnAdministrarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAdministrarMesaActionPerformed
+        administrarMesaActionPerformed();
+    }//GEN-LAST:event_btnAdministrarMesaActionPerformed
+
+    private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
+        crearMesaActionPerformed();
+    }//GEN-LAST:event_btnCrearMesaActionPerformed
+
+    
+    
+    private void crearMesaActionPerformed() {
+        // Solicita información para crear una nueva mesa
+        String jugadores = JOptionPane.showInputDialog(this, "Ingrese el número de jugadores:");
+        String apuestaBase = JOptionPane.showInputDialog(this, "Ingrese la apuesta base:");
+        String comision = JOptionPane.showInputDialog(this, "Ingrese el porcentaje de comisión:");
+
+        try {
+            int numJugadores = Integer.parseInt(jugadores);
+            float apuesta = Float.parseFloat(apuestaBase);
+            float porcentajeComision = Float.parseFloat(comision);
+
+            // Llamada a fachada para crear la mesa
+            String resultado = fachada.crearMesa(numJugadores, apuesta, porcentajeComision);
+            JOptionPane.showMessageDialog(this, resultado);
+        } catch (NumberFormatException e) {
+            JOptionPane.showMessageDialog(this, "Error en los datos ingresados. Asegúrese de ingresar números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
+        }
+    }
+
+    private void administrarMesaActionPerformed() {
+        // Cargar mesas desde la fachada
+        ArrayList<Mesa> mesas = fachada.getMesas();
+        JTable mesaTable = cargarTablas(mesas);
+
+        // Crear un diálogo para mostrar la tabla de mesas
+        JOptionPane.showMessageDialog(this, new JScrollPane(mesaTable), "Mesas", JOptionPane.PLAIN_MESSAGE);
+    }
+
+    public abstract JTable cargarTablas(Object o);
+    
+    public static void main(String[] args) {
+        Fachada fachada = new Fachada();
+        
+        // Cargar el Login
+        Login login = new Login(null, true, fachada);
+        login.setVisible(true);
+
+        // Verificar si el login fue exitoso
+        Sesion sesionActiva = login.getSesionActiva();
+        if (sesionActiva != null && sesionActiva.esAdministrador()) {
+            InterfazAdministrador adminUI = new InterfazAdministrador(new JFrame(), true, sesionActiva, fachada) {
+                @Override
+                public JTable cargarTablas(Object o) {
+                    if (o instanceof ArrayList) {
+                        ArrayList<Mesa> mesas = (ArrayList<Mesa>) o;
+                           // Crear el modelo de tabla y llenarlo con datos de `mesas`
+                        String[] columnNames = {"Número", "Jugadores Req.", "Apuesta Base", "Jugadores Act.", "Mano Actual", "Total Apostado", "Comisión", "Total Recaudado", "Estado"};
+                        Object[][] data = new Object[mesas.size()][9];
+                        for (int i = 0; i < mesas.size(); i++) {
+                            Mesa mesa = mesas.get(i);
+                            data[i][0] = mesa.getNumeroMesa();
+                            data[i][1] = mesa.getCantidadJugadoresRequeridos();
+                            data[i][2] = mesa.getApuestaBase();
+                            data[i][3] = mesa.getJugadores().size();
+                            data[i][4] = mesa.getNumeroManoActual();
+                            data[i][5] = mesa.getMontoTotalApostado();
+                            data[i][6] = mesa.getComision();
+                            data[i][7] = mesa.getMontoTotalRecaudado();
+                            data[i][8] = mesa.getEstadoPartida();
+                        }
+                        return new JTable(data, columnNames);
                     }
-                };
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
+                    return null;
+                }
+            };
+            adminUI.setVisible(true);
+        } else {
+            System.exit(0); // Si no es administrador o el login falla, salir
+        }
     }
     
-    public abstract JTable cargarTablas(Object o);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton btnAdministrarMesa;
+    private javax.swing.JButton btnCrearMesa;
+    private javax.swing.JMenuBar jMenuBar1;
+    private javax.swing.JLabel lblBienvenidoAdmin;
+    private javax.swing.JMenuItem menuItemLogin;
+    private javax.swing.JMenuItem menuItemSalir;
+    private javax.swing.JMenu menuOpciones;
     // End of variables declaration//GEN-END:variables
 }

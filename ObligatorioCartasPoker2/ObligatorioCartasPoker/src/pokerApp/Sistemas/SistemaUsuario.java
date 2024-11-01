@@ -38,27 +38,30 @@ public class SistemaUsuario {
         usuarios.add(new Jugador("12345678", "clara1234", "Clara", 2000));
     }
 
-    // Método de login 
-    public Sesion login(String cedula, String password){
+    // Método de login
+    public Sesion login(String cedula, String password) {
         Usuario usuario = buscarUsuario(cedula, password);
-        if(usuario != null && !estaLogueado(usuario)){
+        if (usuario != null && !estaLogueado(usuario)) {
             Sesion nuevaSesion = new Sesion(usuario);
             sesionesActivas.add(nuevaSesion);
             return nuevaSesion;
-        } else if (usuario != null && estaLogueado(usuario)){
-            System.out.println("El usuario ya está logueado");
+        } else if (usuario != null && estaLogueado(usuario)) {
+            System.out.println("Acceso denegado. El usuario ya está logueado.");
+        } else {
+            System.out.println("Credenciales incorrectas.");
         }
         return null;
     }
-    
-    private Usuario buscarUsuario(String cedula, String password){
+
+    private Usuario buscarUsuario(String cedula, String password) {
         for (Usuario usuario : usuarios) {
-            if(usuario.getCedula().equals(cedula) && usuario.getPassword().equals(password)){
+            if (usuario.getCedula().equals(cedula) && usuario.getPassword().equals(password)) {
                 return usuario;
             }
         }
         return null;
     }
+
     
     private boolean estaLogueado(Usuario usuario) {
         for (Sesion sesion : sesionesActivas) {

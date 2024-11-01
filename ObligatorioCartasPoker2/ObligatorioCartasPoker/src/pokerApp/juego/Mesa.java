@@ -64,11 +64,52 @@ public class Mesa {
         return jugadores;
     }
 
-    // Método para remover un jugador de la mesa
+    // Remover un jugador de la mesa
     public void removerJugador(Jugador jugador) {
         if (jugadores.remove(jugador)) {
             cantidadJugadoresActual--;
+            System.out.println("Jugador " + jugador.getNombreCompleto() + " removido de la mesa.");
+        } else {
+            System.out.println("El jugador no estaba en la mesa.");
         }
+    }
+
+    // Registrar una nueva mano y actualizar el monto total apostado
+    public void registrarMano(Mano mano) {
+        manosJugadas.add(mano);
+        montoTotalApostado += mano.getPozoApuestas();
+        montoTotalRecaudado += (1 - (comision / 100)) * mano.getPozoApuestas();
+    }
+
+    
+        // Método para finalizar la mesa
+    public void finalizarMesa() {
+        estadoPartida = EstadoPartida.FINALIZADA;
+        calcularPozoTotal();
+        System.out.println("La mesa " + numeroMesa + " ha sido finalizada.");
+    }
+
+    // Reiniciar la mesa para una nueva partida
+    public void reiniciarMesa() {
+        jugadores.clear();
+        manosJugadas.clear();
+        montoTotalApostado = 0;
+        montoTotalRecaudado = 0;
+        this.estadoPartida = EstadoPartida.ABIERTA;
+        System.out.println("Mesa " + numeroMesa + " reiniciada.");
+    }
+    
+    public Jugador determinarGanadorFinal() {
+        Jugador ganador = null;
+        float maxApuesta = 0;
+
+        for (Jugador jugador : jugadores) {
+            if (jugador.getApuesta() > maxApuesta) {
+                maxApuesta = jugador.getApuesta();
+                ganador = jugador;
+            }
+        }
+        return ganador;
     }
     
     public int getCantidadJugadoresRequeridos() {
@@ -95,12 +136,6 @@ public class Mesa {
         manosJugadas.add(nuevaMano);
     }
 
-    // Método para finalizar la mesa
-    public void finalizarMesa() {
-        estadoPartida = EstadoPartida.FINALIZADA;
-        calcularPozoTotal();
-        System.out.println("La mesa " + numeroMesa + " ha sido finalizada.");
-    }
 
     // Método para reiniciar la mesa
     public void reiniciar() {

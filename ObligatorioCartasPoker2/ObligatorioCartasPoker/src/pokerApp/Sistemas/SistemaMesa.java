@@ -92,23 +92,24 @@ public void calcularPozoTotal(Mesa mesa) {
         }
     }
 
-    // Crear una nueva mesa
+   // Crear una nueva mesa
     public String crearMesa(int jugadores, float apuestaBase, float comision) {
-    if (jugadores < 2 || jugadores > 5) {
-        return "Cantidad de jugadores no válida";
-    }
-    if (apuestaBase < 1) {
-        return "Apuesta base inválida";
-    }
-    if (comision < 1 || comision > 50) {
-        return "Comisión inválida";
+        if (jugadores < 2 || jugadores > 5) {
+            return "Cantidad de jugadores no válida";
+        }
+        if (apuestaBase < 1) {
+            return "Apuesta base inválida";
+        }
+        if (comision < 1 || comision > 50) {
+            return "Comisión inválida";
+        }
+
+        int numeroMesa = ++numeroMesaActual;
+        Mesa nuevaMesa = new Mesa(numeroMesa, jugadores, apuestaBase, comision);
+        mesas.add(nuevaMesa);
+        return "Mesa creada con éxito. Número de mesa: " + numeroMesa;
     }
 
-    int numeroMesa = ++numeroMesaActual;
-    Mesa nuevaMesa = new Mesa(numeroMesa, jugadores, apuestaBase, comision);
-    mesas.add(nuevaMesa);
-    return "Mesa creada con éxito. Número de mesa: " + numeroMesa;
-}
     
     // Método para obtener las mesas
     public ArrayList<Mesa> obtenerMesas() {
@@ -116,30 +117,33 @@ public void calcularPozoTotal(Mesa mesa) {
     }
     
     
+    // Obtener las mesas abiertas
     public ArrayList<Mesa> obtenerMesasAbiertas() {
-        ArrayList<Mesa> ret = new ArrayList<>();
-        for (Mesa mesa: mesas) {
-            if(mesa.getEstadoPartida() == EstadoPartida.ABIERTA){
-                ret.add(mesa);
+        ArrayList<Mesa> mesasAbiertas = new ArrayList<>();
+        for (Mesa mesa : mesas) {
+            if (mesa.getEstadoPartida() == EstadoPartida.ABIERTA) {
+                mesasAbiertas.add(mesa);
             }
         }
-        return ret;
+        return mesasAbiertas;
     }
 
     // Método para agregar una mesa
     public void agregarMesa(Mesa mesa) {
         mesas.add(mesa);
     }
-    // Calcular monto total recaudado en todas las mesas
+
+
+    // Calcular el monto total recaudado en todas las mesas
     public float calcularMontoTotalRecaudado() {
-        float total = 0;
+        float totalRecaudado = 0;
         for (Mesa mesa : mesas) {
-            total += mesa.getMontoTotalRecaudado();
+            totalRecaudado += mesa.getMontoTotalRecaudado();
         }
-        return total;
+        return totalRecaudado;
     }
 
-    // Obtener detalles de una mesa específica para el administrador
+    // Obtener detalles de una mesa específica
     public ArrayList<String> obtenerDetallesMesa(Mesa mesa) {
         ArrayList<String> detalles = new ArrayList<>();
         detalles.add("Número de mesa: " + mesa.getNumeroMesa());
