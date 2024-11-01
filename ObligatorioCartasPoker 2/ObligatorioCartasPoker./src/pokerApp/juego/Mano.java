@@ -4,19 +4,13 @@ package pokerApp.juego;
 import pokerApp.figurasYCartas.Figura;
 import pokerApp.usuarios.Jugador;
 import java.util.ArrayList;
+import java.util.List;
+import pokerApp.Sistemas.SistemaFiguras;
+import pokerApp.figurasYCartas.Carta;
+import pokerApp.figurasYCartas.TipoFigura;
 
 
 public class Mano {
-    /*Muestra la lista de manos jugadas en la 
-mesa con la siguiente información para cada 
-mano:
--Número de mano
--Cantidad de jugadores participantes
--Total apostado en la mano
--Estado actual de la mano (*2)
--Nombre del jugador ganador
--Nombre de la figura con la que ganó
-    */
     private ArrayList<Figura> figurasJugadas;
     private float pozoApuestas;
     private int numeroMano;
@@ -24,6 +18,12 @@ mano:
     private EstadoMano estadoMano;
     private Jugador jugadorGanador;
     private Figura figuraGanadora;
+    private SistemaFiguras sistemaFiguras;
+    private List<Jugador> jugadores;
+    private List<List<Carta>> cartasPorJugador;  // Cartas asignadas para cada jugador
+
+
+
 
     public Mano(ArrayList<Figura> figurasJugadas, float pozoApuestas, int numeroMano) {
         this.figurasJugadas = figurasJugadas;
@@ -31,6 +31,18 @@ mano:
         this.numeroMano = numeroMano;
     }
 
+// Constructor que recibe la lista de jugadores y crea las listas necesarias
+    public Mano(List<Jugador> jugadores) {
+        this.jugadores = jugadores;
+        this.cartasPorJugador = new ArrayList<>();  // Inicializamos la lista de cartas para cada jugador
+        this.sistemaFiguras = new SistemaFiguras();  // Inicializamos el sistema de figuras
+
+        // Añadir listas vacías para cada jugador en cartasPorJugador
+        for (int i = 0; i < jugadores.size(); i++) {
+            cartasPorJugador.add(new ArrayList<>());
+        }
+    }
+    
     public ArrayList<Figura> getFigurasJugadas() {
         return figurasJugadas;
     }
@@ -97,6 +109,40 @@ mano:
         //monto para agregarlo al pozo
         
     }
+    
+    
+    
+    // Método para repartir las cartas (suponiendo que el mazo ha sido inicializado externamente)
+    public void repartirCartas(List<Carta> mazo) {
+        int cartasPorJugador = 5; // Ajustar según las reglas del juego
+        for (int i = 0; i < jugadores.size(); i++) {
+            List<Carta> manoJugador = this.cartasPorJugador.get(i);  // Obtén la lista correspondiente al jugador
+            for (int j = 0; j < cartasPorJugador; j++) {
+                manoJugador.add(mazo.remove(0));  // Extrae las cartas del mazo para cada jugador
+            }
+        }
+    }
+
+
+    public Jugador determinarGanador() {
+    Jugador ganador = null;
+    TipoFigura mejorFigura = null;
+
+    for (int i = 0; i < jugadores.size(); i++) {
+        Jugador jugador = jugadores.get(i);
+        List<Carta> cartas = cartasPorJugador.get(i);  // Cartas asignadas al jugador
+        TipoFigura figura = sistemaFiguras.determinarFigura(cartas);
+
+        // Utilizamos el método compararDosFiguras para comparar la figura actual con la mejor figura hasta ahora
+        if (mejorFigura == null || sistemaFiguras.compararDosFiguras(figura, mejorFigura) == figura) {
+            mejorFigura = figura;
+            ganador = jugador;
+        }
+    }
+    return ganador;
+}
+  
+    
     
     
 }

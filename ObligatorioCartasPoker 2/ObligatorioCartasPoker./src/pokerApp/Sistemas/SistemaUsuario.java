@@ -19,11 +19,12 @@ public class SistemaUsuario {
 
     // Método de precarga
     private void precargarUsuarios() {
+        //admins
         usuarios.add(new Administrador("100", "100", "A 100"));
         usuarios.add(new Administrador("200", "101", "A 200"));
-
-        usuarios.add(new Jugador("52940836", "maxi1234", "Maximiliano", 0));
-        usuarios.add(new Jugador("12345678", "clara1234", "Clara", 1000));
+        //users
+        usuarios.add(new Jugador("0", "0", "J0", 1000));
+        usuarios.add(new Jugador("1", "1", "J1", 1000));
         usuarios.add(new Jugador("2", "2", "J2", 2000));
         usuarios.add(new Jugador("3", "3", "J3", 3000));
         usuarios.add(new Jugador("4", "4", "J4", 4000));
@@ -32,6 +33,9 @@ public class SistemaUsuario {
         usuarios.add(new Jugador("7", "7", "J7", 7000));
         usuarios.add(new Jugador("8", "8", "J8", 8000));
         usuarios.add(new Jugador("9", "9", "J9", 9000));
+        //personalizados
+        usuarios.add(new Jugador("52940836", "maxi1234", "Maximiliano", 9000));
+        usuarios.add(new Jugador("12345678", "clara1234", "Clara", 2000));
     }
 
     // Método de login 

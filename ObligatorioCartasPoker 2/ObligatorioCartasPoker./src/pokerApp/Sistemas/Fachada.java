@@ -5,6 +5,7 @@ import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.Sistemas.SistemaUsuario;
 import java.util.List;
 import pokerApp.figurasYCartas.Figura;
+import pokerApp.figurasYCartas.TipoFigura;
 import pokerApp.usuarios.Jugador;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Sesion;
@@ -41,17 +42,14 @@ public class Fachada {
         return sistemaUsuario.login(cedula, password);
     }
 
-    // Obtener las figuras disponibles
-    public List<Figura> obtenerFiguras() {
+    // Obtener las figuras disponibles (Elimina uno de los métodos duplicados)
+    public List<TipoFigura> getFiguras() {
         return sistemaFiguras.getFiguras();
     }
 
-    public List<Figura> getFiguras() {
-        return sistemaFiguras.getFiguras();
-    }
-
-    public Figura compararFiguras(ArrayList<Figura> figuras) {
-        return sistemaFiguras.compararFiguras(figuras);
+    // Método para comparar figuras sin lógica adicional en Fachada
+    public TipoFigura compararFiguras(List<TipoFigura> figuras) {
+        return sistemaFiguras.compararFiguras(figuras);  // Llama a SistemaFiguras para la comparación
     }
 
     public void inicializarMano() {

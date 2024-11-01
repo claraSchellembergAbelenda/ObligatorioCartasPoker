@@ -1,5 +1,8 @@
 package pokerApp.usuarios;
 
+import java.util.List;
+import pokerApp.figurasYCartas.Carta;
+
 public class Jugador extends Usuario {
     private float saldo;
     private float apuesta;
@@ -38,4 +41,7 @@ public class Jugador extends Usuario {
     public String toString() {
         return "Jugador{" + "saldo=" + saldo + ", nombre=" + getNombreCompleto() + '}';
     }
+
+    
+   
 }

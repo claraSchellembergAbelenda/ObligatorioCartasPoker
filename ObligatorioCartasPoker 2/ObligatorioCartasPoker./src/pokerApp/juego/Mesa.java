@@ -88,6 +88,12 @@ public class Mesa {
             System.out.println("La mesa no puede ser iniciada. Jugadores insuficientes.");
         }
     }
+    
+    public void iniciarNuevaMano() {
+        Mano nuevaMano = new Mano(jugadores);
+        nuevaMano.repartirCartas(cartas.getCartas());
+        manosJugadas.add(nuevaMano);
+    }
 
     // Método para finalizar la mesa
     public void finalizarMesa() {

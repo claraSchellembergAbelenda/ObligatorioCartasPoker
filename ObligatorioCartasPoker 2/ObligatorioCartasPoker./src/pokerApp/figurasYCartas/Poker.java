@@ -1,9 +1,17 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
- */
 package pokerApp.figurasYCartas;
 
-public class Poker extends TipoFigura{
-    
+import java.util.List;
+
+public class Poker extends TipoFigura {
+
+    public Poker() {
+        super("Poker", 5); // 5 es la prioridad máxima
+    }
+
+    @Override
+    public boolean esFigura(List<Carta> cartas) {
+        if (cartas.size() < 4) return false;
+        int valor = cartas.get(0).getValorCarta();
+        return cartas.stream().filter(c -> c.getValorCarta() == valor).count() >= 4;
+    }
 }
