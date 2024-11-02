@@ -15,6 +15,8 @@ public class SistemaMesa {
     public SistemaMesa(ArrayList<Mesa> mesas) {
         this.mesas = mesas;
         this.numeroMesaActual = 0;
+        precargaMesas();
+        precargaManos();
     }
 
     // Constructor sin inicialización explícita de mesas
@@ -33,6 +35,21 @@ public class SistemaMesa {
         this.mesas = mesas;
     }
     
+    //precarga de datos
+    public void precargaMesas(){
+        mesas.add(new Mesa(3, 500, 35));
+        mesas.add(new Mesa(4, 7000, 50));
+        mesas.add(new Mesa(3, 500, 30));
+        mesas.add(new Mesa(2, 1000, 25));
+        mesas.add(new Mesa(5, 10000, 45));
+    }
+    public void precargaManos() {
+        for (Mesa mesa : mesas) {
+            mesa.pracargaManos();
+        }
+    }
+    
+    
     // Inicializar un nuevo juego
     public void inicializarJuego() {
         for (Mesa mesa : mesas) {
@@ -41,7 +58,7 @@ public class SistemaMesa {
     }
 
     // Agregar un jugador a una mesa específica
-public void agregarJugador(Mesa mesa, Jugador j) {
+    public void agregarJugador(Mesa mesa, Jugador j) {
     if (mesa.getJugadores().size() < mesa.getCantidadJugadoresRequeridos()) {
         mesa.agregarJugador(j);
         System.out.println("Jugador agregado a la mesa.");
@@ -180,6 +197,8 @@ public void calcularPozoTotal(Mesa mesa) {
         }
         return detallesManos;
     }
+
+    
     
     
 }

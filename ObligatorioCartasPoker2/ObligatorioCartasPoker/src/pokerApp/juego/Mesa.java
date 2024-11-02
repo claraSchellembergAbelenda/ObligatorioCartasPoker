@@ -287,7 +287,14 @@ public class Mesa {
         }
         return manos;
     }
+    public void pracargaManos(){
+    //queda por terminar porque quiero hablar el tema del constructor de mano
     
+        
+        for (Mano mano : manosJugadas) {
+          //  manosJugadas.add(new Mano())
+        }
+    }
     
     public void validarMesa ()throws MesaException{
         if(this.cantidadJugadoresRequeridos<2 || this.cantidadJugadoresRequeridos>5){
@@ -300,5 +307,7 @@ public class Mesa {
             throw new MesaException("La comision debe ser mayor a 0 y menor a 50");
         }
     }
+
+    
 
 }

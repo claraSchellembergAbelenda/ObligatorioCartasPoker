@@ -101,7 +101,7 @@ public class Login extends javax.swing.JDialog {
         login();
     }//GEN-LAST:event_btnLoginActionPerformed
      
-private void login() {
+    private void login() {
         String username = txtUsuario.getText();
         String password = new String(pwdPassword.getPassword());
 
@@ -126,7 +126,7 @@ private void login() {
                 AdministradorUI adminUI = new AdministradorUI(sesion);
                 adminUI.setVisible(true);
             } else if (sesion.esJugador()) {
-                JugadorUI jugadorUI = new JugadorUI(sesion);
+                JugadorUI jugadorUI = new JugadorUI(null, false, sesion);
                 jugadorUI.setVisible(true);
             }
 

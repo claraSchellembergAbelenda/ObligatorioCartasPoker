@@ -6,6 +6,10 @@ import pokerApp.juego.Mano;
 public class SistemaManos {
     Mano manoActual;
     
+    public SistemaManos(){
+        
+    }
+    
     public void inicializarMano(){
         
     }

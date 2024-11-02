@@ -17,9 +17,7 @@ public class AdministradorUI extends javax.swing.JDialog {
 
     private Sesion sesion;
 
-    /**
-     * Creates new form Administrador
-     */
+    
     public AdministradorUI(java.awt.Frame parent, boolean modal, Sesion sesion) {
         super(parent, false);
         initComponents();

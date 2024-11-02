@@ -15,9 +15,7 @@ import pokerApp.juego.Mesa;
  */
 public class AdministrarMesa extends javax.swing.JDialog {
 
-    /**
-     * Creates new form AdministrarMesa
-     */
+    
     private ArrayList<Mesa> mesas;
     
     public AdministrarMesa(java.awt.Frame parent, boolean modal, ArrayList<Mesa> mesas) {

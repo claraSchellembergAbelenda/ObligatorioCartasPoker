@@ -166,12 +166,16 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
     }
 
     private void administrarMesaActionPerformed() {
-        // Cargar mesas desde la fachada
         ArrayList<Mesa> mesas = fachada.getMesas();
-        JTable mesaTable = cargarTablas(mesas);
+        AdministrarMesa adminMesa= new AdministrarMesa(null, false, mesas);
+        adminMesa.setVisible(true);
+        // Cargar mesas desde la fachada
 
-        // Crear un diálogo para mostrar la tabla de mesas
-        JOptionPane.showMessageDialog(this, new JScrollPane(mesaTable), "Mesas", JOptionPane.PLAIN_MESSAGE);
+//        JTable mesaTable = cargarTablas(mesas);
+//
+//        // Crear un diálogo para mostrar la tabla de mesas
+//        JOptionPane.showMessageDialog(this, new JScrollPane(mesaTable)
+//                , "Mesas", JOptionPane.PLAIN_MESSAGE);
     }
 
     public abstract JTable cargarTablas(Object o);
@@ -186,7 +190,7 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
         // Verificar si el login fue exitoso
         Sesion sesionActiva = login.getSesionActiva();
         if (sesionActiva != null && sesionActiva.esAdministrador()) {
-            InterfazAdministrador adminUI = new InterfazAdministrador(new JFrame(), true, sesionActiva, fachada) {
+            InterfazAdministrador adminUI = new InterfazAdministrador(new JFrame(), false, sesionActiva, fachada) {
                 @Override
                 public JTable cargarTablas(Object o) {
                     if (o instanceof ArrayList) {
