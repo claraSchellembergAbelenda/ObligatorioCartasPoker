@@ -2,9 +2,10 @@ package pokerApp.iu;
 
 import javax.swing.*;
 import pokerApp.usuarios.Sesion;
-import pokerApp.Sistemas.Fachada;
+import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;
 import java.util.ArrayList;
+import pokerApp.Exceptions.MesaException;
 
 public abstract class InterfazAdministrador extends javax.swing.JDialog {
 
@@ -142,22 +143,26 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
     
     
     private void crearMesaActionPerformed() {
-        // Solicita información para crear una nueva mesa
-        String jugadores = JOptionPane.showInputDialog(this, "Ingrese el número de jugadores:");
-        String apuestaBase = JOptionPane.showInputDialog(this, "Ingrese la apuesta base:");
-        String comision = JOptionPane.showInputDialog(this, "Ingrese el porcentaje de comisión:");
-
-        try {
-            int numJugadores = Integer.parseInt(jugadores);
-            float apuesta = Float.parseFloat(apuestaBase);
-            float porcentajeComision = Float.parseFloat(comision);
-
-            // Llamada a fachada para crear la mesa
-            String resultado = fachada.crearMesa(numJugadores, apuesta, porcentajeComision);
-            JOptionPane.showMessageDialog(this, resultado);
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Error en los datos ingresados. Asegúrese de ingresar números válidos.", "Error", JOptionPane.ERROR_MESSAGE);
-        }
+       
+        CrearMesa crearMesa= new CrearMesa(null, false);
+        crearMesa.setVisible(true);
+//        Solicita información para crear una nueva mesa
+//        String jugadores = JOptionPane.showInputDialog(this, "Ingrese el número de jugadores:");
+//        String apuestaBase = JOptionPane.showInputDialog(this, "Ingrese la apuesta base:");
+//        String comision = JOptionPane.showInputDialog(this, "Ingrese el porcentaje de comisión:");
+//
+//        int cantJugadores = Integer.parseInt(jugadores);
+//        float montoBase = Float.parseFloat(apuestaBase);
+//        float porcentajeComision = Float.parseFloat(comision);
+//        try{
+       // Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
+//        }catch(MesaException me){
+//            JOptionPane.showMessageDialog(
+//                    this,
+//                    me.getMessage(),
+//                    "Error",
+//                    JOptionPane.ERROR_MESSAGE);
+//        }
     }
 
     private void administrarMesaActionPerformed() {

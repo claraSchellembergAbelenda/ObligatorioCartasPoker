@@ -1,9 +1,14 @@
-package pokerApp.Sistemas;
+package pokerApp.Fachada;
 
 import java.util.ArrayList;
 import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.Sistemas.SistemaUsuario;
 import java.util.List;
+import pokerApp.Exceptions.MesaException;
+import pokerApp.Sistemas.SistemaFiguras;
+import pokerApp.Sistemas.SistemaManos;
+import pokerApp.Sistemas.SistemaMesa;
+import pokerApp.Sistemas.SistemaUsuario;
 import pokerApp.figurasYCartas.Figura;
 import pokerApp.figurasYCartas.TipoFigura;
 import pokerApp.usuarios.Jugador;
@@ -19,11 +24,6 @@ public class Fachada {
     private SistemaManos sistemaManos;
     private SistemaMesa sistemaMesa;
     
-
-    
-    public String crearMesa(int jugadores, float apuestaBase, float comision) {
-        return sistemaMesa.crearMesa(jugadores, apuestaBase, comision);
-    }
 
     public Fachada() {
         sistemaUsuario = new SistemaUsuario();
@@ -88,6 +88,10 @@ public class Fachada {
 
     public void inicializarJuego() {
         sistemaMesa.inicializarJuego();
+    }
+
+    public void crearMesa(int jugadoresRequeridos, float apuestaBase, float comision) throws MesaException {
+        sistemaMesa.crearMesa(jugadoresRequeridos, apuestaBase, comision);
     }
 
     

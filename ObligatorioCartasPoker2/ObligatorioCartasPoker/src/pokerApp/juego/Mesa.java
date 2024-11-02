@@ -4,6 +4,7 @@ import pokerApp.figurasYCartas.Mazo;
 import pokerApp.figurasYCartas.Figura;
 import pokerApp.usuarios.Jugador;
 import java.util.ArrayList;
+import pokerApp.Exceptions.MesaException;
 
 public class Mesa {
 
@@ -20,10 +21,10 @@ public class Mesa {
     private float comision;
     private Jugador ganador;
     private Figura figuraGanadora;
-    private int numeroMesa;
+    private static int numeroMesa;
 
     // Constructor
-    public Mesa(int numeroMesa, int cantidadJugadoresRequeridos, float apuestaBase, float comision) {
+    public Mesa( int cantidadJugadoresRequeridos, float apuestaBase, float comision) {
         this.jugadores = new ArrayList<>();
         this.manosJugadas = new ArrayList<>();
         this.cartas = new Mazo(); // Inicializamos el mazo
@@ -31,16 +32,14 @@ public class Mesa {
         this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
         this.comision = comision;
         this.estadoPartida = EstadoPartida.ABIERTA; // Estado inicial de la partida
-        this.numeroMesa = numeroMesa;
+        this.numeroMesa = numeroMesa++;
         this.montoTotalApostado = 0;
         this.montoTotalRecaudado = 0;
         this.cantidadJugadoresActual = 0;
         this.numeroManoActual = 0;
     }
 
-    public Mesa(int jugadoresRequeridos, float apuestaBase, float comision) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
     
     // Getters y setters
@@ -287,6 +286,19 @@ public class Mesa {
             manos.add(manoJugada);
         }
         return manos;
+    }
+    
+    
+    public void validarMesa ()throws MesaException{
+        if(this.cantidadJugadoresRequeridos<2 || this.cantidadJugadoresRequeridos>5){
+            throw new MesaException("No puede ingresar menos de 2 jugadores requeridos ni mas de 5");
+        }
+        if(this.apuestaBase<=0){
+            throw new MesaException("La apuesta base debe ser mayor que 0");
+        }
+        if(this.comision<=0||comision>50){
+            throw new MesaException("La comision debe ser mayor a 0 y menor a 50");
+        }
     }
 
 }

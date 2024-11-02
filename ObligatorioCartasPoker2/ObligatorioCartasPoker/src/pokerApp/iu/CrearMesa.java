@@ -4,7 +4,9 @@
  */
 package pokerApp.iu;
 
-import pokerApp.Sistemas.Fachada;
+import javax.swing.JOptionPane;
+import pokerApp.Exceptions.MesaException;
+import pokerApp.Fachada.Fachada;
 
 /**
  *
@@ -118,12 +120,20 @@ public class CrearMesa extends javax.swing.JDialog {
     }//GEN-LAST:event_txtPorcentajeComisionActionPerformed
 
     private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
-        int cantJugadores = Integer.parseInt(txtNumeroJugadores.getText());
-        int montoBase = Integer.parseInt(txtMontoBase.getText());
-        int porcentajeComision = Integer.parseInt(txtPorcentajeComision.getText());
         
-        String mesaCreada = Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
-        setTitle(mesaCreada);
+        int cantJugadores = Integer.parseInt(txtNumeroJugadores.getText());
+        float montoBase = Float.parseFloat(txtMontoBase.getText());
+        float porcentajeComision = Float.parseFloat(txtPorcentajeComision.getText());
+        try{
+        Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
+        JOptionPane.showMessageDialog(this, "Mesa creada con exito");
+        }catch(MesaException me){
+            JOptionPane.showMessageDialog(
+                    this,
+                    me.getMessage(),
+                    "Error",
+                    JOptionPane.ERROR_MESSAGE);
+        }
 
         
     }//GEN-LAST:event_btnCrearMesaActionPerformed

@@ -1,6 +1,7 @@
 package pokerApp.Sistemas;
 
 import java.util.ArrayList;
+import pokerApp.Exceptions.MesaException;
 import pokerApp.juego.EstadoPartida;
 import pokerApp.juego.Mano;
 import pokerApp.usuarios.Jugador;
@@ -93,22 +94,30 @@ public void calcularPozoTotal(Mesa mesa) {
     }
 
    // Crear una nueva mesa
-    public String crearMesa(int jugadores, float apuestaBase, float comision) {
-        if (jugadores < 2 || jugadores > 5) {
-            return "Cantidad de jugadores no válida";
-        }
-        if (apuestaBase < 1) {
-            return "Apuesta base inválida";
-        }
-        if (comision < 1 || comision > 50) {
-            return "Comisión inválida";
-        }
-
-        int numeroMesa = ++numeroMesaActual;
-        Mesa nuevaMesa = new Mesa(numeroMesa, jugadores, apuestaBase, comision);
-        mesas.add(nuevaMesa);
-        return "Mesa creada con éxito. Número de mesa: " + numeroMesa;
+    
+    public void crearMesa(int jugadoresRequeridos,float apuestaBase, float comision)
+            throws MesaException{
+        Mesa mesa= new Mesa(jugadoresRequeridos, apuestaBase, comision);
+        mesa.validarMesa();
+        mesas.add(mesa);
     }
+    
+//    public String crearMesa(int jugadores, float apuestaBase, float comision) {
+//        if (jugadores < 2 || jugadores > 5) {
+//            return "Cantidad de jugadores no válida";
+//        }
+//        if (apuestaBase < 1) {
+//            return "Apuesta base inválida";
+//        }
+//        if (comision < 1 || comision > 50) {
+//            return "Comisión inválida";
+//        }
+//
+//        int numeroMesa = ++numeroMesaActual;
+//        Mesa nuevaMesa = new Mesa(numeroMesa, jugadores, apuestaBase, comision);
+//        mesas.add(nuevaMesa);
+//        return "Mesa creada con éxito. Número de mesa: " + numeroMesa;
+//    }
 
     
     // Método para obtener las mesas
