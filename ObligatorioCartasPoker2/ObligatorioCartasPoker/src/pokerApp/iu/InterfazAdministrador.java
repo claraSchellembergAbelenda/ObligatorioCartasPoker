@@ -146,36 +146,12 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
        
         CrearMesa crearMesa= new CrearMesa(null, false);
         crearMesa.setVisible(true);
-//        Solicita información para crear una nueva mesa
-//        String jugadores = JOptionPane.showInputDialog(this, "Ingrese el número de jugadores:");
-//        String apuestaBase = JOptionPane.showInputDialog(this, "Ingrese la apuesta base:");
-//        String comision = JOptionPane.showInputDialog(this, "Ingrese el porcentaje de comisión:");
-//
-//        int cantJugadores = Integer.parseInt(jugadores);
-//        float montoBase = Float.parseFloat(apuestaBase);
-//        float porcentajeComision = Float.parseFloat(comision);
-//        try{
-       // Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
-//        }catch(MesaException me){
-//            JOptionPane.showMessageDialog(
-//                    this,
-//                    me.getMessage(),
-//                    "Error",
-//                    JOptionPane.ERROR_MESSAGE);
-//        }
     }
 
     private void administrarMesaActionPerformed() {
         ArrayList<Mesa> mesas = fachada.getMesas();
         AdministrarMesa adminMesa= new AdministrarMesa(null, false, mesas);
         adminMesa.setVisible(true);
-        // Cargar mesas desde la fachada
-
-//        JTable mesaTable = cargarTablas(mesas);
-//
-//        // Crear un diálogo para mostrar la tabla de mesas
-//        JOptionPane.showMessageDialog(this, new JScrollPane(mesaTable)
-//                , "Mesas", JOptionPane.PLAIN_MESSAGE);
     }
 
     public abstract JTable cargarTablas(Object o);
@@ -184,7 +160,7 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
         Fachada fachada = new Fachada();
         
         // Cargar el Login
-        Login login = new Login(null, true, fachada);
+        Login login = new LoginAdministrador(null, false, fachada);
         login.setVisible(true);
 
         // Verificar si el login fue exitoso

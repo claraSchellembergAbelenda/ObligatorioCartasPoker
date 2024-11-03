@@ -27,4 +27,8 @@ public abstract class Usuario {
     public String toString() {
         return "Usuario{" + "nombreCompleto=" + nombreCompleto + '}';
     }
+
+    public boolean validarLogin(String cedula, String password) {
+        return this.getCedula().equals(cedula)&&this.getPassword().equals(password);
+    }
 }

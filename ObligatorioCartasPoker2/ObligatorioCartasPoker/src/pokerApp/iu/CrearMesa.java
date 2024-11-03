@@ -1,17 +1,10 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package pokerApp.iu;
 
 import javax.swing.JOptionPane;
 import pokerApp.Exceptions.MesaException;
 import pokerApp.Fachada.Fachada;
 
-/**
- *
- * @author maximiliano
- */
 public class CrearMesa extends javax.swing.JDialog {
 
     
@@ -128,6 +121,8 @@ public class CrearMesa extends javax.swing.JDialog {
         Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
         JOptionPane.showMessageDialog(this, "Mesa creada con exito");
         }catch(MesaException me){
+            // Recuerde que puede mostrar mensajes al usuario utilizando por 
+//            ejemplo etiquetas, barras de estado o áreas de texto específicas para mensajes.  
             JOptionPane.showMessageDialog(
                     this,
                     me.getMessage(),

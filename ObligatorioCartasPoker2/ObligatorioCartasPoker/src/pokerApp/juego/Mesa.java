@@ -290,7 +290,6 @@ public class Mesa {
     public void pracargaManos(){
     //queda por terminar porque quiero hablar el tema del constructor de mano
     
-        
         for (Mano mano : manosJugadas) {
           //  manosJugadas.add(new Mano())
         }

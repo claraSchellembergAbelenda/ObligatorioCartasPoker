@@ -38,8 +38,12 @@ public class Fachada {
     }
 
     // Método de login simplificado
-    public Sesion login(String cedula, String password) {
-        return sistemaUsuario.login(cedula, password);
+        
+    public Sesion loginAdministrador(String username, String password) {
+        return sistemaUsuario.loginAdministrador(username, password);
+    }
+    public Sesion loginJugador(String username, String password) {
+        return sistemaUsuario.loginJugador(username, password);
     }
 
     // Obtener las figuras disponibles (Elimina uno de los métodos duplicados)
@@ -93,6 +97,8 @@ public class Fachada {
     public void crearMesa(int jugadoresRequeridos, float apuestaBase, float comision) throws MesaException {
         sistemaMesa.crearMesa(jugadoresRequeridos, apuestaBase, comision);
     }
+
+    
 
     
 
