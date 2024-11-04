@@ -58,14 +58,15 @@ public class SistemaMesa {
     }
 
     // Agregar un jugador a una mesa específica
-    public void agregarJugador(Mesa mesa, Jugador j) {
-    if (mesa.getJugadores().size() < mesa.getCantidadJugadoresRequeridos()) {
-        mesa.agregarJugador(j);
-        System.out.println("Jugador agregado a la mesa.");
-    } else {
-        System.out.println("La mesa ya tiene el número máximo de jugadores.");
+    public void agregarJugador(Mesa mesa, Jugador jugador) {
+        if (mesa.getJugadores().size() < mesa.getCantidadJugadoresRequeridos()) {
+            mesa.agregarJugador(jugador);          // Agrega el jugador a la lista de la mesa
+            mesa.agregarObservador(jugador);       // Agrega el jugador como observador de la mesa
+            System.out.println("Jugador agregado a la mesa.");
+        } else {
+            System.out.println("La mesa ya tiene el número máximo de jugadores.");
+        }
     }
-}
 
     // Remover un jugador de una mesa
     public void removerJugador(Mesa mesa, Jugador j) {

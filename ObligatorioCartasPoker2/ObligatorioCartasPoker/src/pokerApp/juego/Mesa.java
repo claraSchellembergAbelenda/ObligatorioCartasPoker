@@ -1,12 +1,13 @@
 package pokerApp.juego;
-
+import utilidades.Observable;
 import pokerApp.figurasYCartas.Mazo;
 import pokerApp.figurasYCartas.Figura;
 import pokerApp.usuarios.Jugador;
 import java.util.ArrayList;
 import pokerApp.Exceptions.MesaException;
+import utilidades.Observador;
 
-public class Mesa {
+public class Mesa extends Observable{
 
     private ArrayList<Jugador> jugadores;
     private ArrayList<Mano> manosJugadas;
@@ -52,6 +53,8 @@ public class Mesa {
             jugadores.add(jugador);
             cantidadJugadoresActual++;
             System.out.println("Jugador agregado a la mesa.");
+            avisar(EventoMesa.JUGADOR_AGREGADO);  // Notifica el evento
+
         } else {
             System.out.println("La mesa ya tiene el número máximo de jugadores.");
         }
@@ -79,12 +82,12 @@ public class Mesa {
         montoTotalApostado += mano.getPozoApuestas();
         montoTotalRecaudado += (1 - (comision / 100)) * mano.getPozoApuestas();
     }
-
     
         // Método para finalizar la mesa
     public void finalizarMesa() {
         estadoPartida = EstadoPartida.FINALIZADA;
         calcularPozoTotal();
+        avisar(EventoMesa.MESA_FINALIZADA); //avisa que finalizo
         System.out.println("La mesa " + numeroMesa + " ha sido finalizada.");
     }
 
@@ -132,8 +135,10 @@ public class Mesa {
     public void iniciarNuevaMano() {
         Mano nuevaMano = new Mano(jugadores);
         nuevaMano.repartirCartas(cartas.getCartas());
+        avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica que comenzó una nueva mano
         manosJugadas.add(nuevaMano);
     }
+
 
 
     // Método para reiniciar la mesa
@@ -305,6 +310,15 @@ public class Mesa {
         if(this.comision<=0||comision>50){
             throw new MesaException("La comision debe ser mayor a 0 y menor a 50");
         }
+    }
+
+    public void avisar(EventoMesa eventoMesa) {
+        super.avisar(eventoMesa);  // Llama al método avisar de Observable
+    }
+
+    public void agregarObservador(Jugador jugador) {
+        super.agregar((Observador) jugador); // Llama al método agregar de Observable
+        System.out.println("Jugador " + jugador.getNombreCompleto() + " agregado como observador de la mesa.");
     }
 
     
