@@ -2,7 +2,7 @@ package pokerApp.usuarios;
 import utilidades.Observador;
 import java.util.List;
 import pokerApp.figurasYCartas.Carta;
-import pokerApp.juego.EventoMesa;
+import estados.EventoMesa;
 import utilidades.Observable;
 
 public class Jugador extends Usuario implements Observador{

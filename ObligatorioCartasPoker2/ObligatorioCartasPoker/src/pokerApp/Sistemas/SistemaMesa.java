@@ -2,7 +2,7 @@ package pokerApp.Sistemas;
 
 import java.util.ArrayList;
 import pokerApp.Exceptions.MesaException;
-import pokerApp.juego.EstadoPartida;
+import estados.EstadoPartida;
 import pokerApp.juego.Mano;
 import pokerApp.usuarios.Jugador;
 import pokerApp.juego.Mesa;

@@ -9,10 +9,6 @@ import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
 import pokerApp.juego.Mesa;
 
-/**
- *
- * @author maximiliano
- */
 public class AdministrarMesa extends javax.swing.JDialog {
 
     
@@ -57,13 +53,10 @@ public class AdministrarMesa extends javax.swing.JDialog {
 
         tblListarMesas.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
+
             },
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+
             }
         ));
         jScrollPane1.setViewportView(tblListarMesas);
@@ -78,6 +71,11 @@ public class AdministrarMesa extends javax.swing.JDialog {
         lblMesas2.setText("Mesas:");
 
         btnCrearMesa.setText("Crear mesa");
+        btnCrearMesa.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnCrearMesaActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -123,6 +121,11 @@ public class AdministrarMesa extends javax.swing.JDialog {
 
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbMesasActionPerformed
+
+    private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
+        CrearMesa crearmesa = new CrearMesa(null, false);
+        crearmesa.setVisible(true);
+    }//GEN-LAST:event_btnCrearMesaActionPerformed
 
     /**
      * @param args the command line arguments

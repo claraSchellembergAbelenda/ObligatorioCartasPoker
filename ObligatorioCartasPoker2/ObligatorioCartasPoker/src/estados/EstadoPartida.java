@@ -1,5 +1,5 @@
 
-package pokerApp.juego;
+package estados;
 
 
 public enum EstadoPartida {

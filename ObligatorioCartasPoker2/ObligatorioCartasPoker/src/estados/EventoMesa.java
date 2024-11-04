@@ -1,4 +1,4 @@
-package pokerApp.juego;
+package estados;
 
 //representa los eventos de juego 
 //que queremos notificar

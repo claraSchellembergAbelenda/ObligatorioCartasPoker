@@ -1,4 +1,6 @@
 package pokerApp.juego;
+import estados.EventoMesa;
+import estados.EstadoPartida;
 import utilidades.Observable;
 import pokerApp.figurasYCartas.Mazo;
 import pokerApp.figurasYCartas.Figura;

@@ -1,6 +1,7 @@
 
 package pokerApp.juego;
 
+import estados.EstadoMano;
 import pokerApp.figurasYCartas.Figura;
 import pokerApp.usuarios.Jugador;
 import java.util.ArrayList;
