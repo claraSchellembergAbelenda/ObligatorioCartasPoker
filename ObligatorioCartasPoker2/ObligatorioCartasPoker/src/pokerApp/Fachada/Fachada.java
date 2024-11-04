@@ -99,5 +99,14 @@ public class Fachada {
         sistemaMesa.crearMesa(jugadoresRequeridos, apuestaBase, comision);
     }
 
+    public void cargarUsuarios() {
+        sistemaUsuario.precargarUsuarios();
+                
+    }
+
+    public void precargaMesas() {
+        sistemaMesa.precargaManos();
+    }
+
 
 }

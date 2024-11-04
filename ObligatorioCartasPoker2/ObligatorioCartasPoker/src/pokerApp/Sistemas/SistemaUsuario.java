@@ -21,7 +21,7 @@ public class SistemaUsuario {
     }
 
     // Método de precarga
-    private void precargarUsuarios() {
+    public void precargarUsuarios() {
         //admins
         usuariosAdministradores.add(new Administrador("100", "100", "A 100"));
         usuariosAdministradores.add(new Administrador("200", "101", "A 200"));
@@ -85,5 +85,9 @@ public class SistemaUsuario {
         System.out.println("El usuario " + sesion.getUsuario().getNombreCompleto() + " ha cerrado sesión.");
     }
 
+    
+    
+    
+    
     
 }
