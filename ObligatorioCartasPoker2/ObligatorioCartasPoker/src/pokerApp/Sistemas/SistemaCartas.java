@@ -6,9 +6,7 @@ import pokerApp.figurasYCartas.Carta;
 
 public class SistemaCartas {
     private ArrayList<Carta>mazo;
-    
-    
-    
+
 //    En el juego de poker se utiliza un mazo de 52 cartas. Cada carta tiene un valor o “número” y un 
 //tipo o “palo”. Hay cuatro palos que, ordenados por su valor de mayor a menor, son: 
 //Corazón, Diamante, Trébol y Pique.

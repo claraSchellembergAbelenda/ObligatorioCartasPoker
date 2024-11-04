@@ -5,6 +5,7 @@ import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.Sistemas.SistemaUsuario;
 import java.util.List;
 import pokerApp.Exceptions.MesaException;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.Sistemas.SistemaManos;
 import pokerApp.Sistemas.SistemaMesa;
@@ -42,7 +43,7 @@ public class Fachada {
     public Sesion loginAdministrador(String username, String password) {
         return sistemaUsuario.loginAdministrador(username, password);
     }
-    public Sesion loginJugador(String username, String password) {
+    public Sesion loginJugador(String username, String password) throws UsuarioException {
         return sistemaUsuario.loginJugador(username, password);
     }
 
@@ -98,11 +99,5 @@ public class Fachada {
         sistemaMesa.crearMesa(jugadoresRequeridos, apuestaBase, comision);
     }
 
-    
-
-    
-
-
-    
 
 }

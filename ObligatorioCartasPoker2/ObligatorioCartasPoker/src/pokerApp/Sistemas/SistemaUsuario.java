@@ -2,6 +2,7 @@ package pokerApp.Sistemas;
 
 import java.util.ArrayList;
 import java.util.List;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.usuarios.Administrador;
 import pokerApp.usuarios.Jugador;
 import pokerApp.usuarios.Sesion;
@@ -45,10 +46,13 @@ public class SistemaUsuario {
         return login(cedula, password, usuariosAdministradores);
     }
     
-    public Sesion loginJugador(String cedula, String password){
+    public Sesion loginJugador(String cedula, String password) throws UsuarioException{
         Sesion sesion = login(cedula, password, usuariosJugadores);
         if (sesion != null) {
             sesionesActivas.add(sesion);
+        }
+        if(estaLogueado(sesion.getUsuario())){
+            throw new UsuarioException("El usuario ya esta logueado");
         }
         return sesion;
     }

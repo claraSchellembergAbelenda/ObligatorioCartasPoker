@@ -52,8 +52,8 @@ public class Mesa extends Observable{
         if (jugadores.size() < cantidadJugadoresRequeridos) {
             jugadores.add(jugador);
             cantidadJugadoresActual++;
-            System.out.println("Jugador agregado a la mesa.");
             avisar(EventoMesa.JUGADOR_AGREGADO);  // Notifica el evento
+            System.out.println("Jugador agregado a la mesa.");
 
         } else {
             System.out.println("La mesa ya tiene el número máximo de jugadores.");

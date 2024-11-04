@@ -1,9 +1,11 @@
 package pokerApp.usuarios;
-
+import utilidades.Observador;
 import java.util.List;
 import pokerApp.figurasYCartas.Carta;
+import pokerApp.juego.EventoMesa;
+import utilidades.Observable;
 
-public class Jugador extends Usuario {
+public class Jugador extends Usuario implements Observador{
     private float saldo;
     private float apuesta;
 
@@ -42,6 +44,16 @@ public class Jugador extends Usuario {
         return "Jugador{" + "saldo=" + saldo + ", nombre=" + getNombreCompleto() + '}';
     }
 
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        if (evento == EventoMesa.NUEVA_MANO_INICIADA) {
+            System.out.println("Nueva mano iniciada en la mesa.");
+        } else if (evento == EventoMesa.MESA_FINALIZADA) {
+            System.out.println("La mesa ha finalizado.");
+        } else if (evento == EventoMesa.JUGADOR_AGREGADO) {
+            System.out.println("Un jugador se ha unido a la mesa.");
+        }
+    }
     
    
 }
