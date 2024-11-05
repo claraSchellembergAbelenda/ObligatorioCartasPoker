@@ -3,6 +3,7 @@ package pokerApp.Sistemas;
 import java.util.ArrayList;
 import java.util.List;
 import pokerApp.Exceptions.UsuarioException;
+import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Administrador;
 import pokerApp.usuarios.Jugador;
 import pokerApp.usuarios.Sesion;
@@ -81,6 +82,13 @@ public class SistemaUsuario {
     public void logout(Sesion sesion) {
         sesionesActivas.remove(sesion);
         System.out.println("El usuario " + sesion.getUsuario().getNombreCompleto() + " ha cerrado sesión.");
+    }
+
+   
+
+    public void validarSaldoJugador(Jugador jugador, Mesa mesaSeleccionada) 
+            throws UsuarioException{
+        jugador.validarSaldo(mesaSeleccionada);
     }
 
     

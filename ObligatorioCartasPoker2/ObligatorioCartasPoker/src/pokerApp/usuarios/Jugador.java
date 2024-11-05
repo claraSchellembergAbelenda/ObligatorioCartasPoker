@@ -3,6 +3,8 @@ import utilidades.Observador;
 import java.util.List;
 import pokerApp.figurasYCartas.Carta;
 import estados.EventoMesa;
+import pokerApp.Exceptions.UsuarioException;
+import pokerApp.juego.Mesa;
 import utilidades.Observable;
 
 public class Jugador extends Usuario implements Observador{
@@ -52,6 +54,12 @@ public class Jugador extends Usuario implements Observador{
             System.out.println("La mesa ha finalizado.");
         } else if (evento == EventoMesa.JUGADOR_AGREGADO) {
             System.out.println("Un jugador se ha unido a la mesa.");
+        }
+    }
+
+    public void validarSaldo(Mesa mesaSeleccionada) throws UsuarioException{
+        if(this.getSaldo()<(mesaSeleccionada.getApuestaBase()*10)){
+            throw new UsuarioException("Saldo insuficiente");
         }
     }
     

@@ -3,6 +3,8 @@ package pokerApp.iu;
 
 import java.util.ArrayList;
 import java.util.List;
+import pokerApp.Exceptions.MesaException;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
@@ -13,6 +15,7 @@ public class JugadorUI extends javax.swing.JDialog {
 
     private Jugador jugador;
     private List<Mesa> mesasAbiertas = new ArrayList<>();
+    private Mesa mesaSeleccionada;
     
     
     public JugadorUI(java.awt.Frame parent, boolean modal, Jugador jugador) {
@@ -55,6 +58,7 @@ public class JugadorUI extends javax.swing.JDialog {
         jScrollPane1 = new javax.swing.JScrollPane();
         lstMesasAbiertas = new javax.swing.JList();
         lblDatosJugador = new javax.swing.JLabel();
+        lblRespuestaIngreso = new javax.swing.JLabel();
 
         lblNombreJugador.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -84,31 +88,38 @@ public class JugadorUI extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
                         .addGap(112, 112, 112)
                         .addComponent(btnIngresarAMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(109, 109, 109)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addComponent(lblIngresarAMesa)
-                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(lblDatosJugador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
-                .addContainerGap(29, Short.MAX_VALUE))
+                            .addComponent(lblIngresarAMesa, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addGroup(javax.swing.GroupLayout.Alignment.LEADING, layout.createSequentialGroup()
+                                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 115, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblDatosJugador, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                                .addGap(121, 121, 121))
+                            .addComponent(lblRespuestaIngreso, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
+                .addContainerGap(11, Short.MAX_VALUE))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
+                .addGap(0, 0, Short.MAX_VALUE)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 304, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(27, 27, 27))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(lblRespuestaIngreso)
+                .addGap(36, 36, 36)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(lblDatosJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(lblIngresarAMesa, javax.swing.GroupLayout.DEFAULT_SIZE, 49, Short.MAX_VALUE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(lblDatosJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
-                .addComponent(lblIngresarAMesa)
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 124, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
                 .addComponent(btnIngresarAMesa))
         );
 
@@ -116,7 +127,12 @@ public class JugadorUI extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnIngresarAMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarAMesaActionPerformed
-        
+        try{
+            
+        Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
+        }catch(UsuarioException ue){
+            lblRespuestaIngreso.setText("Error: "+ ue.getMessage());
+        }
     // TODO add your handling code here:
     }//GEN-LAST:event_btnIngresarAMesaActionPerformed
 
@@ -135,13 +151,13 @@ public class JugadorUI extends javax.swing.JDialog {
     private javax.swing.JLabel lblDatosJugador;
     private javax.swing.JLabel lblIngresarAMesa;
     private javax.swing.JTextField lblNombreJugador;
+    private javax.swing.JLabel lblRespuestaIngreso;
     private javax.swing.JList lstMesasAbiertas;
     // End of variables declaration//GEN-END:variables
 
     private void MostrarDatosJugador() {
         lblDatosJugador.setText(jugador.getNombreCompleto()
                 +" saldo: "+ jugador.getSaldo());
-        
     }
 
     

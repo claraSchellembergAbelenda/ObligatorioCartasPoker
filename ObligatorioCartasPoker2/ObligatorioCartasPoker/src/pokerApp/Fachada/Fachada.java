@@ -108,5 +108,9 @@ public class Fachada {
         sistemaMesa.precargaManos();
     }
 
+    public void validarSaldoDeJugador(Jugador jugador, Mesa mesaSeleccionada) throws UsuarioException{
+        sistemaUsuario.validarSaldoJugador(jugador, mesaSeleccionada);
+    }
+
 
 }
