@@ -5,14 +5,12 @@
 package pokerApp.iu;
 
 import java.awt.Frame;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.Fachada.Fachada;
 import pokerApp.usuarios.Sesion;
 import pokerApp.usuarios.Usuario;
 
-/**
- *
- * @author ClaraSchellembergAbe
- */
+
 public class LoginAdministrador extends Login {
 
     public LoginAdministrador(Frame parent, boolean modal, Fachada fachada) {
@@ -20,7 +18,7 @@ public class LoginAdministrador extends Login {
     }
 
     @Override
-    public Sesion login(String username, String password) {
+    public Sesion login(String username, String password)throws UsuarioException {
         return Fachada.getInstancia().loginAdministrador(username, password);
     }
 

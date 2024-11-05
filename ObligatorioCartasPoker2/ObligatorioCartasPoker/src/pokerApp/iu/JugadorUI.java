@@ -5,20 +5,21 @@ import java.util.ArrayList;
 import java.util.List;
 import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;
+import pokerApp.usuarios.Jugador;
 import pokerApp.usuarios.Sesion;
 
 
 public class JugadorUI extends javax.swing.JDialog {
 
-    private Sesion sesion;
+    private Jugador jugador;
     private List<Mesa> mesasAbiertas = new ArrayList<>();
     
     
-    public JugadorUI(java.awt.Frame parent, boolean modal, Sesion sesion) {
+    public JugadorUI(java.awt.Frame parent, boolean modal, Jugador jugador) {
         super(parent, modal);
-        this.sesion = sesion;
+        this.jugador = jugador;
         initComponents();
-        setTitle("Jugador - " + sesion.getUsuario().getNombreCompleto());// + getSaldo()
+        MostrarDatosJugador();
         CargarMesas();
     }
     
@@ -47,12 +48,19 @@ public class JugadorUI extends javax.swing.JDialog {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        lblNombreJugador = new javax.swing.JTextField();
         lblIngresarAMesa = new javax.swing.JLabel();
         btnIngresarAMesa = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
-        lblNombreJugador = new javax.swing.JTextField();
         jScrollPane1 = new javax.swing.JScrollPane();
         lstMesasAbiertas = new javax.swing.JList();
+        lblDatosJugador = new javax.swing.JLabel();
+
+        lblNombreJugador.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                lblNombreJugadorActionPerformed(evt);
+            }
+        });
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -67,21 +75,12 @@ public class JugadorUI extends javax.swing.JDialog {
 
         jLabel1.setText("Nombre Del Jugador:");
 
-        lblNombreJugador.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                lblNombreJugadorActionPerformed(evt);
-            }
-        });
-
         jScrollPane1.setViewportView(lstMesasAbiertas);
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(0, 0, Short.MAX_VALUE))
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
@@ -92,19 +91,20 @@ public class JugadorUI extends javax.swing.JDialog {
                         .addComponent(btnIngresarAMesa, javax.swing.GroupLayout.PREFERRED_SIZE, 122, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(109, 109, 109)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
                             .addComponent(lblIngresarAMesa)
-                            .addComponent(jLabel1))))
+                            .addComponent(jLabel1, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(lblDatosJugador, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap(29, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(23, 23, 23)
-                .addComponent(jLabel1)
-                .addGap(18, 18, 18)
-                .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 21, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 18, Short.MAX_VALUE)
+                .addContainerGap()
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 33, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(lblDatosJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 22, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(lblIngresarAMesa)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 136, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -121,6 +121,8 @@ public class JugadorUI extends javax.swing.JDialog {
     }//GEN-LAST:event_btnIngresarAMesaActionPerformed
 
     private void lblNombreJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblNombreJugadorActionPerformed
+        
+
         // TODO add your handling code here:
     }//GEN-LAST:event_lblNombreJugadorActionPerformed
 
@@ -130,10 +132,17 @@ public class JugadorUI extends javax.swing.JDialog {
     private javax.swing.JButton btnIngresarAMesa;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane1;
+    private javax.swing.JLabel lblDatosJugador;
     private javax.swing.JLabel lblIngresarAMesa;
     private javax.swing.JTextField lblNombreJugador;
     private javax.swing.JList lstMesasAbiertas;
     // End of variables declaration//GEN-END:variables
+
+    private void MostrarDatosJugador() {
+        lblDatosJugador.setText(jugador.getNombreCompleto()
+                +" saldo: "+ jugador.getSaldo());
+        
+    }
 
     
 }

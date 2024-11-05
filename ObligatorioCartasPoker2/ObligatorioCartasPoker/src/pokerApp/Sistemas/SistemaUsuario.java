@@ -42,7 +42,7 @@ public class SistemaUsuario {
     }
 
     // Métodos de login
-    public Sesion loginAdministrador(String cedula, String password) {
+    public Sesion loginAdministrador(String cedula, String password) throws UsuarioException {
         return login(cedula, password, usuariosAdministradores);
     }
     
@@ -51,13 +51,11 @@ public class SistemaUsuario {
         if (sesion != null) {
             sesionesActivas.add(sesion);
         }
-        if(estaLogueado(sesion.getUsuario())){
-            throw new UsuarioException("El usuario ya esta logueado");
-        }
+        
         return sesion;
     }
     
-    public Sesion login(String cedula, String password, List usuarios) {
+    public Sesion login(String cedula, String password, List usuarios) throws UsuarioException {
         Usuario usuario;
         for (Object usuarioObj : usuarios) {
             usuario =(Usuario)usuarioObj;
@@ -66,8 +64,8 @@ public class SistemaUsuario {
                 return sesion;
             }
         }
-        
-        return null;
+        throw new UsuarioException("Credenciales incorrectas");
+       
     }
 
         

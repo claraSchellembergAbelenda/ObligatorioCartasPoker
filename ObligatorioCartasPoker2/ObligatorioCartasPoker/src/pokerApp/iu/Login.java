@@ -1,6 +1,8 @@
 package pokerApp.iu;
 
+import java.awt.Color;
 import javax.swing.JOptionPane;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.usuarios.Sesion;
 import pokerApp.Fachada.Fachada;
 import pokerApp.usuarios.Usuario;
@@ -120,42 +122,37 @@ public abstract class Login extends javax.swing.JDialog {
     }//GEN-LAST:event_txtUsuarioKeyReleased
      
     private void login() {
+        lblLoginResponse.setText(""); // o un mensaje de éxito, si corresponde
         boolean verificarLogin = true;
         String username = txtUsuario.getText();
         String password = new String(pwdPassword.getPassword());
-
-        if (username.isBlank() || password.isBlank()) {
-            lblLoginResponse.setText("El nombre y la contraseña no pueden estar vacios");
-            verificarLogin=false;
-        }
-        if(verificarLogin){
-            Sesion sesion = login(username, password);
-            if(sesion!=null){
-                mostrarProximaInterfaz(sesion.getUsuario());
-                dispose();
+        try{
+            if (username.isBlank() || password.isBlank()) {
+                lblLoginResponse.setText("El nombre y la contraseña no pueden estar vacios");
+                verificarLogin=false;
             }
+            if(verificarLogin){
+                Sesion sesion =login(username, password);
+                if(sesion!=null){
+                    mostrarProximaInterfaz(sesion.getUsuario());
+                    dispose();
+                } else {
+                        lblLoginResponse.setText("Error: sesión inválida o no encontrada.");
+                    }
+            }
+            
+        }
+        catch(UsuarioException ue){
+            lblLoginResponse.setForeground(Color.RED);
+            lblLoginResponse.setText("Error: " + ue.getMessage());
         }
 
        // Sesion sesion = fachada.login(username, password);  // Devuelve una Sesion
 
-//        if (sesion != null) {
-//            JOptionPane.showMessageDialog(this, "Bienvenido " + sesion.getUsuario().getNombreCompleto(), "Acceso concedido", JOptionPane.INFORMATION_MESSAGE);
-//            sesionActiva = sesion; // Guardamos la sesión activa
-//            dispose(); // Cierra el diálogo de login
 
-            // Redirigir a la interfaz adecuada
-//            
-//
-//        } else {
-//            JOptionPane.showMessageDialog(
-//                this,
-//                "Usuario y/o password incorrectos o ya logueado",
-//                "Error",
-//                JOptionPane.ERROR_MESSAGE);
-//        }
     }
     
-    public abstract Sesion login(String username, String password);
+    public abstract Sesion login(String username, String password)throws UsuarioException;
     public abstract void mostrarProximaInterfaz(Usuario usuario);
 
     // Variables declaration - do not modify//GEN-BEGIN:variables

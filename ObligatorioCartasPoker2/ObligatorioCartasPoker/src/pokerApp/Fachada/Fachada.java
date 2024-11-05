@@ -40,7 +40,7 @@ public class Fachada {
 
     // Método de login simplificado
         
-    public Sesion loginAdministrador(String username, String password) {
+    public Sesion loginAdministrador(String username, String password) throws UsuarioException {
         return sistemaUsuario.loginAdministrador(username, password);
     }
     public Sesion loginJugador(String username, String password) throws UsuarioException {
