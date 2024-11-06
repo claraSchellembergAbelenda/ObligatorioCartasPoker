@@ -128,8 +128,8 @@ public class JugadorUI extends javax.swing.JDialog {
 
     private void btnIngresarAMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarAMesaActionPerformed
         try{
+            Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
             
-        Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
         }catch(UsuarioException ue){
             lblRespuestaIngreso.setText("Error: "+ ue.getMessage());
         }
