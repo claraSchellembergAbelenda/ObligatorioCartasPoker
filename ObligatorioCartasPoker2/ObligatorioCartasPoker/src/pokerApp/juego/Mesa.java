@@ -323,6 +323,11 @@ public class Mesa extends Observable{
         System.out.println("Jugador " + jugador.getNombreCompleto() + " agregado como observador de la mesa.");
     }
 
+    @Override
+    public String toString() {
+        return "Mesa{" + "numeroManoActual=" + numeroManoActual + '}';
+    }
+
     
 
 }

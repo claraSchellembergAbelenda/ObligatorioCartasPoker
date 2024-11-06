@@ -7,6 +7,7 @@ package pokerApp.iu;
 import java.util.ArrayList;
 import javax.swing.JFrame;
 import javax.swing.table.DefaultTableModel;
+import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;
 
 public class AdministrarMesa extends javax.swing.JDialog {
@@ -157,7 +158,8 @@ public class AdministrarMesa extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                AdministrarMesa dialog = new AdministrarMesa(new javax.swing.JFrame(), true);
+                Fachada.getInstancia().getMesas();
+                AdministrarMesa dialog = new AdministrarMesa(new javax.swing.JFrame(), true, Fachada.getInstancia().getMesas());
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
