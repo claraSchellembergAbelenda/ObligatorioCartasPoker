@@ -24,8 +24,10 @@ public class Mesa extends Observable{
     private float comision;
     private Jugador ganador;
     private Figura figuraGanadora;
-    private static int numeroMesa;
-
+    private static int contadorMesas = 1;  
+    private int numeroMesa; 
+    
+    
     // Constructor
     public Mesa( int cantidadJugadoresRequeridos, float apuestaBase, float comision) {
         this.jugadores = new ArrayList<>();
@@ -35,7 +37,7 @@ public class Mesa extends Observable{
         this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
         this.comision = comision;
         this.estadoPartida = EstadoPartida.ABIERTA; // Estado inicial de la partida
-        this.numeroMesa = numeroMesa++;
+        this.numeroMesa = contadorMesas++; 
         this.montoTotalApostado = 0;
         this.montoTotalRecaudado = 0;
         this.cantidadJugadoresActual = 0;
@@ -46,8 +48,8 @@ public class Mesa extends Observable{
 
     
     // Getters y setters
-    public int getNumeroMesa() {
-        return this.hashCode(); // Usamos el hashCode para generar un número único
+   public int getNumeroMesa() {
+        return numeroMesa;
     }
     
     public void agregarJugador(Jugador jugador) {
@@ -164,6 +166,9 @@ public class Mesa extends Observable{
         montoTotalRecaudado = montoTotalApostado - (montoTotalApostado * comision / 100);
     }
 
+    public void incrementarPozo(double monto) {
+        montoTotalApostado += monto;
+    }
     // Método para determinar el ganador de la mesa
     public Jugador determinarGanador() {
         // Implementar la lógica para determinar el ganador
@@ -230,6 +235,7 @@ public class Mesa extends Observable{
         this.numeroManoActual = numeroManoActual;
     }
 
+    // este es el pozo? 
     public float getMontoTotalApostado() {
         return montoTotalApostado;
     }
@@ -325,8 +331,22 @@ public class Mesa extends Observable{
 
     @Override
     public String toString() {
-        return "Mesa{" + "numeroManoActual=" + numeroManoActual + '}';
+        return "Mesa " + numeroMesa;
     }
+
+    public Iterable<Jugador> getJugadoresEnMesa() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public Jugador getJugadorActual() {
+        if (jugadores != null && !jugadores.isEmpty()) {
+        // Suponiendo que el primer jugador en la lista es el actual
+        return jugadores.get(0); 
+        }
+        throw new IllegalStateException("No hay jugadores en la mesa.");
+        //excepcion de java, hace una y personalizarla
+    }
+
 
     
 

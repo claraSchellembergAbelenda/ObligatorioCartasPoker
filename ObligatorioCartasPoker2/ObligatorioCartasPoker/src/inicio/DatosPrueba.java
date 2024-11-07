@@ -11,10 +11,7 @@ public class DatosPrueba {
         
         fachada.cargarUsuarios();
         fachada.precargaMesas();
-        
-        
-        
-        
+         
     }
     
 }

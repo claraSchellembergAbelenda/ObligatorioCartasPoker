@@ -3,11 +3,16 @@ import utilidades.Observador;
 import java.util.List;
 import pokerApp.figurasYCartas.Carta;
 import estados.EventoMesa;
+import java.util.ArrayList;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.juego.Mesa;
 import utilidades.Observable;
 
 public class Jugador extends Usuario implements Observador{
+
+    public static ArrayList<Carta> getCartas() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
     private float saldo;
     private float apuesta;
 
@@ -62,6 +67,23 @@ public class Jugador extends Usuario implements Observador{
             throw new UsuarioException("Saldo insuficiente");
         }
     }
-    
+
+    public void asignarCartas(List<String> cartas) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public String getNombre() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public boolean tieneSaldoSuficiente(double monto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    public void descontarSaldo(double monto) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+
    
 }
