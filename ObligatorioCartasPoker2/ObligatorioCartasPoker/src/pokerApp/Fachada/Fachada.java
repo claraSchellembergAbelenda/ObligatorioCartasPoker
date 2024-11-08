@@ -112,5 +112,8 @@ public class Fachada {
         sistemaUsuario.validarSaldoJugador(jugador, mesaSeleccionada);
     }
 
+    public void precargarJugadoresMesa(Mesa mesa, Jugador jugador){
+        sistemaMesa.agregarJugador(mesa, jugador);
+    }
 
 }

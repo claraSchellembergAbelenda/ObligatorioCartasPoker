@@ -1,23 +1,52 @@
 package pokerApp.iu;
 
+import inicio.DatosPrueba;
+import java.util.ArrayList;
+import java.util.List;
 import pokerApp.juego.IniciarApuesta;
 import pokerApp.juego.JuegoPoker;
 import javax.swing.JOptionPane;
+import panelCartasPoker.CartaPoker;
+import panelCartasPoker.PanelCartasListener;
+import panelCartasPoker.PanelCartasPokerException;
 import pokerApp.Exceptions.UsuarioException;
+import pokerApp.Fachada.Fachada;
+import pokerApp.figurasYCartas.Carta;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
 
-public class PanelDeCartas extends javax.swing.JFrame {
+public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener {
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
     
     public PanelDeCartas() {
         initComponents();
-        
         Mesa mesa = new Mesa(5,200,23);//ejemplo de mesa
         juegoPoker = new JuegoPoker(mesa);
-        lblMensaje.setText("usuario asdjnfdjbhabdbhfdshbsdbdksjfabhdfssdabdsfabfsdabhjsfdadsahjbhjdsbsdkbhdsbfd");
+        lblMensaje.setText("Usuario -----------------------------------------------------------");
+        
+        // Añadir un jugador de ejemplo con cartas
+        jugador = new Jugador("12345678","viki2009","Maxi",5000);  // Crear jugador de ejemplo
+        mesa.agregarJugador(jugador);  // Añadir jugador a la mesa
+
+        // Asignar cartas de ejemplo al jugador, usando un ArrayList en lugar de List.of
+        List<Carta> cartasJugador = new ArrayList<>();
+        cartasJugador.add(new Carta(1, "CORAZON"));
+        cartasJugador.add(new Carta(2, "DIAMANTE"));
+        cartasJugador.add(new Carta(3, "TREBOL"));
+        cartasJugador.add(new Carta(4, "PIQUE"));
+        cartasJugador.add(new Carta(8, "PIQUE"));
+        jugador.setCartas((ArrayList<Carta>) cartasJugador);
+
+        inicializarPanelCartas();
+        cargarCartasEnPanel(jugador.getCartas());  // Cargar cartas en el panel
+        
+    }
+    
+    
+    private void inicializarPanelCartas() {
+        panelCartasPoker.setListener(this); // Configura el listener del panel!
     }
 
     @SuppressWarnings("unchecked")
@@ -185,11 +214,11 @@ public class PanelDeCartas extends javax.swing.JFrame {
             catch (UsuarioException ue) {
             lblMensaje.setText("No hay jugadores en la mesa. No se puede iniciar la apuesta.");
         }
-    }//GEN-LAST:event_btnIniciarApuestaActionPerformed
-
+    }
+    
     private void btnPasarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarActionPerformed
         //logica para pasar 
-    }//GEN-LAST:event_btnPasarActionPerformed
+    }
 
     private void btnPagarApuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarApuestaActionPerformed
         //uno apuesta, se le resta de su saldo el valor de la apuesta hecha y les aparece un dialogo al resto de los 
@@ -221,13 +250,8 @@ public class PanelDeCartas extends javax.swing.JFrame {
         JOptionPane.showMessageDialog(this, "El pozo actual es: $" + pozo, "Pozo Actual", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new PanelDeCartas().setVisible(true);
-            }
-        });
+    public static void main(String[] args) {
+        java.awt.EventQueue.invokeLater(() -> new PanelDeCartas().setVisible(true));
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
@@ -243,4 +267,58 @@ public class PanelDeCartas extends javax.swing.JFrame {
     private pokerApp.iu.PanelCartas panelCartas1;
     private panelCartasPoker.PanelCartasPoker panelCartasPoker;
     // End of variables declaration//GEN-END:variables
+
+   @Override
+    public void clickEnCarta(CartaPoker carta) {
+        JOptionPane.showMessageDialog(this, carta.toString(), "Click en carta", JOptionPane.INFORMATION_MESSAGE);
+    }
+        
+    public void cargarCartasEnPanel(List<Carta> cartas) {
+    ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
+
+    for (Carta carta : cartas) {
+        CartaPoker cartaPoker = new CartaPoker() {
+            @Override
+            public int getValorCarta() {
+                return carta.getValorCarta();  // Asegúrate de devolver el valor correcto
+            }
+
+            @Override
+            public String getPaloCarta() {
+                // Asegúrate de devolver el palo como "C", "D", "T", o "P" para que coincida con la imagen
+                switch (carta.getPaloCarta().toUpperCase()) {
+                    case "CORAZON":
+                        return CartaPoker.CORAZON;
+                    case "DIAMANTE":
+                        return CartaPoker.DIAMANTE;
+                    case "TREBOL":
+                        return CartaPoker.TREBOL;
+                    case "PIQUE":
+                        return CartaPoker.PIQUE;
+                    default:
+                        return "P";  // valor por defecto
+                }
+            }
+
+            @Override
+            public boolean estaVisible() {
+                return true;  // Determina la visibilidad
+            }
+
+            @Override
+            public void setVisible(boolean b) {
+                // Implementa la visibilidad si es necesario
+            }
+        };
+        cartasPoker.add(cartaPoker);
+    }
+
+    try {
+        panelCartasPoker.cargarCartas(cartasPoker);
+    } catch (PanelCartasPokerException ex) {
+        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error al cargar cartas", JOptionPane.ERROR_MESSAGE);
+    }
+}
+    
+    
 }

@@ -1,7 +1,6 @@
 
 package estados;
 
-
 public enum EstadoMano {
     /*-“Esperando apuesta”: Estado inicial de la mano. Cualquier jugador puede iniciar una apuesta. 
 Cualquier jugador puede indicar que no inicia apuesta. 
