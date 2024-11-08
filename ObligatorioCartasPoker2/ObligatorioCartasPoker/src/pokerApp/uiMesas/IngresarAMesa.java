@@ -1,5 +1,5 @@
 
-package pokerApp.iu;
+package pokerApp.uiMesas;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,14 +11,14 @@ import pokerApp.usuarios.Jugador;
 import pokerApp.usuarios.Sesion;
 
 
-public class JugadorUI extends javax.swing.JDialog {
+public class IngresarAMesa extends javax.swing.JDialog {
 
     private Jugador jugador;
     private List<Mesa> mesasAbiertas = new ArrayList<>();
     private Mesa mesaSeleccionada;
     
     
-    public JugadorUI(java.awt.Frame parent, boolean modal, Jugador jugador) {
+    public IngresarAMesa(java.awt.Frame parent, boolean modal, Jugador jugador) {
         super(parent, modal);
         this.jugador = jugador;
         initComponents();

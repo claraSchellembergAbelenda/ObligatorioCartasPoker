@@ -10,17 +10,17 @@ import utilidades.Observable;
 
 public class Jugador extends Usuario implements Observador{
 
-    public static ArrayList<Carta> getCartas() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+   
     private float saldo;
     private float apuesta;
-
+    private ArrayList<Carta> cartas= new ArrayList<>();
+    
     public Jugador(String cedula, String password, String nombreCompleto, float saldo) {
         super(cedula, password, nombreCompleto); // Llamamos al constructor de la clase base Usuario
         this.saldo = saldo;
     }
 
+    
     public float getSaldo() {
         return saldo;
     }
@@ -29,6 +29,17 @@ public class Jugador extends Usuario implements Observador{
         this.saldo = saldo;
     }
 
+    public ArrayList<Carta> getCartas() {
+        return cartas;
+    }
+    
+    public void setCartas(ArrayList<Carta> cartas) {
+        this.cartas = cartas;
+    }
+    public String getNombre() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+    
     public void apostar(float cantidad) {
         if (saldo >= cantidad) {
             saldo -= cantidad; // Restamos la cantidad apostada del saldo
@@ -68,22 +79,19 @@ public class Jugador extends Usuario implements Observador{
         }
     }
 
-    public void asignarCartas(List<String> cartas) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+
+    public void tieneSaldoSuficiente(float monto) throws UsuarioException{
+        if(this.getSaldo()<monto){
+            throw new UsuarioException("Saldo insuficiente");
+        }
     }
 
-    public String getNombre() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public void descontarSaldo(float monto) {
+        this.saldo-=monto;
     }
 
-    public boolean tieneSaldoSuficiente(double monto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
+    
 
-    public void descontarSaldo(double monto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-
+    
    
 }

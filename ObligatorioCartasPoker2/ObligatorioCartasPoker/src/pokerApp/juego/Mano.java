@@ -20,7 +20,7 @@ public class Mano {
     private Jugador jugadorGanador;
     private Figura figuraGanadora;
     private SistemaFiguras sistemaFiguras;
-    private List<Jugador> jugadores;
+    private List<Jugador> jugadoresEnMano;
     private List<List<Carta>> cartasPorJugador;  // Cartas asignadas para cada jugador
 
 
@@ -31,9 +31,9 @@ public class Mano {
         this.estadoMano=EstadoMano.PIDIENDO_CARTAS;
     }
 
-// Constructor que recibe la lista de jugadores y crea las listas necesarias
+// Constructor que recibe la lista de jugadoresEnMano y crea las listas necesarias
     public Mano(List<Jugador> jugadores) {
-        this.jugadores = jugadores;
+        this.jugadoresEnMano = jugadores;
         this.cartasPorJugador = new ArrayList<>();  // Inicializamos la lista de cartas para cada jugador
         this.sistemaFiguras = new SistemaFiguras();  // Inicializamos el sistema de figuras
 
@@ -115,7 +115,7 @@ public class Mano {
     // Método para repartir las cartas (suponiendo que el mazo ha sido inicializado externamente)
     public void repartirCartas(List<Carta> mazo) {
         int cartasPorJugador = 5; // Ajustar según las reglas del juego
-        for (int i = 0; i < jugadores.size(); i++) {
+        for (int i = 0; i < jugadoresEnMano.size(); i++) {
             List<Carta> manoJugador = this.cartasPorJugador.get(i);  // Obtén la lista correspondiente al jugador
             for (int j = 0; j < cartasPorJugador; j++) {
                 manoJugador.add(mazo.remove(0));  // Extrae las cartas del mazo para cada jugador
@@ -128,8 +128,8 @@ public class Mano {
     Jugador ganador = null;
     TipoFigura mejorFigura = null;
 
-    for (int i = 0; i < jugadores.size(); i++) {
-        Jugador jugador = jugadores.get(i);
+    for (int i = 0; i < jugadoresEnMano.size(); i++) {
+        Jugador jugador = jugadoresEnMano.get(i);
         List<Carta> cartas = cartasPorJugador.get(i);  // Cartas asignadas al jugador
         TipoFigura figura = sistemaFiguras.determinarFigura(cartas);
 

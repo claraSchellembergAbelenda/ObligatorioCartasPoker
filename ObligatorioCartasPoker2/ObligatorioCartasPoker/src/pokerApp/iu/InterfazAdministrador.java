@@ -1,11 +1,15 @@
 package pokerApp.iu;
 
+import pokerApp.uiMesas.CrearMesa;
+import pokerApp.uiMesas.AdministrarMesa;
 import javax.swing.*;
 import pokerApp.usuarios.Sesion;
 import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;
 import java.util.ArrayList;
 import pokerApp.Exceptions.MesaException;
+import pokerApp.uiUsuariosYLogin.Login;
+import pokerApp.uiUsuariosYLogin.LoginAdministrador;
 
 public abstract class InterfazAdministrador extends javax.swing.JDialog {
 
@@ -179,7 +183,7 @@ public abstract class InterfazAdministrador extends javax.swing.JDialog {
                             data[i][0] = mesa.getNumeroMesa();
                             data[i][1] = mesa.getCantidadJugadoresRequeridos();
                             data[i][2] = mesa.getApuestaBase();
-                            data[i][3] = mesa.getJugadores().size();
+                            data[i][3] = mesa.getJugadoresEnMesa().size();
                             data[i][4] = mesa.getNumeroManoActual();
                             data[i][5] = mesa.getMontoTotalApostado();
                             data[i][6] = mesa.getComision();

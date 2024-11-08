@@ -11,9 +11,9 @@ import utilidades.Observador;
 
 public class Mesa extends Observable{
 
-    private ArrayList<Jugador> jugadores;
+    private ArrayList<Jugador> jugadoresEnMesa;
     private ArrayList<Mano> manosJugadas;
-    private Mazo cartas;
+    private Mazo mazo;
     private float apuestaBase;
     private EstadoPartida estadoPartida;
     private int cantidadJugadoresRequeridos;
@@ -30,9 +30,9 @@ public class Mesa extends Observable{
     
     // Constructor
     public Mesa( int cantidadJugadoresRequeridos, float apuestaBase, float comision) {
-        this.jugadores = new ArrayList<>();
+        this.jugadoresEnMesa = new ArrayList<>();
         this.manosJugadas = new ArrayList<>();
-        this.cartas = new Mazo(); // Inicializamos el mazo
+        this.mazo = new Mazo(); // Inicializamos el mazo
         this.apuestaBase = apuestaBase;
         this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
         this.comision = comision;
@@ -53,8 +53,8 @@ public class Mesa extends Observable{
     }
     
     public void agregarJugador(Jugador jugador) {
-        if (jugadores.size() < cantidadJugadoresRequeridos) {
-            jugadores.add(jugador);
+        if (jugadoresEnMesa.size() < cantidadJugadoresRequeridos) {
+            jugadoresEnMesa.add(jugador);
             cantidadJugadoresActual++;
             avisar(EventoMesa.JUGADOR_AGREGADO);  // Notifica el evento
             System.out.println("Jugador agregado a la mesa.");
@@ -66,13 +66,13 @@ public class Mesa extends Observable{
     
     
 
-    public ArrayList<Jugador> getJugadores() {
-        return jugadores;
+    public ArrayList<Jugador> getJugadoresEnMesa() {
+        return jugadoresEnMesa;
     }
 
     // Remover un jugador de la mesa
     public void removerJugador(Jugador jugador) {
-        if (jugadores.remove(jugador)) {
+        if (jugadoresEnMesa.remove(jugador)) {
             cantidadJugadoresActual--;
             System.out.println("Jugador " + jugador.getNombreCompleto() + " removido de la mesa.");
         } else {
@@ -97,7 +97,7 @@ public class Mesa extends Observable{
 
     // Reiniciar la mesa para una nueva partida
     public void reiniciarMesa() {
-        jugadores.clear();
+        jugadoresEnMesa.clear();
         manosJugadas.clear();
         montoTotalApostado = 0;
         montoTotalRecaudado = 0;
@@ -109,7 +109,7 @@ public class Mesa extends Observable{
         Jugador ganador = null;
         float maxApuesta = 0;
 
-        for (Jugador jugador : jugadores) {
+        for (Jugador jugador : jugadoresEnMesa) {
             if (jugador.getApuesta() > maxApuesta) {
                 maxApuesta = jugador.getApuesta();
                 ganador = jugador;
@@ -126,7 +126,7 @@ public class Mesa extends Observable{
         return cantidadJugadoresActual;
     }
 
-    // Método para iniciar la mesa (si se han completado los jugadores)
+    // Método para iniciar la mesa (si se han completado los jugadoresEnMesa)
     public void iniciarMesa() {
         if (cantidadJugadoresActual == cantidadJugadoresRequeridos) {
             estadoPartida = EstadoPartida.JUGANDO;
@@ -137,8 +137,8 @@ public class Mesa extends Observable{
     }
     
     public void iniciarNuevaMano() {
-        Mano nuevaMano = new Mano(jugadores);
-        nuevaMano.repartirCartas(cartas.getCartas());
+        Mano nuevaMano = new Mano(jugadoresEnMesa);
+        nuevaMano.repartirCartas(mazo.getCartas());
         avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica que comenzó una nueva mano
         manosJugadas.add(nuevaMano);
     }
@@ -147,7 +147,7 @@ public class Mesa extends Observable{
 
     // Método para reiniciar la mesa
     public void reiniciar() {
-        jugadores.clear();
+        jugadoresEnMesa.clear();
         manosJugadas.clear();
         estadoPartida = EstadoPartida.ABIERTA;
         cantidadJugadoresActual = 0;
@@ -172,15 +172,15 @@ public class Mesa extends Observable{
     // Método para determinar el ganador de la mesa
     public Jugador determinarGanador() {
         // Implementar la lógica para determinar el ganador
-        // Aquí puedes evaluar las manos de los jugadores para decidir el ganador
+        // Aquí puedes evaluar las manos de los jugadoresEnMesa para decidir el ganador
         return null; // Por ahora retornamos null hasta implementar la lógica
     }
 
     // Getters y Setters
 
 
-    public void setJugadores(ArrayList<Jugador> jugadores) {
-        this.jugadores = jugadores;
+    public void setJugadoresEnMesa(ArrayList<Jugador> jugadoresEnMesa) {
+        this.jugadoresEnMesa = jugadoresEnMesa;
     }
 
     public ArrayList<Mano> getManosJugadas() {
@@ -191,12 +191,12 @@ public class Mesa extends Observable{
         this.manosJugadas = manosJugadas;
     }
 
-    public Mazo getCartas() {
-        return cartas;
+    public Mazo getMazo() {
+        return mazo;
     }
 
-    public void setCartas(Mazo cartas) {
-        this.cartas = cartas;
+    public void setMazo(Mazo mazo) {
+        this.mazo = mazo;
     }
 
     public float getApuestaBase() {
@@ -220,8 +220,6 @@ public class Mesa extends Observable{
     public void setCantidadJugadoresRequeridos(int cantidadJugadoresRequeridos) {
         this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
     }
-
-
 
     public void setCantidadJugadoresActual(int cantidadJugadoresActual) {
         this.cantidadJugadoresActual = cantidadJugadoresActual;
@@ -334,14 +332,12 @@ public class Mesa extends Observable{
         return "Mesa " + numeroMesa;
     }
 
-    public Iterable<Jugador> getJugadoresEnMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
+    //Sesion 
     public Jugador getJugadorActual() {
-        if (jugadores != null && !jugadores.isEmpty()) {
+        if (jugadoresEnMesa != null && !jugadoresEnMesa.isEmpty()) {
         // Suponiendo que el primer jugador en la lista es el actual
-        return jugadores.get(0); 
+        return jugadoresEnMesa.get(0); 
         }
         throw new IllegalStateException("No hay jugadores en la mesa.");
         //excepcion de java, hace una y personalizarla

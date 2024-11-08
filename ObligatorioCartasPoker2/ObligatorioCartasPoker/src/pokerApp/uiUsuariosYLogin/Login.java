@@ -1,4 +1,4 @@
-package pokerApp.iu;
+package pokerApp.uiUsuariosYLogin;
 
 import java.awt.Color;
 import javax.swing.JOptionPane;

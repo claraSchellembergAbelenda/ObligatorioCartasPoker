@@ -59,7 +59,7 @@ public class SistemaMesa {
 
     // Agregar un jugador a una mesa específica
     public void agregarJugador(Mesa mesa, Jugador jugador) {
-        if (mesa.getJugadores().size() < mesa.getCantidadJugadoresRequeridos()) {
+        if (mesa.getJugadoresEnMesa().size() < mesa.getCantidadJugadoresRequeridos()) {
             mesa.agregarJugador(jugador);          // Agrega el jugador a la lista de la mesa
             mesa.agregarObservador(jugador);       // Agrega el jugador como observador de la mesa
             System.out.println("Jugador agregado a la mesa.");
@@ -83,7 +83,7 @@ public class SistemaMesa {
     // Calcular el pozo total de la mesa
 public void calcularPozoTotal(Mesa mesa) {
     float pozoTotal = 0;
-    for (Jugador jugador : mesa.getJugadores()) {
+    for (Jugador jugador : mesa.getJugadoresEnMesa()) {
         pozoTotal += jugador.getApuesta(); // Asegúrate de que Jugador tenga este método
     }
     System.out.println("El pozo total es: " + pozoTotal);

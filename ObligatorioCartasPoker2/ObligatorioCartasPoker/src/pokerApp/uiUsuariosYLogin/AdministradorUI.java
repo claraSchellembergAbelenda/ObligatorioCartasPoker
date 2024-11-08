@@ -2,8 +2,9 @@
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
  */
-package pokerApp.iu;
+package pokerApp.uiUsuariosYLogin;
 
+import pokerApp.uiMesas.AdministrarMesa;
 import java.util.ArrayList;
 import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;

@@ -1,5 +1,5 @@
 
-package pokerApp.iu;
+package pokerApp.uiMesas;
 
 import javax.swing.JOptionPane;
 import pokerApp.Exceptions.MesaException;

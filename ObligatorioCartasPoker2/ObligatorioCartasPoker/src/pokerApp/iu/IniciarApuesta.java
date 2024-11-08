@@ -2,20 +2,28 @@
 package pokerApp.iu;
 
 import javax.swing.JOptionPane;
+import pokerApp.usuarios.Jugador;
 
 
 public class IniciarApuesta extends javax.swing.JDialog {
 
-    private double apuesta;
+    private float apuesta;
+    private Jugador jugador;
 
 
+    public IniciarApuesta(java.awt.Frame parent, boolean modal, Jugador jugador) {
+        super(parent, modal);
+        initComponents();
+        apuesta = 0; // Inicializa la apuesta
+        this.jugador=jugador;
+
+    }
     public IniciarApuesta(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
         initComponents();
         apuesta = 0; // Inicializa la apuesta
 
     }
-
 
     @SuppressWarnings("unchecked")
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
@@ -101,7 +109,7 @@ public class IniciarApuesta extends javax.swing.JDialog {
         /* Create and display the dialog */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                IniciarApuesta dialog = new IniciarApuesta(new javax.swing.JFrame(), true);
+                IniciarApuesta dialog = new IniciarApuesta(new javax.swing.JFrame(), false);
                 dialog.addWindowListener(new java.awt.event.WindowAdapter() {
                     @Override
                     public void windowClosing(java.awt.event.WindowEvent e) {
@@ -121,13 +129,13 @@ public class IniciarApuesta extends javax.swing.JDialog {
 
     private void confirmarApuesta() {
         try {
-            apuesta = Double.parseDouble(txtApuesta.getText()); // Captura el valor de la apuesta
+            apuesta = Float.parseFloat(txtApuesta.getText()); // Captura el valor de la apuesta
             this.dispose(); // Cierra el diálogo
         } catch (NumberFormatException e) {
             JOptionPane.showMessageDialog(this, "Ingrese un monto válido.");
         }
     }
-    public double getApuesta() {
+    public float getApuesta() {
         // Retorna el valor ingresado por el usuario en el diálogo,tengo que apturar este valor
         return apuesta;
     }

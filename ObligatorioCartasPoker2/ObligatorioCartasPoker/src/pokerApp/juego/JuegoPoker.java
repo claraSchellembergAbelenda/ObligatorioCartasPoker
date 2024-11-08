@@ -1,20 +1,20 @@
-package pokerApp.iu;
+package pokerApp.juego;
 
 import java.util.ArrayList;
-import java.util.List;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
 import estados.EstadoPartida;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.figurasYCartas.Carta;
+import pokerApp.figurasYCartas.Mazo;
 
 public class JuegoPoker {
     private Mesa mesa;
-    
+    private Mazo mazo;
     
     public JuegoPoker(Mesa mesa) {
         this.mesa = mesa;
-        
-
+        this.mazo = mesa.getMazo();
     }
 
     public Mesa getMesa() {
@@ -33,30 +33,22 @@ public class JuegoPoker {
     }
 
     private void repartirCartas() {
-        List<String> mazo = generarMazo(); // Implementación de un mazo de cartas
         for (Jugador jugador : mesa.getJugadoresEnMesa()) {
-            List<String> cartas = new ArrayList<>();
-            for (int i = 0; i < 5; i++) {
-                cartas.add(mazo.remove(0)); // Asigna 5 cartas al jugador
-            }
-            jugador.asignarCartas(cartas);
-            System.out.println(jugador.getNombre() + " ha recibido sus cartas.");
+                ArrayList<Carta> mano = mazo.sacarCartas(5); // Suponiendo que `sacarCartas` devuelve una lista de 5 cartas
+                jugador.setCartas(mano); // Asigna las cartas a través de `setCartas`
+                System.out.println(jugador.getNombre() + " ha recibido sus cartas: " + mano);
         }
     }
 
-    private List<String> generarMazo() {
-        // Genera y baraja un mazo de cartas para el juego
-        return new ArrayList<>(); // Implementa la lógica de creación del mazo aquí
-    }
 
-    public void realizarApuesta(Jugador jugador, double monto) {
-        if (jugador.tieneSaldoSuficiente(monto)) {
+
+    public void realizarApuesta(Jugador jugador, float monto) throws UsuarioException{
+            jugador.tieneSaldoSuficiente(monto);
             jugador.descontarSaldo(monto);
             mesa.incrementarPozo(monto);
             System.out.println(jugador.getNombre() + " ha realizado una apuesta de $" + monto);
-        } else {
-            System.out.println("Saldo insuficiente para realizar esta apuesta.");
-        }
+        
+        
     }
 
     public void finalizarMano() {
@@ -91,22 +83,17 @@ public class JuegoPoker {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public boolean iniciarApuesta(double monto) {
-        Jugador jugador = mesa.getJugadorActual(); // Suponiendo que obtienes el jugador actual de la mesa
+    public void iniciarApuesta(float monto) throws UsuarioException{
+        Jugador jugador = mesa.getJugadorActual(); 
+// Suponiendo que obtienes el jugador actual de la mesa
 
-        if (jugador.tieneSaldoSuficiente(monto)) {
+            jugador.tieneSaldoSuficiente(monto);
             jugador.descontarSaldo(monto);
             mesa.incrementarPozo(monto); // Incrementa el pozo de la mesa con el monto apostado
-            return true;
-        } else {
-            return false; // Saldo insuficiente
-        }
+            // Saldo insuficiente
+        
     }
     
-    public ArrayList<Carta> getCartasJugador(){
-        //retorna las cartas del jugador
-        return Jugador.getCartas();
-    }
-    
+
     
 }

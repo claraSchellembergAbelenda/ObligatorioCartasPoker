@@ -1,5 +1,5 @@
 
-package pokerApp.iu;
+package pokerApp.uiMesas;
 
 import java.util.ArrayList;
 import javax.swing.table.DefaultTableModel;
