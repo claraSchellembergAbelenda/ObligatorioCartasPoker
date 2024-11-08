@@ -1,5 +1,6 @@
 package pokerApp.iu;
 
+import pokerApp.juego.IniciarApuesta;
 import pokerApp.juego.JuegoPoker;
 import javax.swing.JOptionPane;
 import pokerApp.Exceptions.UsuarioException;
@@ -16,7 +17,7 @@ public class PanelDeCartas extends javax.swing.JFrame {
         
         Mesa mesa = new Mesa(5,200,23);//ejemplo de mesa
         juegoPoker = new JuegoPoker(mesa);
-        
+        lblMensaje.setText("usuario asdjnfdjbhabdbhfdshbsdbdksjfabhdfssdabdsfabfsdabhjsfdadsahjbhjdsbsdkbhdsbfd");
     }
 
     @SuppressWarnings("unchecked")
@@ -33,7 +34,7 @@ public class PanelDeCartas extends javax.swing.JFrame {
         btnPagarApuesta = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         lblSaldoJugador = new javax.swing.JLabel();
-        jLabel1 = new javax.swing.JLabel();
+        lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -81,7 +82,7 @@ public class PanelDeCartas extends javax.swing.JFrame {
 
         lblSaldoJugador.setText("Saldo:");
 
-        jLabel1.setText("No se encontro usuario hbsdbjadsbjabdjbldalbj");
+        lblMensaje.setText("No se encontro usuario hbsdbjadsbjabdjbldalbj");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,23 +117,23 @@ public class PanelDeCartas extends javax.swing.JFrame {
                         .addComponent(panelCartasPoker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(0, 158, Short.MAX_VALUE))))
             .addGroup(layout.createSequentialGroup()
-                .addGap(495, 495, 495)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(89, 89, 89)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 829, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
+                .addGap(29, 29, 29)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(195, 195, 195)
+                        .addGap(125, 125, 125)
                         .addComponent(jSeparator1, javax.swing.GroupLayout.PREFERRED_SIZE, 10, javax.swing.GroupLayout.PREFERRED_SIZE))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(29, 29, 29)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 41, javax.swing.GroupLayout.PREFERRED_SIZE)
                         .addGap(34, 34, 34)
                         .addComponent(panelCartasPoker, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addGap(22, 22, 22)
+                .addGap(80, 80, 80)
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                         .addComponent(btnAbandonarMesa)
@@ -170,24 +171,20 @@ public class PanelDeCartas extends javax.swing.JFrame {
 
     float montoApuesta = iniciarApuesta.getApuesta();
 
-    if (montoApuesta > 0) {
         try {
                 juegoPoker.iniciarApuesta(montoApuesta);
-                JOptionPane.showMessageDialog(this, "Apuesta de $" + montoApuesta + " iniciada.");
+                lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
                 actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
 
                 // Mostrar el pozo actual en un JOptionPane
                 double pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
-                JOptionPane.showMessageDialog(this, "El pozo actual es: $" + pozoActual, "Pozo Actual", JOptionPane.INFORMATION_MESSAGE);
+                lblMensaje.setText( "El pozo actual es: $" + pozoActual);
             
-                JOptionPane.showMessageDialog(this, "Saldo insuficiente para iniciar la apuesta.");
+                lblMensaje.setText( "Saldo insuficiente para iniciar la apuesta.");
             }
             catch (UsuarioException ue) {
-            JOptionPane.showMessageDialog(this, "No hay jugadores en la mesa. No se puede iniciar la apuesta.", "Error", JOptionPane.ERROR_MESSAGE);
+            lblMensaje.setText("No hay jugadores en la mesa. No se puede iniciar la apuesta.");
         }
-    } else {
-        JOptionPane.showMessageDialog(this, "Apuesta cancelada o inválida.");
-    }
     }//GEN-LAST:event_btnIniciarApuestaActionPerformed
 
     private void btnPasarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarActionPerformed
@@ -240,8 +237,8 @@ public class PanelDeCartas extends javax.swing.JFrame {
     private javax.swing.JButton btnJugar;
     private javax.swing.JButton btnPagarApuesta;
     private javax.swing.JButton btnPasar;
-    private javax.swing.JLabel jLabel1;
     private javax.swing.JSeparator jSeparator1;
+    private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblSaldoJugador;
     private pokerApp.iu.PanelCartas panelCartas1;
     private panelCartasPoker.PanelCartasPoker panelCartasPoker;

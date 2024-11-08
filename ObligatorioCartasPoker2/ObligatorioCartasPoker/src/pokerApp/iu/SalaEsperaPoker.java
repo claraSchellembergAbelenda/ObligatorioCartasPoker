@@ -100,4 +100,5 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
         +"Esperando inicio del juego, hay "+ mesa.getCantidadJugadoresActual()+" de "
         +mesa.getCantidadJugadoresRequeridos()+" en la mesa");
     }
+    
 }

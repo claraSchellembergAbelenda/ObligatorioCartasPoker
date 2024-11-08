@@ -1,5 +1,5 @@
 
-package pokerApp.iu;
+package pokerApp.juego;
 
 import javax.swing.JOptionPane;
 import pokerApp.usuarios.Jugador;
@@ -32,6 +32,7 @@ public class IniciarApuesta extends javax.swing.JDialog {
         jLabel1 = new javax.swing.JLabel();
         txtApuesta = new javax.swing.JTextField();
         btnConfirmar = new javax.swing.JButton();
+        lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -44,6 +45,8 @@ public class IniciarApuesta extends javax.swing.JDialog {
             }
         });
 
+        lblMensaje.setText("aqui se verá un mensaje de respuesta");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -51,25 +54,30 @@ public class IniciarApuesta extends javax.swing.JDialog {
             .addGroup(layout.createSequentialGroup()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(81, 81, 81)
+                        .addGap(120, 120, 120)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(txtApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(btnConfirmar, javax.swing.GroupLayout.PREFERRED_SIZE, 87, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(73, 73, 73)
                         .addComponent(jLabel1))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(143, 143, 143)
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(btnConfirmar, javax.swing.GroupLayout.DEFAULT_SIZE, 87, Short.MAX_VALUE)
-                            .addComponent(txtApuesta))))
-                .addContainerGap(104, Short.MAX_VALUE))
+                        .addGap(41, 41, 41)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 260, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(61, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(48, 48, 48)
-                .addComponent(jLabel1)
-                .addGap(35, 35, 35)
+                .addGap(18, 18, 18)
+                .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, 45, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
+                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 24, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(42, 42, 42)
                 .addComponent(txtApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnConfirmar)
-                .addContainerGap(82, Short.MAX_VALUE))
+                .addGap(34, 34, 34))
         );
 
         pack();
@@ -124,19 +132,27 @@ public class IniciarApuesta extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnConfirmar;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblMensaje;
     private javax.swing.JTextField txtApuesta;
     // End of variables declaration//GEN-END:variables
 
-    private void confirmarApuesta() {
+    public void confirmarApuesta() {
         try {
             apuesta = Float.parseFloat(txtApuesta.getText()); // Captura el valor de la apuesta
-            this.dispose(); // Cierra el diálogo
+            if(apuesta<=0){
+                lblMensaje.setText("Debe ingresar un numero mayor a 0");
+                txtApuesta.setText("");
+            }else{
+                this.dispose(); // Cierra el diálogo
+            }
         } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(this, "Ingrese un monto válido.");
+            lblMensaje.setText("Ingrese un monto válido.");
         }
     }
     public float getApuesta() {
-        // Retorna el valor ingresado por el usuario en el diálogo,tengo que apturar este valor
+        // Retorna el valor ingresado por el usuario en el diálogo,
+        //tengo que apturar este valor
+        confirmarApuesta();
         return apuesta;
     }
     
