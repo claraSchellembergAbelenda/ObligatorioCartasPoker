@@ -6,7 +6,8 @@ import pokerApp.Exceptions.MesaException;
 import pokerApp.Fachada.Fachada;
 
 public class CrearMesa extends javax.swing.JDialog {
-
+    
+    private AdministrarMesa administrarMesa;
     
     public CrearMesa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -15,6 +16,14 @@ public class CrearMesa extends javax.swing.JDialog {
         
     }
 
+    // Constructor con AdministrarMesa como parámetro
+    public CrearMesa(java.awt.Frame parent, boolean modal, AdministrarMesa administrarMesa) {
+        super(parent, modal);
+        mostrarTitulo();
+        initComponents();
+        this.administrarMesa = administrarMesa;
+
+    }
     
     private void mostrarTitulo() {
         String titulo = "Crear Mesa";
@@ -116,6 +125,10 @@ public class CrearMesa extends javax.swing.JDialog {
         try{
         Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
         JOptionPane.showMessageDialog(this, "Mesa creada con exito");
+            // Llama a actualizarMesas en AdministrarMesa para refrescar el combo
+            if (administrarMesa != null) {
+                administrarMesa.actualizarMesas(); 
+            }
         }catch(MesaException me){
             // Recuerde que puede mostrar mensajes al usuario utilizando por 
 //            ejemplo etiquetas, barras de estado o áreas de texto específicas para mensajes.  

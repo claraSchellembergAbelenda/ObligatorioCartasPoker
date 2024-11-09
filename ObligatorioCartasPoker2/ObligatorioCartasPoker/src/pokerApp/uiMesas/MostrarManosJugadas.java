@@ -23,6 +23,7 @@ public class MostrarManosJugadas extends javax.swing.JDialog {
         super(parent, modal);
         this.mesaSeleccionada=(Mesa)selectedItem;
         initComponents();
+        cargarDatosEnTabla();
     }
 
     
@@ -36,14 +37,9 @@ public class MostrarManosJugadas extends javax.swing.JDialog {
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
         tblManos.setModel(new javax.swing.table.DefaultTableModel(
-            new Object [][] {
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null},
-                {null, null, null, null}
-            },
+            new Object [][] {},
             new String [] {
-                "Title 1", "Title 2", "Title 3", "Title 4"
+                "Número de Mano", "Cant. Jugadores", "Total Apostado", "Estado", "Ganador", "Figura Ganadora"
             }
         ));
         jScrollPane1.setViewportView(tblManos);
@@ -68,9 +64,7 @@ public class MostrarManosJugadas extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
+
     public static void main(String args[]) {
         /* Set the Nimbus look and feel */
         //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
@@ -116,26 +110,29 @@ public class MostrarManosJugadas extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void cargarDatosEnTabla() {
-        ArrayList<Mano> manos= this.mesaSeleccionada.getManosJugadas();
         DefaultTableModel model = (DefaultTableModel) tblManos.getModel();
         model.setRowCount(0); // Limpiar la tabla
-        manos=mesaSeleccionada.cargarManos();
-        for (Mano mano : manos) {
-//            -Número de mano
-//-Cantidad de jugadores participantes
-//-Total apostado en la mano
-//-Estado actual de la mano (*2)
-//-Nombre del jugador ganador
-//-Nombre de la figura con la que ganó
-            Object[] row = new Object[]{
-                mano.getCantJugadores(),
-                mano.getPozoApuestas(),
-                mano.getEstadoMano(),
-                mano.getJugadorGanador(),
-                mano.getFiguraGanadora()
-            };
-            model.addRow(row);
+
+        ArrayList<Mano> manos = mesaSeleccionada.getManosJugadas();
+        System.out.println("Número de manos en mesa seleccionada: " + manos.size());
+
+        if (manos.isEmpty()) {
+            System.out.println("La mesa seleccionada no tiene manos jugadas.");
+        } else {
+            for (Mano mano : manos) {
+                Object[] row = new Object[]{
+                    mano.getNumeroMano(),
+                    mano.getCantJugadores(),
+                    mano.getPozoApuestas(),
+                    mano.getEstadoMano(),
+                    mano.getJugadorGanador() != null ? mano.getJugadorGanador().getNombreCompleto() : "Sin ganador",
+                    mano.getFiguraGanadora() != null ? mano.getFiguraGanadora().getNombre() : "Sin figura ganadora"
+                };
+                model.addRow(row);
+            }
         }
-        
     }
+
+
+
 }

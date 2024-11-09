@@ -91,7 +91,28 @@ public class Jugador extends Usuario implements Observador{
     }
 
     
-
+    //implementaciones para jugar al poker 
     
+        // Método para realizar la apuesta, disminuyendo el saldo
+        public void realizarApuesta(float monto) throws UsuarioException {
+            validarSaldoParaApuesta(monto);
+            this.saldo -= monto;
+            this.apuesta = monto;
+            System.out.println(getNombreCompleto() + " ha apostado " + monto);
+        }
+    
+
+    // Método para verificar si el jugador tiene saldo suficiente
+    public void validarSaldoParaApuesta(float monto) throws UsuarioException {
+        if (this.saldo < monto) {
+            throw new UsuarioException("Saldo insuficiente para la apuesta.");
+        }
+    }
+    
+    
+    
+    
+    
+        
    
 }

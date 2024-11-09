@@ -1,18 +1,26 @@
 
 package pokerApp.iu;
 
+import pokerApp.juego.JuegoPoker;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
 
 
 public class SalaEsperaPoker extends javax.swing.JDialog {
 
-    Jugador jugador = new Jugador("Prueba", "Prueba2", "3", 50000);
-    Mesa mesa= new Mesa(3, 4, 5);
-    public SalaEsperaPoker(java.awt.Frame parent, boolean modal) {
+    private Jugador jugador;
+    private Mesa mesa;
+    private JuegoPoker juegoPoker;
+
+    
+    public SalaEsperaPoker(java.awt.Frame parent, boolean modal, Mesa mesa, Jugador jugador) {
         super(parent, modal);
+        this.jugador = jugador;
+        this.mesa = mesa;
         initComponents();
         cargarMensaje();
+
+
         
     }
 
@@ -47,44 +55,23 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(SalaEsperaPoker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(SalaEsperaPoker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(SalaEsperaPoker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(SalaEsperaPoker.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
+public static void main(String[] args) {
+    java.awt.EventQueue.invokeLater(() -> {
+        // Crear objetos necesarios para inicializar SalaEsperaPoker
+        Mesa mesa = new Mesa(1, 1000, 5); // Número de mesa, apuesta base y jugadores requeridos
+        Jugador jugador = new Jugador("ID123", "jugador1", "Maximiliano", 5000); // Inicializa el jugador con un saldo
 
-        /* Create and display the dialog */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                SalaEsperaPoker dialog = new SalaEsperaPoker(new javax.swing.JFrame(), true);
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
+        // Crear y mostrar la ventana de SalaEsperaPoker
+        SalaEsperaPoker dialog = new SalaEsperaPoker(new javax.swing.JFrame(), true, mesa, jugador);
+        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosing(java.awt.event.WindowEvent e) {
+                System.exit(0);
             }
         });
-    }
+        dialog.setVisible(true);
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblMensaje;
@@ -95,5 +82,24 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
         +"Esperando inicio del juego, hay "+ mesa.getCantidadJugadoresActual()+" de "
         +mesa.getCantidadJugadoresRequeridos()+" en la mesa");
     }
+    
+    private void verificarInicioJuego() {
+    if (mesa.getCantidadJugadoresActual() == mesa.getCantidadJugadoresRequeridos()) {
+        iniciarJuegoPoker();
+    } else {
+        lblMensaje.setText("Esperando a que lleguen más jugadores...");
+    }
+}
+
+    private void iniciarJuegoPoker() {
+        JuegoPoker juegoPoker = new JuegoPoker(mesa); // Inicializa el juego con la mesa configurada
+        juegoPoker.iniciarJuego(); // Cambia el estado y reparte cartas
+
+        // Cierra la sala de espera e inicia el panel de cartas
+        PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador); // Pasa juego y jugador al panel
+        panelCartas.setVisible(true);
+        this.dispose(); // Cierra la sala de espera
+    }
+    
     
 }

@@ -1,4 +1,5 @@
 package pokerApp.juego;
+import estados.EstadoMano;
 import estados.EventoMesa;
 import estados.EstadoPartida;
 import utilidades.Observable;
@@ -135,12 +136,17 @@ public class Mesa extends Observable{
             System.out.println("La mesa no puede ser iniciada. Jugadores insuficientes.");
         }
     }
-    
+    //metodo actualizado con validaciones
     public void iniciarNuevaMano() {
-        Mano nuevaMano = new Mano(jugadoresEnMesa);
-        nuevaMano.repartirCartas(mazo.getCartas());
-        avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica que comenzó una nueva mano
-        manosJugadas.add(nuevaMano);
+        if (cantidadJugadoresActual >= cantidadJugadoresRequeridos) {
+            estadoPartida = EstadoPartida.JUGANDO;
+            Mano nuevaMano = new Mano(jugadoresEnMesa);
+            nuevaMano.repartirCartas(mazo.getCartas());
+            manosJugadas.add(nuevaMano);
+            avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)
+        } else {
+            System.out.println("No hay suficientes jugadores para iniciar la mano.");
+        }
     }
 
 
@@ -300,10 +306,18 @@ public class Mesa extends Observable{
     }
     public void pracargaManos(){
     //queda por terminar porque quiero hablar el tema del constructor de mano
-    
-        for (Mano mano : manosJugadas) {
-          //  manosJugadas.add(new Mano())
+    // Suponiendo que las manos tienen un número, un pozo de apuestas, jugadores, etc.
+    for (int i = 1; i <= 3; i++) { // Precarga de 3 manos para el ejemplo
+        Mano mano = new Mano(jugadoresEnMesa); // Constructor puede ajustarse
+        mano.setNumeroMano(i);
+        mano.setPozoApuestas(apuestaBase * i); // Ejemplo de pozo de apuestas incrementado
+        mano.setCantJugadores(jugadoresEnMesa.size());
+        mano.setEstadoMano(EstadoMano.TERMINADA); // Estado de la mano
+        if (!jugadoresEnMesa.isEmpty()) {
+            mano.setJugadorGanador(jugadoresEnMesa.get(0)); // Suponiendo un ganador de ejemplo
         }
+        manosJugadas.add(mano); // Añade la mano a la lista de manos jugadas
+    }
     }
     
     public void validarMesa ()throws MesaException{

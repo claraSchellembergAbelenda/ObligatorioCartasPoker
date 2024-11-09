@@ -42,7 +42,15 @@ public class SistemaMesa {
         mesas.add(new Mesa(3, 500, 30));
         mesas.add(new Mesa(2, 1000, 25));
         mesas.add(new Mesa(5, 10000, 45));
+            
+        for (Mesa mesa : mesas) {
+        mesa.pracargaManos(); // Llama al método de precarga de manos
+    
+       }
+        
+        
     }
+    
     public void precargaManos() {
         for (Mesa mesa : mesas) {
             mesa.pracargaManos();
@@ -118,24 +126,10 @@ public void calcularPozoTotal(Mesa mesa) {
         Mesa mesa= new Mesa(jugadoresRequeridos, apuestaBase, comision);
         mesa.validarMesa();
         mesas.add(mesa);
+        
     }
     
-//    public String crearMesa(int jugadores, float apuestaBase, float comision) {
-//        if (jugadores < 2 || jugadores > 5) {
-//            return "Cantidad de jugadores no válida";
-//        }
-//        if (apuestaBase < 1) {
-//            return "Apuesta base inválida";
-//        }
-//        if (comision < 1 || comision > 50) {
-//            return "Comisión inválida";
-//        }
-//
-//        int numeroMesa = ++numeroMesaActual;
-//        Mesa nuevaMesa = new Mesa(numeroMesa, jugadores, apuestaBase, comision);
-//        mesas.add(nuevaMesa);
-//        return "Mesa creada con éxito. Número de mesa: " + numeroMesa;
-//    }
+
 
     
     // Método para obtener las mesas

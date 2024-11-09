@@ -20,17 +20,12 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     private JuegoPoker juegoPoker;
     private Jugador jugador;
     
-    public PanelDeCartas() {
+    public PanelDeCartas(JuegoPoker juegoPoker, Jugador jugador) {
         initComponents();
-        Mesa mesa = new Mesa(5,200,23);//ejemplo de mesa
-        juegoPoker = new JuegoPoker(mesa);
-        lblMensaje.setText("Usuario -----------------------------------------------------------");
-        
-        // Añadir un jugador de ejemplo con cartas
-        jugador = new Jugador("12345678","viki2009","Maxi",5000);  // Crear jugador de ejemplo
-        mesa.agregarJugador(jugador);  // Añadir jugador a la mesa
-
-        // Asignar cartas de ejemplo al jugador, usando un ArrayList en lugar de List.of
+        this.juegoPoker = juegoPoker;
+        this.jugador = jugador;
+        inicializarPanelCartas();
+                // Asignar cartas de ejemplo al jugador, usando un ArrayList en lugar de List.of
         List<Carta> cartasJugador = new ArrayList<>();
         cartasJugador.add(new Carta(1, "CORAZON"));
         cartasJugador.add(new Carta(2, "DIAMANTE"));
@@ -38,9 +33,13 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         cartasJugador.add(new Carta(4, "PIQUE"));
         cartasJugador.add(new Carta(8, "PIQUE"));
         jugador.setCartas((ArrayList<Carta>) cartasJugador);
+        cargarCartasEnPanel(jugador.getCartas()); 
+        lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
+        lblMensaje.setText("El juego ha comenzado en la mesa " + juegoPoker.getMesa().getNumeroMesa());
+        
+      
 
-        inicializarPanelCartas();
-        cargarCartasEnPanel(jugador.getCartas());  // Cargar cartas en el panel
+
         
     }
     
@@ -250,9 +249,20 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         JOptionPane.showMessageDialog(this, "El pozo actual es: $" + pozo, "Pozo Actual", JOptionPane.INFORMATION_MESSAGE);
     }
 
-    public static void main(String[] args) {
-        java.awt.EventQueue.invokeLater(() -> new PanelDeCartas().setVisible(true));
-    }
+public static void main(String[] args) {
+    java.awt.EventQueue.invokeLater(() -> {
+        // Crear una mesa y un jugador
+        Mesa mesa = new Mesa(1, 1000, 5); // ID mesa, apuesta base, jugadores requeridos
+        Jugador jugador = new Jugador("ID123", "jugador1", "Maximiliano", 5000); // Jugador de prueba
+
+        // Inicializar el juego de póker con la mesa
+        JuegoPoker juegoPoker = new JuegoPoker(mesa);
+        
+        // Crear y mostrar la ventana de PanelDeCartas
+        PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador);
+        panelCartas.setVisible(true);
+    });
+}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbandonarMesa;

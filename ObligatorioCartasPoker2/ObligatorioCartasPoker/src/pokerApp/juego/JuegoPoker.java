@@ -28,6 +28,8 @@ public class JuegoPoker {
                                + " jugadores de " + mesa.getJugadoresRequeridos() + " en la mesa.");
         } else {
             System.out.println("El juego ha comenzado en la mesa " + mesa.getNumeroMesa());
+            mesa.iniciarNuevaMano();
+            //cambiar el estado de la mesa.
             repartirCartas();
         }
     }
