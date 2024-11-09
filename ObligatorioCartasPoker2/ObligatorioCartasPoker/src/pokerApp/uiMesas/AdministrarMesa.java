@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package pokerApp.uiMesas;
 
 import java.util.ArrayList;
@@ -117,8 +114,15 @@ public class AdministrarMesa extends javax.swing.JDialog {
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMesasActionPerformed
-        MostrarManosJugadas mostrarManos = new MostrarManosJugadas(null, false, cmbMesas.getSelectedItem());
 
+         Object selectedItem = cmbMesas.getSelectedItem();
+    if (selectedItem instanceof Mesa) {
+        Mesa selectedMesa = (Mesa) selectedItem;
+        MostrarManosJugadas mostrarManos = new MostrarManosJugadas(null, false, selectedMesa);
+        mostrarManos.setVisible(true);
+    } else {
+        System.out.println("Elemento seleccionado no es de tipo Mesa.");
+    }
         // TODO add your handling code here:
     }//GEN-LAST:event_cmbMesasActionPerformed
 
@@ -156,25 +160,26 @@ public class AdministrarMesa extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     private void CargarDatosEnTabla() {
-        DefaultTableModel model = (DefaultTableModel) tblListarMesas.getModel();
-        model.setRowCount(0); // Limpiar la tabla
+DefaultTableModel model = (DefaultTableModel) tblListarMesas.getModel();
+    model.setRowCount(0); // Limpiar la tabla
 
-        for (Mesa mesa : mesas) {
-            Object[] row = new Object[]{
-                mesa.getNumeroMesa(),
-                mesa.getNumeroManoActual(),
-                mesa.getEstadoPartida(),
-                mesa.getCantidadJugadoresActual(),
-                mesa.getCantidadJugadoresRequeridos(),
-                mesa.getApuestaBase(),
-                mesa.getMontoTotalRecaudado(),
-                mesa.getComision(),
-                mesa.getMontoTotalApostado()   
-            };
-            model.addRow(row);
-        }
-        
+    for (Mesa mesa : mesas) {
+        Object[] row = new Object[]{
+            mesa.getNumeroMesa(),
+            mesa.getCantidadJugadoresRequeridos(),
+            mesa.getApuestaBase(),
+            mesa.getCantidadJugadoresActual(),
+            mesa.getNumeroManoActual(),
+            mesa.getMontoTotalApostado(),
+            mesa.getComision(),
+            mesa.getMontoTotalRecaudado(),
+            mesa.getEstadoPartida()
+        };
+        model.addRow(row);
     }
+    lblMontoTotalRecaudado.setText("Monto total recaudado: " + Fachada.getInstancia().calcularMontoTotalRecaudado());
+}
+        
 
     private void CargarCombo() {
         cmbMesas.removeAllItems();

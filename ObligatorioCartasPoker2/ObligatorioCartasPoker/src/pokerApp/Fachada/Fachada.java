@@ -24,6 +24,7 @@ public class Fachada {
     private SistemaFiguras sistemaFiguras;
     private SistemaManos sistemaManos;
     private SistemaMesa sistemaMesa;
+
     
 
     public Fachada() {
@@ -39,7 +40,6 @@ public class Fachada {
     }
 
     // Método de login simplificado
-        
     public Sesion loginAdministrador(String username, String password) throws UsuarioException {
         return sistemaUsuario.loginAdministrador(username, password);
     }
@@ -47,6 +47,8 @@ public class Fachada {
         return sistemaUsuario.loginJugador(username, password);
     }
 
+    
+    
     // Obtener las figuras disponibles (Elimina uno de los métodos duplicados)
     public List<TipoFigura> getFiguras() {
         return sistemaFiguras.getFiguras();
@@ -116,4 +118,8 @@ public class Fachada {
         sistemaMesa.agregarJugador(mesa, jugador);
     }
 
+    public float calcularMontoTotalRecaudado(){
+        return sistemaMesa.calcularMontoTotalRecaudado();
+    }
+    
 }

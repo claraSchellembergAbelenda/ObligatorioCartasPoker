@@ -10,6 +10,7 @@ public class Principal extends javax.swing.JFrame {
 
     public Principal() {
         initComponents();
+        DatosPrueba.cargar();
     }
 
     @SuppressWarnings("unchecked")

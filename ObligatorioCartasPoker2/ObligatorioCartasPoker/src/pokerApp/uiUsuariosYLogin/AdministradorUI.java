@@ -1,7 +1,4 @@
-/*
- * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
- * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JDialog.java to edit this template
- */
+
 package pokerApp.uiUsuariosYLogin;
 
 import pokerApp.uiMesas.AdministrarMesa;
@@ -10,10 +7,6 @@ import pokerApp.Fachada.Fachada;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Sesion;
 
-/**
- *
- * @author maximiliano
- */
 public class AdministradorUI extends javax.swing.JDialog {
 
     private Sesion sesion;
