@@ -11,6 +11,7 @@ public class DatosPrueba {
         Fachada fachada = Fachada.getInstancia();
         fachada.cargarUsuarios();
         fachada.precargaMesas();
+        fachada.precargarFiguras();
 
     }
     

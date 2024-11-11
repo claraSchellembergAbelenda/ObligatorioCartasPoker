@@ -2,6 +2,7 @@
 package pokerApp.juego;
 
 import javax.swing.JOptionPane;
+import pokerApp.listeners.ApuestaListener;
 import pokerApp.usuarios.Jugador;
 
 
@@ -9,6 +10,7 @@ public class IniciarApuesta extends javax.swing.JDialog {
 
     private float apuesta;
     private Jugador jugador;
+    private ApuestaListener apuestaListener;
 
 
     public IniciarApuesta(java.awt.Frame parent, boolean modal, Jugador jugador) {
@@ -23,6 +25,10 @@ public class IniciarApuesta extends javax.swing.JDialog {
         initComponents();
         apuesta = 0; // Inicializa la apuesta
 
+    }
+    
+    public void setApuestaListener(ApuestaListener apuestaListener){
+        this.apuestaListener=apuestaListener;
     }
 
     @SuppressWarnings("unchecked")
@@ -137,18 +143,30 @@ public class IniciarApuesta extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void confirmarApuesta() {
-        try {
-            apuesta = Float.parseFloat(txtApuesta.getText()); // Captura el valor de la apuesta
-            if(apuesta<=0){
+            float monto = obtenerMontoIngresado();
+            if(monto<=0){
                 lblMensaje.setText("Debe ingresar un numero mayor a 0");
                 txtApuesta.setText("");
             }else{
-                this.dispose(); // Cierra el diálogo
+                    if(apuestaListener==null){
+                        System.out.println("apuesta listener es null, hay que configurarla en otro lado");
+                     }else{
+                        apuestaListener.apuestaIngresada(monto);
+                    }   
             }
-        } catch (NumberFormatException e) {
+            dispose();
+    }
+    public float obtenerMontoIngresado(){
+        try{
+            apuesta = Float.parseFloat(txtApuesta.getText()); // Captura el valor de la apuesta
+            return apuesta;
+        }
+        catch(NumberFormatException nfe){
             lblMensaje.setText("Ingrese un monto válido.");
         }
+        return 0;
     }
+    
     public float getApuesta() {
         // Retorna el valor ingresado por el usuario en el diálogo,
         //tengo que apturar este valor

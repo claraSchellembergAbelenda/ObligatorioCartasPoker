@@ -8,6 +8,7 @@ import pokerApp.figurasYCartas.Figura;
 import pokerApp.usuarios.Jugador;
 import java.util.ArrayList;
 import pokerApp.Exceptions.MesaException;
+import pokerApp.Exceptions.UsuarioException;
 import utilidades.Observador;
 
 public class Mesa extends Observable{
@@ -19,7 +20,7 @@ public class Mesa extends Observable{
     private EstadoPartida estadoPartida;
     private int cantidadJugadoresRequeridos;
     private int cantidadJugadoresActual;
-    private int numeroManoActual;
+    private Mano manoActual;
     private float montoTotalApostado;
     private float montoTotalRecaudado;
     private float comision;
@@ -42,17 +43,129 @@ public class Mesa extends Observable{
         this.montoTotalApostado = 0;
         this.montoTotalRecaudado = 0;
         this.cantidadJugadoresActual = 0;
-        this.numeroManoActual = 0;
+        this.manoActual=null;
     }
 
     
 
     
     // Getters y setters
-   public int getNumeroMesa() {
+     public int getNumeroMesa() {
         return numeroMesa;
     }
+    public ArrayList<Jugador> getJugadoresEnMesa() {
+        return jugadoresEnMesa;
+    }
+   
+   public int getCantidadJugadoresRequeridos() {
+        return cantidadJugadoresRequeridos;
+    }
+
+    public int getCantidadJugadoresActual() {
+        return cantidadJugadoresActual;
+    }
     
+    public void setJugadoresEnMesa(ArrayList<Jugador> jugadoresEnMesa) {
+        this.jugadoresEnMesa = jugadoresEnMesa;
+    }
+
+    public ArrayList<Mano> getManosJugadas() {
+        return manosJugadas;
+    }
+
+    public void setManosJugadas(ArrayList<Mano> manosJugadas) {
+        this.manosJugadas = manosJugadas;
+    }
+
+    public Mazo getMazo() {
+        return mazo;
+    }
+
+    public void setMazo(Mazo mazo) {
+        this.mazo = mazo;
+    }
+
+    public float getApuestaBase() {
+        return apuestaBase;
+    }
+
+    public void setApuestaBase(float apuestaBase) {
+        this.apuestaBase = apuestaBase;
+    }
+
+    public EstadoPartida getEstadoPartida() {
+        return estadoPartida;
+    }
+
+    public void setEstadoPartida(EstadoPartida estadoPartida) {
+        this.estadoPartida = estadoPartida;
+    }
+
+
+
+    public void setCantidadJugadoresRequeridos(int cantidadJugadoresRequeridos) {
+        this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
+    }
+
+    public void setCantidadJugadoresActual(int cantidadJugadoresActual) {
+        this.cantidadJugadoresActual = cantidadJugadoresActual;
+    }
+
+    public Mano getManoActual() {
+        return manoActual;
+    }
+
+   
+
+    // este es el pozo? 
+    public float getMontoTotalApostado() {
+        return montoTotalApostado;
+    }
+
+    public void setMontoTotalApostado(float montoTotalApostado) {
+        this.montoTotalApostado = montoTotalApostado;
+    }
+
+    public float getMontoTotalRecaudado() {
+        return montoTotalRecaudado;
+    }
+
+    public void setMontoTotalRecaudado(float montoTotalRecaudado) {
+        this.montoTotalRecaudado = montoTotalRecaudado;
+    }
+
+    public float getComision() {
+        return comision;
+    }
+
+    public void setComision(float comision) {
+        this.comision = comision;
+    }
+
+    public Jugador getGanador() {
+        return ganador;
+    }
+
+    public void setGanador(Jugador ganador) {
+        this.ganador = ganador;
+    }
+
+    public Figura getFiguraGanadora() {
+        return figuraGanadora;
+    }
+
+    public void setFiguraGanadora(Figura figuraGanadora) {
+        this.figuraGanadora = figuraGanadora;
+    }
+
+   
+    public void setNumeroMesa(int numeroMesa) {
+        this.numeroMesa = numeroMesa;
+    }
+   
+    
+    
+    //------------------------------------funciones de mesa--------------------------------------
     public void agregarJugador(Jugador jugador) {
         if (jugadoresEnMesa.size() < cantidadJugadoresRequeridos) {
             jugadoresEnMesa.add(jugador);
@@ -63,12 +176,6 @@ public class Mesa extends Observable{
         } else {
             System.out.println("La mesa ya tiene el número máximo de jugadores.");
         }
-    }
-    
-    
-
-    public ArrayList<Jugador> getJugadoresEnMesa() {
-        return jugadoresEnMesa;
     }
 
     // Remover un jugador de la mesa
@@ -119,13 +226,7 @@ public class Mesa extends Observable{
         return ganador;
     }
     
-    public int getCantidadJugadoresRequeridos() {
-        return cantidadJugadoresRequeridos;
-    }
-
-    public int getCantidadJugadoresActual() {
-        return cantidadJugadoresActual;
-    }
+    
 
     // Método para iniciar la mesa (si se han completado los jugadoresEnMesa)
     public void iniciarMesa() {
@@ -142,6 +243,7 @@ public class Mesa extends Observable{
             estadoPartida = EstadoPartida.JUGANDO;
             Mano nuevaMano = new Mano(jugadoresEnMesa);
             nuevaMano.repartirCartas(mazo.getCartas());
+            nuevaMano.setEstadoMano(EstadoMano.ESPERANDO_APUESTA);
             manosJugadas.add(nuevaMano);
             avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)
         } else {
@@ -159,7 +261,7 @@ public class Mesa extends Observable{
         cantidadJugadoresActual = 0;
         montoTotalApostado = 0;
         montoTotalRecaudado = 0;
-        numeroManoActual = 0;
+        manoActual = null;
         System.out.println("La mesa " + numeroMesa + " ha sido reiniciada.");
     }
 
@@ -182,120 +284,6 @@ public class Mesa extends Observable{
         return null; // Por ahora retornamos null hasta implementar la lógica
     }
 
-    // Getters y Setters
-
-
-    public void setJugadoresEnMesa(ArrayList<Jugador> jugadoresEnMesa) {
-        this.jugadoresEnMesa = jugadoresEnMesa;
-    }
-
-    public ArrayList<Mano> getManosJugadas() {
-        return manosJugadas;
-    }
-
-    public void setManosJugadas(ArrayList<Mano> manosJugadas) {
-        this.manosJugadas = manosJugadas;
-    }
-
-    public Mazo getMazo() {
-        return mazo;
-    }
-
-    public void setMazo(Mazo mazo) {
-        this.mazo = mazo;
-    }
-
-    public float getApuestaBase() {
-        return apuestaBase;
-    }
-
-    public void setApuestaBase(float apuestaBase) {
-        this.apuestaBase = apuestaBase;
-    }
-
-    public EstadoPartida getEstadoPartida() {
-        return estadoPartida;
-    }
-
-    public void setEstadoPartida(EstadoPartida estadoPartida) {
-        this.estadoPartida = estadoPartida;
-    }
-
-
-
-    public void setCantidadJugadoresRequeridos(int cantidadJugadoresRequeridos) {
-        this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
-    }
-
-    public void setCantidadJugadoresActual(int cantidadJugadoresActual) {
-        this.cantidadJugadoresActual = cantidadJugadoresActual;
-    }
-
-    public int getNumeroManoActual() {
-        return numeroManoActual;
-    }
-
-    public void setNumeroManoActual(int numeroManoActual) {
-        this.numeroManoActual = numeroManoActual;
-    }
-
-    // este es el pozo? 
-    public float getMontoTotalApostado() {
-        return montoTotalApostado;
-    }
-
-    public void setMontoTotalApostado(float montoTotalApostado) {
-        this.montoTotalApostado = montoTotalApostado;
-    }
-
-    public float getMontoTotalRecaudado() {
-        return montoTotalRecaudado;
-    }
-
-    public void setMontoTotalRecaudado(float montoTotalRecaudado) {
-        this.montoTotalRecaudado = montoTotalRecaudado;
-    }
-
-    public float getComision() {
-        return comision;
-    }
-
-    public void setComision(float comision) {
-        this.comision = comision;
-    }
-
-    public Jugador getGanador() {
-        return ganador;
-    }
-
-    public void setGanador(Jugador ganador) {
-        this.ganador = ganador;
-    }
-
-    public Figura getFiguraGanadora() {
-        return figuraGanadora;
-    }
-
-    public void setFiguraGanadora(Figura figuraGanadora) {
-        this.figuraGanadora = figuraGanadora;
-    }
-
-   
-    public void setNumeroMesa(int numeroMesa) {
-        this.numeroMesa = numeroMesa;
-    }
-
-    public Object getJugadoresActuales() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public boolean getJugadoresRequeridos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void setEstado(String finalizada) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
     
     public ArrayList<Mano> cargarManos(){
         ArrayList<Mano>manos= new ArrayList<>();
@@ -304,13 +292,15 @@ public class Mesa extends Observable{
         }
         return manos;
     }
+    
+    
     public void pracargaManos(){
     //queda por terminar porque quiero hablar el tema del constructor de mano
     // Suponiendo que las manos tienen un número, un pozo de apuestas, jugadores, etc.
     for (int i = 1; i <= 3; i++) { // Precarga de 3 manos para el ejemplo
         Mano mano = new Mano(jugadoresEnMesa); // Constructor puede ajustarse
         mano.setNumeroMano(i);
-        mano.setPozoApuestas(apuestaBase * i); // Ejemplo de pozo de apuestas incrementado
+        mano.incrementarPozoApuestas(apuestaBase * i); // Ejemplo de pozo de apuestas incrementado
         mano.setCantJugadores(jugadoresEnMesa.size());
         mano.setEstadoMano(EstadoMano.TERMINADA); // Estado de la mano
         if (!jugadoresEnMesa.isEmpty()) {
@@ -355,6 +345,21 @@ public class Mesa extends Observable{
         }
         throw new IllegalStateException("No hay jugadores en la mesa.");
         //excepcion de java, hace una y personalizarla
+    }
+
+    public void validarSaldos() throws UsuarioException{
+        for (Jugador jugador : jugadoresEnMesa) {
+             jugador.tieneSaldoSuficiente(apuestaBase);
+        }
+    }
+
+
+    public void descontarSaldo() {
+        
+        for (Jugador jugador : jugadoresEnMesa) {
+            jugador.descontarSaldo(apuestaBase);
+            manoActual.incrementarPozoApuestas(apuestaBase);
+        }
     }
 
 

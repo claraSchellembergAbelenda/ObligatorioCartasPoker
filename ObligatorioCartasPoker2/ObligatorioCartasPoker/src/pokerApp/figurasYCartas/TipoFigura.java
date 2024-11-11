@@ -1,17 +1,26 @@
 package pokerApp.figurasYCartas;
 
+import java.util.ArrayList;
 import java.util.List;
 import pokerApp.figurasYCartas.Carta;
 
 public abstract class TipoFigura {
     private String nombre;
     private int prioridad; // La prioridad indica qué figura es más fuerte.
-
+    private static List<String> figuras = new ArrayList<>();
+    
     public TipoFigura(String nombre, int prioridad) {
         this.nombre = nombre;
         this.prioridad = prioridad;
+        if (!figuras.contains(nombre)) { // Evitar duplicados
+            figuras.add(this.nombre);
+        }
     }
 
+    public static List<String> getTodasFiguras() {
+        return figuras;
+    }
+    
     public String getNombre() {
         return nombre;
     }

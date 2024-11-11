@@ -1,9 +1,12 @@
 package pokerApp.figurasYCartas;
 
+import java.util.ArrayList;
+
 public class Figura {
     private String nombre;
     private TipoFigura tipo;
-
+    private ArrayList<TipoFigura>tiposDeFiguras;
+    
     public Figura(String nombre) {
         this.nombre = nombre;
     }

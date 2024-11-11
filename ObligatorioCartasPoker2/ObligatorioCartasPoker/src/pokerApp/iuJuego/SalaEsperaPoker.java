@@ -1,6 +1,7 @@
 
-package pokerApp.iu;
+package pokerApp.iuJuego;
 
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.juego.JuegoPoker;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
@@ -17,10 +18,9 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
         super(parent, modal);
         this.jugador = jugador;
         this.mesa = mesa;
+        this.mesa.agregarJugador(jugador);
         initComponents();
         cargarMensaje();
-
-
         
     }
 
@@ -92,13 +92,18 @@ public static void main(String[] args) {
 }
 
     private void iniciarJuegoPoker() {
-        JuegoPoker juegoPoker = new JuegoPoker(mesa); // Inicializa el juego con la mesa configurada
-        juegoPoker.iniciarJuego(); // Cambia el estado y reparte cartas
-
-        // Cierra la sala de espera e inicia el panel de cartas
-        PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador); // Pasa juego y jugador al panel
-        panelCartas.setVisible(true);
-        this.dispose(); // Cierra la sala de espera
+        try{
+            JuegoPoker juegoPoker = new JuegoPoker(mesa); // Inicializa el juego con la mesa configurada
+            juegoPoker.iniciarJuego(); // Cambia el estado y reparte cartas
+            juegoPoker.iniciarMano();
+            // Cierra la sala de espera e inicia el panel de cartas
+            PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador, mesa); // Pasa juego y jugador al panel
+            panelCartas.setVisible(true);
+            this.dispose(); // Cierra la sala de espera
+        }catch(UsuarioException ue){
+            lblMensaje.setText("Error: "+ue.getMessage());
+        }
+        
     }
     
     

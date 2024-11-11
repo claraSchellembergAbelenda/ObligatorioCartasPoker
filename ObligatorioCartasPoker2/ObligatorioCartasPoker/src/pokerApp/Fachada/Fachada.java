@@ -10,6 +10,7 @@ import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.Sistemas.SistemaManos;
 import pokerApp.Sistemas.SistemaMesa;
 import pokerApp.Sistemas.SistemaUsuario;
+import pokerApp.figurasYCartas.Carta;
 import pokerApp.figurasYCartas.Figura;
 import pokerApp.figurasYCartas.TipoFigura;
 import pokerApp.usuarios.Jugador;
@@ -121,5 +122,14 @@ public class Fachada {
     public float calcularMontoTotalRecaudado(){
         return sistemaMesa.calcularMontoTotalRecaudado();
     }
+
+    public void precargarFiguras() {
+        sistemaFiguras.precargarFiguras();
+    }
+
+    public TipoFigura determinarFigura(List<Carta> cartas) {
+        return sistemaFiguras.determinarFigura(cartas);
+    }
+    
     
 }

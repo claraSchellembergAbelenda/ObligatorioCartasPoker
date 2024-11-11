@@ -22,13 +22,4 @@ public class Sesion {
         return fechaIngreso;
     }
 
-    // Verifica si el usuario es administrador
-    public boolean esAdministrador() {
-        return usuario instanceof Administrador;
-    }
-
-    // Verifica si el usuario es jugador
-    public boolean esJugador() {
-        return usuario instanceof Jugador;
-    }
 }

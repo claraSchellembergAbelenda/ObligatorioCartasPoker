@@ -83,7 +83,7 @@ public class SistemaMesa {
 
     // Finalizar una mesa
     public void finalizarMesa(Mesa mesa) {
-        mesa.setEstado("Finalizada");
+        mesa.setEstadoPartida(EstadoPartida.FINALIZADA);
         calcularPozoTotal(mesa);
         determinarGanadorFinal(mesa);
     }
@@ -171,7 +171,7 @@ public void calcularPozoTotal(Mesa mesa) {
         detalles.add("Cantidad de jugadores requeridos: " + mesa.getCantidadJugadoresRequeridos());
         detalles.add("Valor de la apuesta base: " + mesa.getApuestaBase());
         detalles.add("Cantidad actual de jugadores: " + mesa.getCantidadJugadoresActual());
-        detalles.add("Número de mano actual: " + mesa.getNumeroManoActual());
+        detalles.add("Número de mano actual: " + mesa.getManoActual().getNumeroMano());
         detalles.add("Monto total apostado en la mesa: " + mesa.getMontoTotalApostado());
         detalles.add("Porcentaje de comisión de la mesa: " + mesa.getComision());
         detalles.add("Monto total recaudado: " + mesa.getMontoTotalRecaudado());

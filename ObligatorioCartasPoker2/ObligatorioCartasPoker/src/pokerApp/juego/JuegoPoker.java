@@ -1,20 +1,24 @@
 package pokerApp.juego;
 
+import estados.EstadoMano;
 import java.util.ArrayList;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
 import estados.EstadoPartida;
+import pokerApp.Exceptions.ManoException;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.figurasYCartas.Carta;
 import pokerApp.figurasYCartas.Mazo;
 
 public class JuegoPoker {
     private Mesa mesa;
+    private Mano mano;
     private Mazo mazo;
     
     public JuegoPoker(Mesa mesa) {
         this.mesa = mesa;
         this.mazo = mesa.getMazo();
+        this.mano = mesa.getManoActual();
     }
 
     public Mesa getMesa() {
@@ -24,13 +28,14 @@ public class JuegoPoker {
 //hay metodos repetidos o distintos que hacen lo mismo arreglarlos
     public void iniciarJuego() {
         if (mesa.getEstadoPartida().ABIERTA != EstadoPartida.ABIERTA) {
-            System.out.println("Esperando inicio del juego, hay " + mesa.getJugadoresActuales() 
-                               + " jugadores de " + mesa.getJugadoresRequeridos() + " en la mesa.");
+            System.out.println("Esperando inicio del juego, hay " + mesa.getJugadoresEnMesa()
+                               + " jugadores de " + mesa.getCantidadJugadoresRequeridos() + " en la mesa.");
         } else {
             System.out.println("El juego ha comenzado en la mesa " + mesa.getNumeroMesa());
-            mesa.iniciarNuevaMano();
+            
             //cambiar el estado de la mesa.
-            repartirCartas();
+            mesa.descontarSaldo();
+            mesa.iniciarNuevaMano();
         }
     }
 
@@ -66,7 +71,10 @@ public class JuegoPoker {
     }
 
     public boolean mesaEstaIniciada() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        if(mesa.getEstadoPartida()!=EstadoPartida.JUGANDO){
+            return false;
+        }
+        return true;
     }
 
     public void abandonarMesa() {
@@ -85,17 +93,27 @@ public class JuegoPoker {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    public void iniciarApuesta(float monto) throws UsuarioException{
+    public void iniciarApuesta(float monto) throws UsuarioException, ManoException{
+        
         Jugador jugador = mesa.getJugadorActual(); 
 // Suponiendo que obtienes el jugador actual de la mesa
-
+            if(mano.getEstadoMano()!=EstadoMano.ESPERANDO_APUESTA){
+                throw new ManoException("No es posible realizar una apuesta en este momento");
+            }
             jugador.tieneSaldoSuficiente(monto);
             jugador.descontarSaldo(monto);
             mesa.incrementarPozo(monto); // Incrementa el pozo de la mesa con el monto apostado
             // Saldo insuficiente
         
     }
-    
 
-    
+    public void iniciarMano() throws UsuarioException{
+        if(mesa.getCantidadJugadoresActual()==mesa.getCantidadJugadoresRequeridos()){
+            mesa.validarSaldos();
+            
+            mesa.iniciarNuevaMano();
+        }
+    }
+
+
 }

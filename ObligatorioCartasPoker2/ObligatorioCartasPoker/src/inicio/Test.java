@@ -2,6 +2,7 @@
 package inicio;
 
 import pokerApp.Fachada.Fachada;
+import pokerApp.iuJuego.PanelDeCartas;
 import pokerApp.uiUsuariosYLogin.Login;
 import pokerApp.uiUsuariosYLogin.LoginAdministrador;
 import pokerApp.usuarios.LoginJugador;
@@ -13,7 +14,8 @@ public class Test {
  
     public static void main(String[] args){
         DatosPrueba.cargar();
-        LoginJugador login = new LoginJugador(null, false, Fachada.getInstancia());
-        login.setVisible(true);
+        Principal principal = new Principal();
+        principal.setVisible(true);
+        
     }
 }

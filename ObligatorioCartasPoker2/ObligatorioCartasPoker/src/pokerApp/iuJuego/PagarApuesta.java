@@ -1,5 +1,5 @@
 
-package pokerApp.iu;
+package pokerApp.iuJuego;
 
 import pokerApp.usuarios.Jugador;
 

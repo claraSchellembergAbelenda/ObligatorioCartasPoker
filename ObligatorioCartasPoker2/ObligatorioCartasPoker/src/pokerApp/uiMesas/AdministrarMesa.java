@@ -167,7 +167,7 @@ DefaultTableModel model = (DefaultTableModel) tblListarMesas.getModel();
             mesa.getCantidadJugadoresRequeridos(),
             mesa.getApuestaBase(),
             mesa.getCantidadJugadoresActual(),
-            mesa.getNumeroManoActual(),
+            mesa.getManoActual().getNumeroMano(),
             mesa.getMontoTotalApostado(),
             mesa.getComision(),
             mesa.getMontoTotalRecaudado(),

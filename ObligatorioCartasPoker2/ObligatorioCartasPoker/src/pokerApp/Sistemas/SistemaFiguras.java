@@ -12,7 +12,8 @@ public class SistemaFiguras {
         precargarFiguras();
     }
 
-    private void precargarFiguras() {
+    public void precargarFiguras() {
+        figuras.clear();
         figuras.add(new Poker());
         figuras.add(new Escalera());
         figuras.add(new Pierna());

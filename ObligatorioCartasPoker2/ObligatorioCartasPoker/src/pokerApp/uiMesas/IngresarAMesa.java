@@ -6,6 +6,7 @@ import java.util.List;
 import pokerApp.Exceptions.MesaException;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.Fachada.Fachada;
+import pokerApp.iuJuego.SalaEsperaPoker;
 import pokerApp.juego.Mesa;
 import pokerApp.usuarios.Jugador;
 import pokerApp.usuarios.Sesion;
@@ -128,7 +129,16 @@ public class IngresarAMesa extends javax.swing.JDialog {
 
     private void btnIngresarAMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarAMesaActionPerformed
         try{
-            Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
+            mesaSeleccionada=(Mesa) lstMesasAbiertas.getSelectedValue();
+            if(mesaSeleccionada!=null){
+                Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
+                SalaEsperaPoker salaEspera = new SalaEsperaPoker(null, false, mesaSeleccionada
+                        , jugador);
+                salaEspera.setVisible(true);
+                dispose();
+            }else{
+                lblRespuestaIngreso.setText("no selecciono una mesa");
+            }
             
         }catch(UsuarioException ue){
             lblRespuestaIngreso.setText("Error: "+ ue.getMessage());

@@ -19,7 +19,8 @@ public class Escalera extends TipoFigura {
             valores.add(carta.getValorCarta());
         }
 
-        // Ordenamos los valores de las cartas en orden ascendente usando un simple algoritmo de ordenamiento
+        // Ordenamos los valores de las cartas en orden ascendente usando un
+        //simple algoritmo de ordenamiento
         ordenarValores(valores);
 
         // Comprobamos si los valores están en secuencia

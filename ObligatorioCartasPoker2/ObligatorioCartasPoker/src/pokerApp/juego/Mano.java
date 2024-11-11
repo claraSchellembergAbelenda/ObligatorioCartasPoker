@@ -24,11 +24,11 @@ public class Mano {
     private List<List<Carta>> cartasPorJugador;  // Cartas asignadas para cada jugador
 
 
-    public Mano(ArrayList<Figura> figurasJugadas, float pozoApuestas, int numeroMano) {
+    public Mano(ArrayList<Figura> figurasJugadas, int numeroMano) {
         this.figurasJugadas = figurasJugadas;
-        this.pozoApuestas = pozoApuestas;
+        this.pozoApuestas = 0;
         this.numeroMano = numeroMano;
-        this.estadoMano=EstadoMano.PIDIENDO_CARTAS;
+        this.estadoMano=EstadoMano.ESPERANDO_APUESTA;
     }
 
 // Constructor que recibe la lista de jugadoresEnMano y crea las listas necesarias
@@ -55,8 +55,8 @@ public class Mano {
         return pozoApuestas;
     }
 
-    public void setPozoApuestas(float pozoApuestas) {
-        this.pozoApuestas = pozoApuestas;
+    public void incrementarPozoApuestas(float pozoApuestas) {
+        this.pozoApuestas += pozoApuestas;
     }
 
     public int getNumeroMano() {
