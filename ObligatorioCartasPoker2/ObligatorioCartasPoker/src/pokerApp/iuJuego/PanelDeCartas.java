@@ -286,7 +286,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     }//GEN-LAST:event_btnCambiarCartasActionPerformed
 
     private void btnAbandonarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbandonarMesaActionPerformed
-        juegoPoker.abandonarMesa();
+        juegoPoker.abandonarMesa(jugador);
         lblMensaje.setText("Has abandonado la mesa.");
         this.dispose(); // Cierra la ventana
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed

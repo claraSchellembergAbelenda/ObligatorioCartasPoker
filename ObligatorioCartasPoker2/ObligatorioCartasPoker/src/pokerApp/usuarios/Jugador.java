@@ -80,18 +80,14 @@ public class Jugador extends Usuario implements Observador{
     }
 
 
-    public void tieneSaldoSuficiente(float monto) throws UsuarioException{
-        if(this.getSaldo()<monto){
-            throw new UsuarioException("Saldo insuficiente");
-        }
+    public boolean tieneSaldoSuficiente(float monto) {
+        return saldo >= monto;
     }
 
     public void descontarSaldo(float monto) {
         this.saldo-=monto;
     }
 
-    
-    //implementaciones para jugar al poker 
     
         // Método para realizar la apuesta, disminuyendo el saldo
         public void realizarApuesta(float monto) throws UsuarioException {
@@ -107,6 +103,28 @@ public class Jugador extends Usuario implements Observador{
         if (this.saldo < monto) {
             throw new UsuarioException("Saldo insuficiente para la apuesta.");
         }
+    }
+
+
+        // Método para aumentar el saldo del jugador (por ejemplo, al ganar una ronda)
+    public void aumentarSaldo(float montoTotalApostado) {
+        this.saldo += montoTotalApostado;
+        System.out.println(getNombreCompleto() + " ha ganado " + montoTotalApostado + " y su nuevo saldo es " + saldo);
+    }
+
+    public void cambiarCartas(ArrayList<Carta> cartasACambiar, ArrayList<Carta> nuevasCartas) {
+        if (cartasACambiar.size() != nuevasCartas.size()) {
+            System.out.println("Error: el número de cartas a cambiar y las nuevas cartas deben coincidir.");
+            return;
+        }
+
+        for (int i = 0; i < cartasACambiar.size(); i++) {
+            int index = cartas.indexOf(cartasACambiar.get(i));
+            if (index != -1) {
+                cartas.set(index, nuevasCartas.get(i)); // Reemplaza la carta en la posición correcta
+            }
+        }
+        System.out.println(getNombreCompleto() + " ha cambiado sus cartas.");
     }
     
     

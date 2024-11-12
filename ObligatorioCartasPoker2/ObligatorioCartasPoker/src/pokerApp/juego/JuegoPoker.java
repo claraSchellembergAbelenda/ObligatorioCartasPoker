@@ -25,17 +25,16 @@ public class JuegoPoker {
         return mesa;
     }
 
-//hay metodos repetidos o distintos que hacen lo mismo arreglarlos
     public void iniciarJuego() {
         if (mesa.getEstadoPartida() != EstadoPartida.ABIERTA) {
-            System.out.println("Esperando inicio del juego, hay " + mesa.getJugadoresEnMesa()
+            System.out.println("Esperando inicio del juego, hay " + mesa.getJugadoresEnMesa().size()
                                + " jugadores de " + mesa.getCantidadJugadoresRequeridos() + " en la mesa.");
         } else {
             System.out.println("El juego ha comenzado en la mesa " + mesa.getNumeroMesa());
-            
-            //cambiar el estado de la mesa.
+            mesa.setEstadoPartida(EstadoPartida.JUGANDO);  // Cambia el estado de la mesa a 'Jugando'
             mesa.descontarSaldo();
             mesa.iniciarNuevaMano();
+            repartirCartas(); // Repartir cartas al comenzar la primera mano
         }
     }
 
@@ -59,34 +58,47 @@ public class JuegoPoker {
     }
 
     public void finalizarMano() {
-        // Lógica para determinar el ganador y redistribuir el pozo
         Jugador ganador = determinarGanador();
-        System.out.println("El ganador es " + ganador.getNombre() + " con un pozo de $" + mesa.getMontoTotalApostado());
-        //en el sout aca va un get Pozo, pero monto total apostado seria el pozo no?
+        if (ganador != null) {
+            System.out.println("El ganador es " + ganador.getNombre() + " con un pozo de $" + mesa.getMontoTotalApostado());
+            ganador.aumentarSaldo(mesa.getMontoTotalApostado());
+            mesa.setMontoTotalApostado(0);
+        } else {
+            System.out.println("No se ha determinado un ganador para esta mano.");
+        }
     }
 
     private Jugador determinarGanador() {
-        // Lógica para determinar el ganador de la mano
+        if (mesa.getManoActual() != null) {
+            return mesa.getManoActual().determinarGanador();  // Llamada al método `determinarGanador` en la clase `Mano`
+        }
         return null;
     }
 
     public boolean mesaEstaIniciada() {
-        if(mesa.getEstadoPartida()!=EstadoPartida.JUGANDO){
-            return false;
+        return mesa.getEstadoPartida() == EstadoPartida.JUGANDO;
+    }
+
+    public void abandonarMesa(Jugador jugador) {
+        mesa.removerJugador(jugador);
+        System.out.println(jugador.getNombre() + " ha abandonado la mesa.");
+    }
+
+    public void cambiarCartas(Jugador jugador, ArrayList<Carta> cartasACambiar) {
+        ArrayList<Carta> nuevasCartas = mazo.sacarCartas(cartasACambiar.size());
+        jugador.cambiarCartas(cartasACambiar, nuevasCartas); // Asume que el jugador tiene un método `cambiarCartas`
+        System.out.println(jugador.getNombre() + " ha cambiado " + cartasACambiar.size() + " cartas.");
+    }
+
+    public boolean pagarApuesta(Jugador jugador, double monto) throws UsuarioException {
+        float montoApuesta = (float) monto;  // Convertimos monto a float si es necesario
+        if (jugador.tieneSaldoSuficiente(montoApuesta)) {
+            jugador.descontarSaldo(montoApuesta);
+            mesa.incrementarPozo(montoApuesta);
+            System.out.println(jugador.getNombre() + " ha pagado una apuesta de $" + montoApuesta);
+            return true;
         }
-        return true;
-    }
-
-    public void abandonarMesa() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    public void cambiarCartas(int cartasACambiar) {
-        mazo.sacarCartas(cartasACambiar);
-    }
-
-    public boolean pagarApuesta(double monto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return false;
     }
 
     public double getMontoApuesta() {
@@ -107,13 +119,15 @@ public class JuegoPoker {
         
     }
 
-    public void iniciarMano() throws UsuarioException{
-        if(mesa.getCantidadJugadoresActual()==mesa.getCantidadJugadoresRequeridos()){
-            mesa.validarSaldos();
-            
-            mesa.iniciarNuevaMano();
+    public void iniciarMano() throws UsuarioException {
+            if (mesa.getCantidadJugadoresActual() == mesa.getCantidadJugadoresRequeridos()) {
+                mesa.validarSaldos();
+                mesa.iniciarNuevaMano();
+                repartirCartas();
+            } else {
+                System.out.println("No hay suficientes jugadores para iniciar la mano.");
+            }
         }
-    }
 
 
 }
