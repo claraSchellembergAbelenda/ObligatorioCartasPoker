@@ -15,7 +15,7 @@ public class Mazo {
     }
 
     // Método que precarga las 52 cartas en el mazo
-    public void precargarCartas() {
+    private void precargarCartas() {
         String[] palos = {"Corazón", "Diamante", "Trébol", "Pique"};
         int[] valores = {14, 13, 12, 11, 10, 9, 8, 7, 6, 5,4,3,2};
 
@@ -39,7 +39,7 @@ public class Mazo {
         }
     }
     
-    public void barajarCartas(){
+    private void barajarCartas(){
         Collections.shuffle(cartas);
     }
     

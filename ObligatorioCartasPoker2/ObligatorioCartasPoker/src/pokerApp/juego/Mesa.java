@@ -245,7 +245,7 @@ public class Mesa extends Observable{
     public void iniciarNuevaMano() {
             estadoPartida = EstadoPartida.JUGANDO;
             Mano nuevaMano = new Mano(jugadoresEnMesa);
-            nuevaMano.repartirCartas(mazo.getCartas());
+            nuevaMano.repartirCartas();
             nuevaMano.setEstadoMano(EstadoMano.ESPERANDO_APUESTA);
             manosJugadas.add(nuevaMano);
             avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)

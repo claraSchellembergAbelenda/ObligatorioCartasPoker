@@ -2,6 +2,7 @@
 package pokerApp.uiMesas;
 
 import java.util.ArrayList;
+import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import pokerApp.Fachada.Fachada;
@@ -10,11 +11,13 @@ import pokerApp.juego.Mesa;
 public class AdministrarMesa extends javax.swing.JDialog {
 
     
-    private ArrayList<Mesa> mesas;
+    private ArrayList<Mesa> mesas=new ArrayList<>();
+    private boolean cargandoComboMesas=false;
     
     public AdministrarMesa(java.awt.Frame parent, boolean modal, ArrayList<Mesa> mesas) {
         super(parent, modal);
-        this.mesas=mesas;
+        //this.mesas=mesas;
+        this.mesas=Fachada.getInstancia().getMesas();
         initComponents();
         CargarDatosEnLista();
         CargarCombo();
@@ -71,7 +74,6 @@ public class AdministrarMesa extends javax.swing.JDialog {
                     .addGroup(layout.createSequentialGroup()
                         .addGap(67, 67, 67)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnCrearMesa)
                             .addComponent(lblMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(lblMontoTotalRecaudado)
@@ -80,9 +82,12 @@ public class AdministrarMesa extends javax.swing.JDialog {
                                     .addComponent(lblMesas2)
                                     .addComponent(cmbMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(38, 38, 38)
-                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 428, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(39, Short.MAX_VALUE))
+                        .addGap(63, 63, 63)
+                        .addComponent(btnCrearMesa))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(14, 14, 14)
+                        .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 597, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addContainerGap(26, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -96,23 +101,22 @@ public class AdministrarMesa extends javax.swing.JDialog {
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 232, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 28, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addGap(18, 18, 18)
                 .addComponent(btnCrearMesa)
-                .addGap(34, 34, 34))
+                .addContainerGap())
         );
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
     private void cmbMesasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_cmbMesasActionPerformed
-
-        Mesa selectedItem =(Mesa) cmbMesas.getSelectedItem();
-        Mesa selectedMesa = (Mesa) selectedItem;
-        MostrarManosJugadas mostrarManos = new MostrarManosJugadas(null, false, selectedMesa);
-        mostrarManos.setVisible(true);
-   
-        // TODO add your handling code here:
+        if(!cargandoComboMesas){
+            Mesa selectedItem =(Mesa) cmbMesas.getSelectedItem();
+            Mesa selectedMesa = (Mesa) selectedItem;
+            MostrarManosJugadas mostrarManos = new MostrarManosJugadas(null, false, selectedMesa);
+            mostrarManos.setVisible(true);
+        }
     }//GEN-LAST:event_cmbMesasActionPerformed
 
     private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
@@ -150,43 +154,50 @@ public class AdministrarMesa extends javax.swing.JDialog {
     private javax.swing.JList lstMesas;
     // End of variables declaration//GEN-END:variables
 
-    private void CargarDatosEnLista() {
-        DefaultListModel<String> model = new DefaultListModel<>();
+    public void CargarDatosEnLista() {
     
-        // Itera sobre las mesas y añade los datos en el modelo de la lista
+        List <String> datosMesas= new ArrayList<String>();
         for (Mesa mesa : mesas) {
-            // Crea una representación de texto para cada mesa con sus atributos
-            String row = String.format(
-                "Mesa %d - Jugadores Req: %d, Apuesta Base: %.2f, Jugadores Act: %d, Mano: %d, Apostado: %.2f, Comisión: %.2f, Recaudado: %.2f, Estado: %s",
-                mesa.getNumeroMesa(),
-                mesa.getCantidadJugadoresRequeridos(),
-                mesa.getApuestaBase(),
-                mesa.getCantidadJugadoresActual(),
-                mesa.getNumeroManoActual(),
-                mesa.getMontoTotalApostado(),
-                mesa.getComision(),
-                mesa.getMontoTotalRecaudado(),
-                mesa.getEstadoPartida()
-            );
-
-            // Añade la representación de texto de la mesa al modelo de la lista
-            model.addElement(row);
-               // Asigna el modelo al JList
-            lstMesas.setModel(model);
-
-            // Actualiza el texto de lblMontoTotalRecaudado
-            lblMontoTotalRecaudado.setText("Monto total recaudado: " + Fachada.getInstancia().calcularMontoTotalRecaudado());
-
+            //num mesa, cant Jugadores Req, Apuesta Base Jugadores Act:Mano, Apostado
+            //Comisión, Recaudado Estado
+            datosMesas.add("numero de mesa: "+ mesa.getNumeroMesa()+
+                    " Cantidad de jugadores req: "+
+            mesa.getCantidadJugadoresRequeridos()+
+                    " Apuesta base: "+
+            mesa.getApuestaBase()+
+                    " Cantidad de jugadores actual: "+
+            mesa.getCantidadJugadoresActual()+
+                    " Mano actual: "+
+            mesa.getNumeroManoActual()+
+                    " Monto total apostado: "+
+            mesa.getMontoTotalApostado()+
+                    " Comisión"+
+            mesa.getComision()+
+                    " Monto total recaudado: "+
+            mesa.getMontoTotalRecaudado()+
+                    " Estado de partida: "+
+            mesa.getEstadoPartida());
+        
         }
+    
+             // Ahora actualizamos el JList con los datos
+             lstMesas.setListData(datosMesas.toArray());
+
+             // Actualiza el texto de lblMontoTotalRecaudado
+            //lblMontoTotalRecaudado.setText("Monto total recaudado: " + Fachada.getInstancia().calcularMontoTotalRecaudado());
+
+        
     
     }
         
 
     public void CargarCombo() {
+        cargandoComboMesas=true;
         cmbMesas.removeAllItems();
         for (Mesa mesa : mesas) {
             cmbMesas.addItem(mesa);
         }
+        cargandoComboMesas=false;
     }
     
     //cuando aprieto crear mesa esto deberia actualizar e combo.

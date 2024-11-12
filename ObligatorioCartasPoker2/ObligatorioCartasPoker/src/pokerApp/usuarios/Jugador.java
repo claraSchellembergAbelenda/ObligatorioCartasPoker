@@ -126,6 +126,10 @@ public class Jugador extends Usuario implements Observador{
         }
         System.out.println(getNombreCompleto() + " ha cambiado sus cartas.");
     }
+
+    public void agregarCarta(Carta carta) {
+        this.cartas.add(carta);
+    }
     
     
     

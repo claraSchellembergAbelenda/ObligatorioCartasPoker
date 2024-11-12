@@ -16,9 +16,10 @@ import pokerApp.Fachada.Fachada;
 import pokerApp.figurasYCartas.Carta;
 import pokerApp.figurasYCartas.TipoFigura;
 import pokerApp.juego.Mesa;
+import pokerApp.listeners.ApuestaListener;
 import pokerApp.usuarios.Jugador;
 
-public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener {
+public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener, ApuestaListener {
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
@@ -233,14 +234,12 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     private void btnIniciarApuestaActionPerformed(java.awt.event.ActionEvent evt) {                                                  
 
         IniciarApuesta iniciarApuesta = new IniciarApuesta(this, false, jugador);
-        iniciarApuesta.setApuestaListener(monto -> {
-            procesarApuesta(monto); // Procesar el monto recibido
-        });
+        iniciarApuesta.setApuestaListener(this);
         iniciarApuesta.setVisible(true);
 
     
     }
-    public void procesarApuesta(float montoApuesta){
+    public void apuestaIngresada(float montoApuesta){
         try {
                 juegoPoker.iniciarApuesta(montoApuesta);
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
