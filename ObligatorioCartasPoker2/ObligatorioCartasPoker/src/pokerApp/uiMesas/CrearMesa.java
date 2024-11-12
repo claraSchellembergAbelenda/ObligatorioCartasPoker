@@ -1,7 +1,6 @@
 
 package pokerApp.uiMesas;
 
-import javax.swing.JOptionPane;
 import pokerApp.Exceptions.MesaException;
 import pokerApp.Fachada.Fachada;
 
@@ -41,6 +40,7 @@ public class CrearMesa extends javax.swing.JDialog {
         lblPorcentajeComision = new javax.swing.JLabel();
         txtPorcentajeComision = new javax.swing.JTextField();
         btnCrearMesa = new javax.swing.JButton();
+        lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -69,27 +69,31 @@ public class CrearMesa extends javax.swing.JDialog {
             }
         });
 
+        lblMensaje.setText("Aqui se vera un mensaje");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
                 .addGap(47, 47, 47)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                     .addComponent(btnCrearMesa)
-                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                        .addComponent(lblPorcentajeComision)
-                        .addComponent(lblMontoBase)
-                        .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(txtNumeroJugadores)
-                        .addComponent(txtMontoBase)
-                        .addComponent(txtPorcentajeComision)))
+                    .addComponent(lblPorcentajeComision)
+                    .addComponent(lblMontoBase)
+                    .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                    .addComponent(txtNumeroJugadores)
+                    .addComponent(txtMontoBase)
+                    .addComponent(txtPorcentajeComision)
+                    .addComponent(lblMensaje, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
                 .addContainerGap(208, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(47, 47, 47)
+                .addContainerGap()
+                .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel1)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(txtNumeroJugadores, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
@@ -124,7 +128,7 @@ public class CrearMesa extends javax.swing.JDialog {
         float porcentajeComision = Float.parseFloat(txtPorcentajeComision.getText());
         try{
         Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
-        JOptionPane.showMessageDialog(this, "Mesa creada con exito");
+        lblMensaje.setText( "Mesa creada con exito");
             // Llama a actualizarMesas en AdministrarMesa para refrescar el combo
             if (administrarMesa != null) {
                 administrarMesa.actualizarMesas(); 
@@ -132,11 +136,9 @@ public class CrearMesa extends javax.swing.JDialog {
         }catch(MesaException me){
             // Recuerde que puede mostrar mensajes al usuario utilizando por 
 //            ejemplo etiquetas, barras de estado o áreas de texto específicas para mensajes.  
-            JOptionPane.showMessageDialog(
-                    this,
-                    me.getMessage(),
-                    "Error",
-                    JOptionPane.ERROR_MESSAGE);
+            lblMensaje.setText(
+                    "Error: "+
+                    me.getMessage());
         }
 
         
@@ -187,6 +189,7 @@ public class CrearMesa extends javax.swing.JDialog {
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearMesa;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblMontoBase;
     private javax.swing.JLabel lblPorcentajeComision;
     private javax.swing.JTextField txtMontoBase;

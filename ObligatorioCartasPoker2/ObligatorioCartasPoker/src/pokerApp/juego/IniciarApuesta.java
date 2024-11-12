@@ -1,7 +1,6 @@
 
 package pokerApp.juego;
 
-import javax.swing.JOptionPane;
 import pokerApp.listeners.ApuestaListener;
 import pokerApp.usuarios.Jugador;
 
@@ -18,6 +17,7 @@ public class IniciarApuesta extends javax.swing.JDialog {
         initComponents();
         apuesta = 0; // Inicializa la apuesta
         this.jugador=jugador;
+        
 
     }
     public IniciarApuesta(java.awt.Frame parent, boolean modal) {

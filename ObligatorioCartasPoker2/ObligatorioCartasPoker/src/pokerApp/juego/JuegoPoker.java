@@ -27,7 +27,7 @@ public class JuegoPoker {
 
 //hay metodos repetidos o distintos que hacen lo mismo arreglarlos
     public void iniciarJuego() {
-        if (mesa.getEstadoPartida().ABIERTA != EstadoPartida.ABIERTA) {
+        if (mesa.getEstadoPartida() != EstadoPartida.ABIERTA) {
             System.out.println("Esperando inicio del juego, hay " + mesa.getJugadoresEnMesa()
                                + " jugadores de " + mesa.getCantidadJugadoresRequeridos() + " en la mesa.");
         } else {

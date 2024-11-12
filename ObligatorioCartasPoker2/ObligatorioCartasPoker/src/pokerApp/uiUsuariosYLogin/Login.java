@@ -1,7 +1,6 @@
 package pokerApp.uiUsuariosYLogin;
 
 import java.awt.Color;
-import javax.swing.JOptionPane;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.usuarios.Sesion;
 import pokerApp.Fachada.Fachada;

@@ -7,7 +7,6 @@ import java.util.Vector;
 import javax.swing.DefaultListModel;
 import pokerApp.juego.IniciarApuesta;
 import pokerApp.juego.JuegoPoker;
-import javax.swing.JOptionPane;
 import panelCartasPoker.CartaPoker;
 import panelCartasPoker.PanelCartasListener;
 import panelCartasPoker.PanelCartasPokerException;
@@ -247,7 +246,6 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
                 actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
 
-                // Mostrar el pozo actual en un JOptionPane
                 double pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
                 lblMensaje.setText( "El pozo actual es: $" + pozoActual);
                 actializarSaldoJugador();
@@ -289,7 +287,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
 
     private void btnAbandonarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbandonarMesaActionPerformed
         juegoPoker.abandonarMesa();
-        JOptionPane.showMessageDialog(this, "Has abandonado la mesa.");
+        lblMensaje.setText("Has abandonado la mesa.");
         this.dispose(); // Cierra la ventana
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed
 
@@ -304,7 +302,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         // Por ejemplo:
         Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
         double pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
-        JOptionPane.showMessageDialog(this, "El pozo actual es: $" + pozo, "Pozo Actual", JOptionPane.INFORMATION_MESSAGE);
+        lblMensaje.setText("El pozo actual es: $" + pozo);
     }
 
 public static void main(String[] args) {
@@ -342,7 +340,7 @@ public static void main(String[] args) {
 
    @Override
     public void clickEnCarta(CartaPoker carta) {
-        JOptionPane.showMessageDialog(this, carta.toString(), "Click en carta", JOptionPane.INFORMATION_MESSAGE);
+        lblMensaje.setText("Click en carta");
     }
         
     public void cargarCartasEnPanel(List<Carta> cartas) {
@@ -388,7 +386,7 @@ public static void main(String[] args) {
     try {
         panelCartasPoker.cargarCartas(cartasPoker);
     } catch (PanelCartasPokerException ex) {
-        JOptionPane.showMessageDialog(this, ex.getMessage(), "Error al cargar cartas", JOptionPane.ERROR_MESSAGE);
+        lblMensaje.setText("Error al cargar cartas");
     }
 }
 

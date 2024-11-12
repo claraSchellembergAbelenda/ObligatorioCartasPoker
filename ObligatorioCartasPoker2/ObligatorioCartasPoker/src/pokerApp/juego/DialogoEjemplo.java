@@ -1,7 +1,6 @@
 package pokerApp.juego;
 
 import java.util.ArrayList;
-import javax.swing.JOptionPane;
 import panelCartasPoker.CartaPoker;
 import panelCartasPoker.PanelCartasListener;
 import panelCartasPoker.PanelCartasPokerException;
@@ -23,7 +22,7 @@ public class DialogoEjemplo extends javax.swing.JDialog implements PanelCartasLi
     private void initComponents() {
 
         panelCartasPoker1 = new panelCartasPoker.PanelCartasPoker();
-        jLabel1 = new javax.swing.JLabel();
+        lblMensaje = new javax.swing.JLabel();
         habilitarPanel = new javax.swing.JCheckBox();
         checkListener = new javax.swing.JCheckBox();
 
@@ -33,9 +32,9 @@ public class DialogoEjemplo extends javax.swing.JDialog implements PanelCartasLi
         getContentPane().add(panelCartasPoker1);
         panelCartasPoker1.setBounds(41, 92, 910, 257);
 
-        jLabel1.setText("EL PANEL ES EL QUE ESTA AQUI ABAJO :=)");
-        getContentPane().add(jLabel1);
-        jLabel1.setBounds(393, 33, 270, 16);
+        lblMensaje.setText("EL PANEL ES EL QUE ESTA AQUI ABAJO :=)");
+        getContentPane().add(lblMensaje);
+        lblMensaje.setBounds(393, 33, 270, 16);
 
         habilitarPanel.setSelected(true);
         habilitarPanel.setText("Habilitar Panel");
@@ -76,7 +75,7 @@ public class DialogoEjemplo extends javax.swing.JDialog implements PanelCartasLi
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JCheckBox checkListener;
     private javax.swing.JCheckBox habilitarPanel;
-    private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel lblMensaje;
     private panelCartasPoker.PanelCartasPoker panelCartasPoker1;
     // End of variables declaration//GEN-END:variables
 
@@ -84,7 +83,7 @@ public class DialogoEjemplo extends javax.swing.JDialog implements PanelCartasLi
         try {
             panelCartasPoker1.cargarCartas(cartas);
         } catch (PanelCartasPokerException ex) {
-             JOptionPane.showMessageDialog(this, ex.getMessage(), "ERROR",JOptionPane.ERROR_MESSAGE);
+            lblMensaje.setText("Error: "+ ex.getMessage());
         }
    }
       
@@ -92,6 +91,6 @@ public class DialogoEjemplo extends javax.swing.JDialog implements PanelCartasLi
 
     @Override
     public void clickEnCarta(CartaPoker carta) {
-        JOptionPane.showMessageDialog(this, carta.toString(), "Click en carta",JOptionPane.INFORMATION_MESSAGE);
+        lblMensaje.setText( carta.toString());
     }
 }
