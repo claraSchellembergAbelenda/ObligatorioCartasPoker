@@ -43,7 +43,7 @@ public class Mesa extends Observable{
         this.montoTotalApostado = 0;
         this.montoTotalRecaudado = 0;
         this.cantidadJugadoresActual = 0;
-        this.manoActual=null;
+        this.manoActual = new Mano(jugadoresEnMesa); // Inicializamos una mano inicial
     }
 
     
@@ -113,6 +113,9 @@ public class Mesa extends Observable{
 
     public Mano getManoActual() {
         return manoActual;
+    }
+    public int getNumeroManoActual(){
+        return manoActual.getNumeroManoActual();
     }
 
    
@@ -232,6 +235,7 @@ public class Mesa extends Observable{
     public void iniciarMesa() {
         if (cantidadJugadoresActual == cantidadJugadoresRequeridos) {
             estadoPartida = EstadoPartida.JUGANDO;
+            iniciarNuevaMano();
             System.out.println("La mesa " + numeroMesa + " ha sido iniciada.");
         } else {
             System.out.println("La mesa no puede ser iniciada. Jugadores insuficientes.");
@@ -239,16 +243,13 @@ public class Mesa extends Observable{
     }
     //metodo actualizado con validaciones
     public void iniciarNuevaMano() {
-        if (cantidadJugadoresActual >= cantidadJugadoresRequeridos) {
             estadoPartida = EstadoPartida.JUGANDO;
             Mano nuevaMano = new Mano(jugadoresEnMesa);
             nuevaMano.repartirCartas(mazo.getCartas());
             nuevaMano.setEstadoMano(EstadoMano.ESPERANDO_APUESTA);
             manosJugadas.add(nuevaMano);
             avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)
-        } else {
-            System.out.println("No hay suficientes jugadores para iniciar la mano.");
-        }
+        
     }
 
 
@@ -294,22 +295,24 @@ public class Mesa extends Observable{
     }
     
     
-    public void pracargaManos(){
-    //queda por terminar porque quiero hablar el tema del constructor de mano
-    // Suponiendo que las manos tienen un número, un pozo de apuestas, jugadores, etc.
-    for (int i = 1; i <= 3; i++) { // Precarga de 3 manos para el ejemplo
-        Mano mano = new Mano(jugadoresEnMesa); // Constructor puede ajustarse
-        mano.setNumeroMano(i);
-        mano.incrementarPozoApuestas(apuestaBase * i); // Ejemplo de pozo de apuestas incrementado
-        mano.setCantJugadores(jugadoresEnMesa.size());
-        mano.setEstadoMano(EstadoMano.TERMINADA); // Estado de la mano
-        if (!jugadoresEnMesa.isEmpty()) {
-            mano.setJugadorGanador(jugadoresEnMesa.get(0)); // Suponiendo un ganador de ejemplo
+    public void pracargaManos() {
+        for (int i = 1; i <= 3; i++) { // Precarga de 3 manos para el ejemplo
+            Mano mano = new Mano(jugadoresEnMesa); // Constructor puede ajustarse
+            mano.setNumeroMano(i);
+            mano.incrementarPozoApuestas(apuestaBase * i);
+            mano.setCantJugadores(jugadoresEnMesa.size());
+            mano.setEstadoMano(EstadoMano.TERMINADA);
+            if (!jugadoresEnMesa.isEmpty()) {
+                mano.setJugadorGanador(jugadoresEnMesa.get(0));
+            }
+            manosJugadas.add(mano);
         }
-        manosJugadas.add(mano); // Añade la mano a la lista de manos jugadas
+        // Asignar la última mano creada como la actual
+        if (!manosJugadas.isEmpty()) {
+            manoActual = manosJugadas.get(manosJugadas.size() - 1);
+        }
     }
-    }
-    
+
     public void validarMesa ()throws MesaException{
         if(this.cantidadJugadoresRequeridos<2 || this.cantidadJugadoresRequeridos>5){
             throw new MesaException("No puede ingresar menos de 2 jugadores requeridos ni mas de 5");
@@ -337,15 +340,7 @@ public class Mesa extends Observable{
     }
 
 
-    //Sesion 
-    public Jugador getJugadorActual() {
-        if (jugadoresEnMesa != null && !jugadoresEnMesa.isEmpty()) {
-        // Suponiendo que el primer jugador en la lista es el actual
-        return jugadoresEnMesa.get(0); 
-        }
-        throw new IllegalStateException("No hay jugadores en la mesa.");
-        //excepcion de java, hace una y personalizarla
-    }
+    
 
     public void validarSaldos() throws UsuarioException{
         for (Jugador jugador : jugadoresEnMesa) {

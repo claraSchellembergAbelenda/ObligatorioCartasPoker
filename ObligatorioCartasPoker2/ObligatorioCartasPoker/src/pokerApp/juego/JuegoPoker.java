@@ -95,8 +95,8 @@ public class JuegoPoker {
 
     public void iniciarApuesta(float monto) throws UsuarioException, ManoException{
         
-        Jugador jugador = mesa.getJugadorActual(); 
-// Suponiendo que obtienes el jugador actual de la mesa
+        Jugador jugador = mano.getJugadorActual(); 
+        // Suponiendo que obtienes el jugador actual de la mesa
             if(mano.getEstadoMano()!=EstadoMano.ESPERANDO_APUESTA){
                 throw new ManoException("No es posible realizar una apuesta en este momento");
             }

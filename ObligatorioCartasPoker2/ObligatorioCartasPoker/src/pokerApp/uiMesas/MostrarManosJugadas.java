@@ -24,6 +24,7 @@ public class MostrarManosJugadas extends javax.swing.JDialog {
         this.mesaSeleccionada=(Mesa)selectedItem;
         initComponents();
         cargarDatosEnTabla();
+        setTitle("Manos jugadas en mano: "+ mesaSeleccionada.getNumeroMesa());
     }
 
     

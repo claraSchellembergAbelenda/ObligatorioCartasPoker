@@ -6,6 +6,7 @@ import pokerApp.figurasYCartas.Figura;
 import pokerApp.usuarios.Jugador;
 import java.util.ArrayList;
 import java.util.List;
+import pokerApp.Exceptions.UsuarioException;
 import pokerApp.Sistemas.SistemaFiguras;
 import pokerApp.figurasYCartas.Carta;
 import pokerApp.figurasYCartas.TipoFigura;
@@ -98,6 +99,9 @@ public class Mano {
     public void setFiguraGanadora(Figura figuraGanadora) {
         this.figuraGanadora = figuraGanadora;
     }
+    public int getNumeroManoActual() {
+        return this.numeroMano;
+    }
     
     
     public void realizarApuestas(Jugador j){
@@ -125,23 +129,34 @@ public class Mano {
 
 
     public Jugador determinarGanador() {
-    Jugador ganador = null;
-    TipoFigura mejorFigura = null;
+        Jugador ganador = null;
+        TipoFigura mejorFigura = null;
 
-    for (int i = 0; i < jugadoresEnMano.size(); i++) {
-        Jugador jugador = jugadoresEnMano.get(i);
-        List<Carta> cartas = cartasPorJugador.get(i);  // Cartas asignadas al jugador
-        TipoFigura figura = sistemaFiguras.determinarFigura(cartas);
+        for (int i = 0; i < jugadoresEnMano.size(); i++) {
+            Jugador jugador = jugadoresEnMano.get(i);
+            List<Carta> cartas = cartasPorJugador.get(i);  // Cartas asignadas al jugador
+            TipoFigura figura = sistemaFiguras.determinarFigura(cartas);
 
-        // Utilizamos el método compararDosFiguras para comparar la figura actual con la mejor figura hasta ahora
-        if (mejorFigura == null || sistemaFiguras.compararDosFiguras(figura, mejorFigura) == figura) {
-            mejorFigura = figura;
-            ganador = jugador;
+            // Utilizamos el método compararDosFiguras para comparar la figura actual con la mejor figura hasta ahora
+            if (mejorFigura == null || sistemaFiguras.compararDosFiguras(figura, mejorFigura) == figura) {
+                mejorFigura = figura;
+                ganador = jugador;
+            }
         }
+        return ganador;
     }
-    return ganador;
-}
   
+    //Sesion 
+    public Jugador getJugadorActual() throws UsuarioException{
+        if (jugadoresEnMano != null && !jugadoresEnMano.isEmpty()) {
+        // Suponiendo que el primer jugador en la lista es el actual
+        return jugadoresEnMano.get(0); 
+        }
+        throw new UsuarioException("No hay jugadores en la mesa.");
+        //excepcion de java, hace una y personalizarla
+    }
+
+    
     
     
     
