@@ -153,33 +153,33 @@ public class AdministrarMesa extends javax.swing.JDialog {
     private void CargarDatosEnLista() {
         DefaultListModel<String> model = new DefaultListModel<>();
     
-    // Itera sobre las mesas y añade los datos en el modelo de la lista
-    for (Mesa mesa : mesas) {
-        // Crea una representación de texto para cada mesa con sus atributos
-        String row = String.format(
-            "Mesa %d - Jugadores Req: %d, Apuesta Base: %.2f, Jugadores Act: %d, Mano: %d, Apostado: %.2f, Comisión: %.2f, Recaudado: %.2f, Estado: %s",
-            mesa.getNumeroMesa(),
-            mesa.getCantidadJugadoresRequeridos(),
-            mesa.getApuestaBase(),
-            mesa.getCantidadJugadoresActual(),
-            mesa.getNumeroManoActual(),
-            mesa.getMontoTotalApostado(),
-            mesa.getComision(),
-            mesa.getMontoTotalRecaudado(),
-            mesa.getEstadoPartida()
-        );
-        
-        // Añade la representación de texto de la mesa al modelo de la lista
-        model.addElement(row);
-           // Asigna el modelo al JList
-        lstMesas.setModel(model);
+        // Itera sobre las mesas y añade los datos en el modelo de la lista
+        for (Mesa mesa : mesas) {
+            // Crea una representación de texto para cada mesa con sus atributos
+            String row = String.format(
+                "Mesa %d - Jugadores Req: %d, Apuesta Base: %.2f, Jugadores Act: %d, Mano: %d, Apostado: %.2f, Comisión: %.2f, Recaudado: %.2f, Estado: %s",
+                mesa.getNumeroMesa(),
+                mesa.getCantidadJugadoresRequeridos(),
+                mesa.getApuestaBase(),
+                mesa.getCantidadJugadoresActual(),
+                mesa.getNumeroManoActual(),
+                mesa.getMontoTotalApostado(),
+                mesa.getComision(),
+                mesa.getMontoTotalRecaudado(),
+                mesa.getEstadoPartida()
+            );
 
-        // Actualiza el texto de lblMontoTotalRecaudado
-        lblMontoTotalRecaudado.setText("Monto total recaudado: " + Fachada.getInstancia().calcularMontoTotalRecaudado());
+            // Añade la representación de texto de la mesa al modelo de la lista
+            model.addElement(row);
+               // Asigna el modelo al JList
+            lstMesas.setModel(model);
 
-    }
+            // Actualiza el texto de lblMontoTotalRecaudado
+            lblMontoTotalRecaudado.setText("Monto total recaudado: " + Fachada.getInstancia().calcularMontoTotalRecaudado());
+
+        }
     
- 
+    }
         
 
     public void CargarCombo() {

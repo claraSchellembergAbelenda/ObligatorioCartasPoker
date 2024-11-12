@@ -81,16 +81,16 @@ public class JuegoPoker {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    void cambiarCartas(int cartasACambiar) {
+    public void cambiarCartas(int cartasACambiar) {
+        mazo.sacarCartas(cartasACambiar);
+    }
+
+    public boolean pagarApuesta(double monto) {
         throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
-    boolean pagarApuesta(double monto) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
-    double getMontoApuesta() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    public double getMontoApuesta() {
+        return this.mano.getPozoApuestas();
     }
 
     public void iniciarApuesta(float monto) throws UsuarioException, ManoException{
