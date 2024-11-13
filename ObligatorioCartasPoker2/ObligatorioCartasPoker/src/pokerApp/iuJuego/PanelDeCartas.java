@@ -28,6 +28,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     private Jugador jugador;
     private Mesa mesa;
     private List<String>figuras;
+    private List<Carta> cartasSeleccionadas = new ArrayList<>();
     
     
     public PanelDeCartas(JuegoPoker juegoPoker, Jugador jugador, Mesa mesa) {
@@ -329,17 +330,77 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         //logica para pasar 
     }
 
-    private void btnPagarApuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPagarApuestaActionPerformed
+    private void btnPagarApuestaActionPerformed(java.awt.event.ActionEvent evt) {
         //uno apuesta, se le resta de su saldo el valor de la apuesta hecha y les aparece un dialogo al resto de los 
         //jugadores que dice "tal jugador hizo una apuesta, desea pagar, si o no"
         //si ponen que si se les descuenta
         //si no pagan la apuesta se cierra esa ventana y se le desabilitan todos los botones excepto el de abandonar mesa
+        // Obtener el monto de la apuesta actual
+    double montoApuesta = mesa.getApuestaBase();
+
+    // Descontar el saldo al jugador que hace la apuesta
+    try {
+        juegoPoker.realizarApuesta(jugador, (float) montoApuesta);
+        lblMensaje.setText("Has realizado una apuesta de $" + montoApuesta + ".");
+        actualizarInterfaz();
+
+        // Preguntar al resto de los jugadores si desean pagar la apuesta
+        for (Jugador jugadorRestante : mesa.getJugadoresEnMesa()) {
+            if (jugadorRestante != jugador) {
+                // Crear una ventana de confirmación para el jugador restante
+                int respuesta = javax.swing.JOptionPane.showConfirmDialog(this, 
+                    jugador.getNombreCompleto() + " ha realizado una apuesta de $" + montoApuesta + 
+                    ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
+                    javax.swing.JOptionPane.YES_NO_OPTION);
+
+                if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
+                    // Si el jugador decide pagar, descontar saldo y actualizar el pozo
+                    if (jugadorRestante.tieneSaldoSuficiente((float) montoApuesta)) {
+                        jugadorRestante.descontarSaldo((float) montoApuesta);
+                        mesa.incrementarPozo(montoApuesta);
+                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + " ha pagado la apuesta.");
+                        actualizarInterfaz();
+                    } else {
+                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + " no tiene saldo suficiente para pagar la apuesta.");
+                    }
+                } else {
+                    // Si el jugador decide no pagar, se le deshabilitan los botones excepto 'Abandonar Mesa'
+                    if (jugadorRestante == this.jugador) {
+                        btnPagarApuesta.setEnabled(false);
+                        btnCambiarCartas.setEnabled(false);
+                        btnJugar.setEnabled(false);
+                        btnPasar.setEnabled(false);
+                    }
+                    lblMensaje.setText(jugadorRestante.getNombreCompleto() + " ha decidido no pagar la apuesta.");
+                }
+            }
+        }
+    } catch (UsuarioException ex) {
+        lblMensaje.setText("Error al realizar la apuesta: " + ex.getMessage());
+    }
         
-    }//GEN-LAST:event_btnPagarApuestaActionPerformed
+        
+    }
 
     private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCartasActionPerformed
         //logica para cambiar cartas
-    }//GEN-LAST:event_btnCambiarCartasActionPerformed
+        //se cambian las cartad del jugador, y en el panel se visualizan las cartas nuevas tambien
+        try {
+        if (!cartasSeleccionadas.isEmpty()) {
+            ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
+            jugador.cambiarCartas(new ArrayList<>(cartasSeleccionadas), nuevasCartas);
+            
+            // Recargar cartas en el panel y limpiar selección
+            cargarCartasEnPanel(jugador.getCartas());  // Actualiza las cartas en el panel
+            cartasSeleccionadas.clear();
+            lblMensaje.setText("Cartas cambiadas exitosamente.");
+            } else {
+            lblMensaje.setText("No se han seleccionado cartas para cambiar.");
+            }
+        } catch (Exception ex) {
+            lblMensaje.setText("Error al cambiar cartas: " + ex.getMessage());
+        }
+    }
 
     private void btnAbandonarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbandonarMesaActionPerformed
         juegoPoker.abandonarMesa(jugador);
@@ -394,24 +455,33 @@ public static void main(String[] args) {
     private panelCartasPoker.PanelCartasPoker panelCartasPoker;
     // End of variables declaration//GEN-END:variables
 
-   @Override
-    public void clickEnCarta(CartaPoker carta) {
-        lblMensaje.setText("Click en carta");
+    @Override
+    public void clickEnCarta(CartaPoker cartaPoker) {
+        Carta carta = new Carta(cartaPoker.getValorCarta(), cartaPoker.getPaloCarta());
+
+        // Verificar si la carta ya está seleccionada y quitarla si es necesario
+        if (cartasSeleccionadas.contains(carta)) {
+            cartasSeleccionadas.remove(carta);
+        } else {
+            cartasSeleccionadas.add(carta);
+        }
+
+        lblMensaje.setText("Cartas seleccionadas: " + cartasSeleccionadas.size());
     }
         
     public void cargarCartasEnPanel(List<Carta> cartas) {
     ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
 
+    // Crear instancias de CartaPoker para cada Carta y agregar a la lista
     for (Carta carta : cartas) {
         CartaPoker cartaPoker = new CartaPoker() {
             @Override
             public int getValorCarta() {
-                return carta.getValorCarta();  // Asegúrate de devolver el valor correcto
+                return carta.getValorCarta();
             }
 
             @Override
             public String getPaloCarta() {
-                // Asegúrate de devolver el palo como "C", "D", "T", o "P" para que coincida con la imagen
                 switch (carta.getPaloCarta().toUpperCase()) {
                     case "CORAZON":
                         return CartaPoker.CORAZON;
@@ -428,21 +498,22 @@ public static void main(String[] args) {
 
             @Override
             public boolean estaVisible() {
-                return true;  // Determina la visibilidad
+                return true;
             }
 
             @Override
             public void setVisible(boolean b) {
-                // Implementa la visibilidad si es necesario
+                // Controla la visibilidad si es necesario
             }
         };
         cartasPoker.add(cartaPoker);
     }
 
+    // Recargar las cartas en el panel visualmente
     try {
         panelCartasPoker.cargarCartas(cartasPoker);
     } catch (PanelCartasPokerException ex) {
-        lblMensaje.setText("Error al cargar cartas");
+        lblMensaje.setText("Error al cargar cartas en el panel: " + ex.getMessage());
     }
 }
 
