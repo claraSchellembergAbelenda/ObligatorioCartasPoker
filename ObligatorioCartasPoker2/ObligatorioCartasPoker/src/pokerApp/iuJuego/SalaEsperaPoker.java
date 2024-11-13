@@ -1,6 +1,7 @@
 
 package pokerApp.iuJuego;
 
+import javax.swing.Timer;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.juego.JuegoPoker;
 import pokerApp.juego.Mesa;
@@ -12,6 +13,7 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
     private Jugador jugador;
     private Mesa mesa;
     private JuegoPoker juegoPoker;
+    private Timer timer;
 
     
     public SalaEsperaPoker(java.awt.Frame parent, boolean modal, Mesa mesa, Jugador jugador) {
@@ -21,6 +23,10 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
         this.mesa.agregarJugador(jugador);
         initComponents();
         cargarMensaje();
+        
+        //temporizador que verifica el inicio del juego cada 3 segundos
+        timer = new Timer(3000, e -> verificarInicioJuego());
+        timer.start();
         
     }
 
@@ -85,6 +91,7 @@ public static void main(String[] args) {
     
     private void verificarInicioJuego() {
     if (mesa.getCantidadJugadoresActual() == mesa.getCantidadJugadoresRequeridos()) {
+        timer.stop();
         iniciarJuegoPoker();
     } else {
         lblMensaje.setText("Esperando a que lleguen más jugadores...");

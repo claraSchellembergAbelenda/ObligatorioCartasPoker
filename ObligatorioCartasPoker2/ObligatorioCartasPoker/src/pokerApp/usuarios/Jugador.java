@@ -10,13 +10,14 @@ import utilidades.Observable;
 
 public class Jugador extends Usuario implements Observador{
 
-   
+    private String nombreCompleto;
     private float saldo;
     private float apuesta;
     private ArrayList<Carta> cartas= new ArrayList<>();
     
     public Jugador(String cedula, String password, String nombreCompleto, float saldo) {
         super(cedula, password, nombreCompleto); // Llamamos al constructor de la clase base Usuario
+        this.nombreCompleto = nombreCompleto;
         this.saldo = saldo;
     }
 
@@ -37,7 +38,7 @@ public class Jugador extends Usuario implements Observador{
         this.cartas = cartas;
     }
     public String getNombre() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        return nombreCompleto;
     }
     
     public void apostar(float cantidad) {

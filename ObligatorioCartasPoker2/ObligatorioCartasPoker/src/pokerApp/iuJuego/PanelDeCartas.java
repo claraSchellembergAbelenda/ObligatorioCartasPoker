@@ -1,5 +1,7 @@
 package pokerApp.iuJuego;
 
+import estados.EstadoPartida;
+import estados.EstadoMano;
 import inicio.DatosPrueba;
 import java.util.ArrayList;
 import java.util.List;
@@ -17,6 +19,7 @@ import pokerApp.figurasYCartas.Carta;
 import pokerApp.figurasYCartas.TipoFigura;
 import pokerApp.juego.Mesa;
 import pokerApp.listeners.ApuestaListener;
+import pokerApp.uiMesas.IngresarAMesa;
 import pokerApp.usuarios.Jugador;
 
 public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener, ApuestaListener {
@@ -221,15 +224,69 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnJugarActionPerformed
-        //logica para iniciar el juego, si la mesa esta iniciada entonces... sino...
-        //una vez que ya todos los jugadores pagaron las apuestas o pasaron y ya se cambiaron las cartas
-        //TERMINA MANO, se determina el ganador de la mano
-        //se incrementa su saldo x el valor del pozo-% de comision
-        //se le muestra cartel y cambia el estado de la mano y si les da el saldo aparece cartel de que decidan 
-        //si seguir jugando
-        //si no le da la plata se sale y va a la interfaz de ingresar a mesa
-    }//GEN-LAST:event_btnJugarActionPerformed
+    private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {
+        try {
+        // Verificar si la mesa está en estado 'Iniciada'
+        if (mesa.getEstadoPartida() == EstadoPartida.ABIERTA) {
+            // Todos los jugadores han hecho sus apuestas o han pasado, así que termina la mano actual
+            mesa.getManoActual().setEstadoMano(EstadoMano.TERMINADA);
+            
+            // Determina el ganador de la mano actual
+            Jugador ganador = mesa.getManoActual().determinarGanador();
+            
+            if (ganador != null) {
+                // Calcular el pozo total menos la comisión de la mesa
+                float pozo = mesa.getMontoTotalApostado();
+                float montoGanado = pozo * (1 - mesa.getComision() / 100);
+                
+                // Aumentar el saldo del jugador ganador y mostrar mensaje
+                ganador.aumentarSaldo(montoGanado);
+                lblMensaje.setText("¡Felicidades " + ganador.getNombreCompleto() + "! Has ganado $" + montoGanado + ".");
+                
+                // Actualizar el saldo en la interfaz
+                actializarSaldoJugador();
+            } else {
+                // Si no hay ganador, acumula el pozo para la próxima mano
+                lblMensaje.setText("La mano ha terminado sin ganador. El pozo se acumula para la siguiente mano.");
+            }
+            
+            // Verificar si cada jugador tiene saldo suficiente para seguir jugando
+            List<Jugador> jugadoresParaRetirar = new ArrayList<>();
+            for (Jugador jugador : mesa.getJugadoresEnMesa()) {
+                if (!jugador.tieneSaldoSuficiente(mesa.getApuestaBase())) {
+                    jugadoresParaRetirar.add(jugador);
+                }
+            }
+            
+            // Retirar jugadores sin saldo y mostrar mensajes
+            for (Jugador jugador : jugadoresParaRetirar) {
+                mesa.removerJugador(jugador);
+                lblMensaje.setText("El jugador " + jugador.getNombreCompleto() + " ha sido retirado por saldo insuficiente.");
+            }
+            
+            // Iniciar la siguiente mano si quedan jugadores
+            if (mesa.getCantidadJugadoresActual() > 1) {
+                mesa.iniciarNuevaMano();
+                lblMensaje.setText("Nueva mano iniciada. ¡Buena suerte!");
+            } else {
+                // Si solo queda un jugador, finaliza la mesa
+                mesa.finalizarMesa();
+                lblMensaje.setText("La mesa ha finalizado. Solo queda un jugador.");
+                
+                // Redirigir al jugador restante a la interfaz de selección de mesa
+                this.dispose();
+                IngresarAMesa seleccionarMesa = new IngresarAMesa(new javax.swing.JFrame(), true, ganador);
+                seleccionarMesa.setVisible(true);
+            }
+        } else {
+            lblMensaje.setText("La mesa no está lista para jugar. Por favor, espere a que se inicie.");
+        }
+    } catch (Exception ex) {
+        lblMensaje.setText("Error durante el juego: " + ex.getMessage());
+    }
+    
+    
+    }
 
     private void btnIniciarApuestaActionPerformed(java.awt.event.ActionEvent evt) {                                                  
 

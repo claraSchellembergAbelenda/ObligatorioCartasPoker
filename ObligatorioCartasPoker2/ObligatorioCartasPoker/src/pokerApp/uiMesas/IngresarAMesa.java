@@ -3,6 +3,7 @@ package pokerApp.uiMesas;
 
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.DefaultListModel;
 import pokerApp.Exceptions.MesaException;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.Fachada.Fachada;
@@ -30,22 +31,15 @@ public class IngresarAMesa extends javax.swing.JDialog {
     
     
     public void CargarMesas() {
-        mesasAbiertas = Fachada.getInstancia().obtenerMesasAbiertas();
-        List <String> mesas= new ArrayList<String>();
-//        siguiente información para cada mesa: 
-//        -Número de mesa 
-//        -Cantidad de jugadores requeridos para iniciar la mesa
-//        -Valor de la apuesta base -Cantidad actual de jugadores  
-//        -Porcentaje de comisión de la mesa 
-        for (Mesa mesa : mesasAbiertas) {
-            mesas.add("Numero de mesa: "+ mesa.getNumeroMesa()
-                    + "Cantidad de jugadores requeridos: "+ mesa.getCantidadJugadoresRequeridos()
-                    + "Valor de apuesta base: "+ mesa.getApuestaBase()
-                    + "Cantidad actual de jugadores: "+ mesa.getCantidadJugadoresActual()
-                    +"Porcentaje de comision de mesa: "+ mesa.getComision()+"%");
-        }
-        lstMesasAbiertas.setListData(mesas.toArray());
+    mesasAbiertas = Fachada.getInstancia().obtenerMesasAbiertas();
+    DefaultListModel<Mesa> model = new DefaultListModel<>();
+
+    for (Mesa mesa : mesasAbiertas) {
+        model.addElement(mesa); // Agrega la instancia Mesa directamente
     }
+
+    lstMesasAbiertas.setModel(model);
+}
    
     
     @SuppressWarnings("unchecked")
@@ -127,30 +121,34 @@ public class IngresarAMesa extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    private void btnIngresarAMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIngresarAMesaActionPerformed
-        try{
-            mesaSeleccionada=(Mesa) lstMesasAbiertas.getSelectedValue();
-            if(mesaSeleccionada!=null){
-                Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
-                SalaEsperaPoker salaEspera = new SalaEsperaPoker(null, false, mesaSeleccionada
-                        , jugador);
-                salaEspera.setVisible(true);
-                dispose();
-            }else{
-                lblRespuestaIngreso.setText("no selecciono una mesa");
-            }
+    private void btnIngresarAMesaActionPerformed(java.awt.event.ActionEvent evt) {
+    try {
+        // Obtén la mesa seleccionada de la lista
+        int indiceSeleccionado = lstMesasAbiertas.getSelectedIndex();
+        if (indiceSeleccionado != -1) {
+            mesaSeleccionada = mesasAbiertas.get(indiceSeleccionado);
             
-        }catch(UsuarioException ue){
-            lblRespuestaIngreso.setText("Error: "+ ue.getMessage());
+            // Verifica el saldo del jugador antes de entrar a la sala de espera
+            Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
+            
+            // Ingresar a la sala de espera
+            SalaEsperaPoker salaEspera = new SalaEsperaPoker(null, true, mesaSeleccionada, jugador);
+            salaEspera.setVisible(true);
+            
+            dispose(); // Cerrar el diálogo de selección de mesa
+        } else {
+            lblRespuestaIngreso.setText("No seleccionó una mesa.");
         }
-    // TODO add your handling code here:
-    }//GEN-LAST:event_btnIngresarAMesaActionPerformed
-
+    } catch (UsuarioException ue) {
+        lblRespuestaIngreso.setText("Error: " + ue.getMessage());
+    }
+}
+    
     private void lblNombreJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_lblNombreJugadorActionPerformed
         
 
         // TODO add your handling code here:
-    }//GEN-LAST:event_lblNombreJugadorActionPerformed
+    }
 
 
 

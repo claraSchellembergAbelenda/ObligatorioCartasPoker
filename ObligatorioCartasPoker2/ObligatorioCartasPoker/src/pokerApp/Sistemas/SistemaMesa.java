@@ -42,10 +42,12 @@ public class SistemaMesa {
         mesas.add(new Mesa(3, 500, 30));
         mesas.add(new Mesa(2, 1000, 25));
         mesas.add(new Mesa(5, 10000, 45));
+        
 
         for (Mesa mesa : mesas) {
             mesa.pracargaManos(); // Precarga adicional de manos si es necesario
         }
+        
     }
     
     public void precargaManos() {
