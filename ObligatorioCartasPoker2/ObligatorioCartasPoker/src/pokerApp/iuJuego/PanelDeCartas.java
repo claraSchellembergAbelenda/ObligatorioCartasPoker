@@ -59,7 +59,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     }
 
     @SuppressWarnings("unchecked")
-    // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
+    // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
         panelCartas1 = new pokerApp.iuJuego.PanelCartas();
@@ -262,6 +262,9 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 lblMensaje.setText("El jugador " + jugador.getNombreCompleto() + " ha sido retirado por saldo insuficiente.");
             }
             
+            
+            
+            
             // Iniciar la siguiente mano si quedan jugadores
             if (mesa.getCantidadJugadoresActual() > 1) {
                 mesa.iniciarNuevaMano();
@@ -379,7 +382,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         
     }
 
-    private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCartasActionPerformed
+    private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         //logica para cambiar cartas
         //se cambian las cartad del jugador, y en el panel se visualizan las cartas nuevas tambien
         try {
@@ -399,7 +402,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         }
     }
 
-    private void btnAbandonarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbandonarMesaActionPerformed
+    private void btnAbandonarMesaActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         juegoPoker.abandonarMesa(jugador);
         lblMensaje.setText("Has abandonado la mesa.");
         this.dispose(); // Cierra la ventana
