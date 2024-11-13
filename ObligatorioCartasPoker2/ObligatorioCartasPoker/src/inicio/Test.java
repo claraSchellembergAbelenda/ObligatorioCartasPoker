@@ -5,7 +5,7 @@ import pokerApp.Fachada.Fachada;
 import pokerApp.iuJuego.PanelDeCartas;
 import pokerApp.uiUsuariosYLogin.Login;
 import pokerApp.uiUsuariosYLogin.LoginAdministrador;
-import pokerApp.usuarios.LoginJugador;
+import pokerApp.uiUsuariosYLogin.LoginJugador;
 import pokerApp.usuarios.Sesion;
 import pokerApp.usuarios.Usuario;
 

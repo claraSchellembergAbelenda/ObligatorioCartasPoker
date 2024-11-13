@@ -44,13 +44,26 @@ public class SistemaUsuario {
 
     // Métodos de login
     public Sesion loginAdministrador(String cedula, String password) throws UsuarioException {
-        return login(cedula, password, usuariosAdministradores);
+        Sesion sesion= login(cedula, password, usuariosAdministradores);
+        if (sesion != null) {
+            if(!estaLogueado(sesion.getUsuario())){
+                sesionesActivas.add(sesion);
+            }else{
+                throw new UsuarioException("Acceso denegado. El usuario ya esta logueado");
+            }
+        }
+        
+        return sesion;
     }
     
     public Sesion loginJugador(String cedula, String password) throws UsuarioException{
         Sesion sesion = login(cedula, password, usuariosJugadores);
         if (sesion != null) {
-            sesionesActivas.add(sesion);
+            if(!estaLogueado(sesion.getUsuario())){
+                sesionesActivas.add(sesion);
+            }else{
+                throw new UsuarioException("Acceso denegado. El usuario ya esta logueado");
+            }
         }
         
         return sesion;
