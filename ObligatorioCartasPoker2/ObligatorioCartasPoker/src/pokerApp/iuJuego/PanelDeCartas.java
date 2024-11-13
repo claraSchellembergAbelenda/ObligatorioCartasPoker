@@ -227,10 +227,9 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         // Verificar si la mesa está en estado 'Iniciada'
         if (mesa.getEstadoPartida() == EstadoPartida.ABIERTA) {
             // Todos los jugadores han hecho sus apuestas o han pasado, así que termina la mano actual
-            mesa.getManoActual().setEstadoMano(EstadoMano.TERMINADA);
-            
+            mesa.terminarMano();
             // Determina el ganador de la mano actual
-            Jugador ganador = mesa.getManoActual().determinarGanador();
+            Jugador ganador = mesa.determinarJugadorDeMano();
             
             if (ganador != null) {
                 // Calcular el pozo total menos la comisión de la mesa

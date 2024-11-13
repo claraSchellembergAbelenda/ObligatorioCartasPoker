@@ -152,6 +152,10 @@ public class Mano {
         //excepcion de java, hace una y personalizarla
     }
 
+    public void terminarMano() {
+        setEstadoMano(EstadoMano.TERMINADA);
+    }
+
     
     
     

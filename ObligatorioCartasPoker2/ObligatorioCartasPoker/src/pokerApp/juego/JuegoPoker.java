@@ -33,8 +33,6 @@ public class JuegoPoker {
             System.out.println("El juego ha comenzado en la mesa " + mesa.getNumeroMesa());
             mesa.setEstadoPartida(EstadoPartida.JUGANDO);  // Cambia el estado de la mesa a 'Jugando'
             mesa.descontarSaldo();
-            mesa.iniciarNuevaMano();
-            repartirCartas(); // Repartir cartas al comenzar la primera mano
         }
     }
 
@@ -124,9 +122,8 @@ public class JuegoPoker {
             if (mesa.getCantidadJugadoresActual() == mesa.getCantidadJugadoresRequeridos()) {
                 mesa.validarSaldos();
                 mesa.iniciarNuevaMano();
-                repartirCartas();
             } else {
-                System.out.println("No hay suficientes jugadores para iniciar la mano.");
+                throw new UsuarioException("No hay suficientes jugadores para iniciar la mano.");
             }
         }
 

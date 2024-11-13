@@ -246,8 +246,8 @@ public class Mesa extends Observable{
             estadoPartida = EstadoPartida.JUGANDO;
             Mano nuevaMano = new Mano(jugadoresEnMesa);
             nuevaMano.repartirCartas();
-            nuevaMano.setEstadoMano(EstadoMano.ESPERANDO_APUESTA);
             manosJugadas.add(nuevaMano);
+            this.manoActual=nuevaMano;
             avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)
         
     }
@@ -355,6 +355,14 @@ public class Mesa extends Observable{
             jugador.descontarSaldo(apuestaBase);
             manoActual.incrementarPozoApuestas(apuestaBase);
         }
+    }
+
+    public void terminarMano() {
+         this.manoActual.terminarMano();
+    }
+
+    public Jugador determinarJugadorDeMano() {
+        return this.manoActual.determinarGanador();
     }
 
 

@@ -140,7 +140,7 @@ public class IngresarAMesa extends javax.swing.JDialog {
             Fachada.getInstancia().validarSaldoDeJugador(jugador, mesaSeleccionada);
             
             // Ingresar a la sala de espera
-            SalaEsperaPoker salaEspera = new SalaEsperaPoker(null, true, mesaSeleccionada, jugador);
+            SalaEsperaPoker salaEspera = new SalaEsperaPoker(null, false, mesaSeleccionada, jugador);
             salaEspera.setVisible(true);
             
             dispose(); // Cerrar el diálogo de selección de mesa
