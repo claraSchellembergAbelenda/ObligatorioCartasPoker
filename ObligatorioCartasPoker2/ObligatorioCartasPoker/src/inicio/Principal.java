@@ -2,12 +2,16 @@
 package inicio;
 
 import pokerApp.Fachada.Fachada;
+import pokerApp.listeners.SesionListener;
 import pokerApp.uiUsuariosYLogin.LoginAdministrador;
 import pokerApp.usuarios.LoginJugador;
+import pokerApp.usuarios.Sesion;
 
 
-public class Principal extends javax.swing.JFrame {
-
+public class Principal extends javax.swing.JFrame implements SesionListener{
+    private Sesion sesion;
+    private LoginJugador loginJugador;
+    
     public Principal() {
         initComponents();
         DatosPrueba.cargar();
@@ -64,9 +68,15 @@ public class Principal extends javax.swing.JFrame {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
+    
     private void mnuJugadorActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_mnuJugadorActionPerformed
-        LoginJugador loginJugador = new LoginJugador(null, false, Fachada.getInstancia());
-        loginJugador.setVisible(true);
+        if(sesion==null){
+            loginJugador = new LoginJugador(null, false, Fachada.getInstancia());
+            loginJugador.setSesionListener(this);
+            loginJugador.setVisible(true);
+        }else{
+            mnuJugador.setEnabled(false);
+        }
 // TODO add your handling code here:
     }//GEN-LAST:event_mnuJugadorActionPerformed
 
@@ -75,7 +85,7 @@ public class Principal extends javax.swing.JFrame {
         loginAdministrador.setVisible(true);
 // TODO add your handling code here:
     }//GEN-LAST:event_mnuAdministradorActionPerformed
-
+    
     /**
      * @param args the command line arguments
      */
@@ -118,4 +128,10 @@ public class Principal extends javax.swing.JFrame {
     private javax.swing.JMenuItem mnuAdministrador;
     private javax.swing.JMenuItem mnuJugador;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void sesionIniciada() {
+        this.sesion =loginJugador.getSesion();
+        mnuJugador.setEnabled(false); // Deshabilita el menú de jugador
+    }
 }
