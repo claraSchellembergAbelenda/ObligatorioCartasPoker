@@ -41,14 +41,11 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
         cargarFiguras();
-                // Asignar cartas de ejemplo al jugador, usando un ArrayList en lugar de List.of
-        List<Carta> cartasJugador = new ArrayList<>();
-        cartasJugador.add(new Carta(1, "CORAZON"));
-        cartasJugador.add(new Carta(1, "DIAMANTE"));
-        cartasJugador.add(new Carta(3, "TREBOL"));
-        cartasJugador.add(new Carta(4, "PIQUE"));
-        cartasJugador.add(new Carta(5, "PIQUE"));
-        jugador.setCartas((ArrayList<Carta>) cartasJugador);
+
+        // Asignar cartas aleatorias al jugador desde el mazo
+    List<Carta> cartasJugador = mesa.getMazo().sacarCartas(5);
+    jugador.setCartas((ArrayList<Carta>) cartasJugador);
+    cargarCartasEnPanel(jugador.getCartas());
         cargarCartasEnPanel(jugador.getCartas()); 
         lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
         lblMensaje.setText("El juego ha comenzado en la mesa " 
@@ -223,7 +220,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         );
 
         pack();
-    }// </editor-fold>//GEN-END:initComponents
+    }
 
     private void btnJugarActionPerformed(java.awt.event.ActionEvent evt) {
         try {
@@ -406,7 +403,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         juegoPoker.abandonarMesa(jugador);
         lblMensaje.setText("Has abandonado la mesa.");
         this.dispose(); // Cierra la ventana
-    }//GEN-LAST:event_btnAbandonarMesaActionPerformed
+    }
 
     
     // Método para actualizar la interfaz con el estado actual del juego

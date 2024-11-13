@@ -169,7 +169,7 @@ public class IniciarApuesta extends javax.swing.JDialog {
     
     public float getApuesta() {
         // Retorna el valor ingresado por el usuario en el diálogo,
-        //tengo que apturar este valor
+        //tengo que capturar este valor
         confirmarApuesta();
         return apuesta;
     }

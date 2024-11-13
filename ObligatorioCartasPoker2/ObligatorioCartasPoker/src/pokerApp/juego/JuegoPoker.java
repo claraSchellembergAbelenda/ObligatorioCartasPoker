@@ -95,7 +95,8 @@ public class JuegoPoker {
         if (jugador.tieneSaldoSuficiente(montoApuesta)) {
             jugador.descontarSaldo(montoApuesta);
             mesa.incrementarPozo(montoApuesta);
-            System.out.println(jugador.getNombre() + " ha pagado una apuesta de $" + montoApuesta);
+            System.
+                    out.println(jugador.getNombre() + " ha pagado una apuesta de $" + montoApuesta);
             return true;
         }
         return false;

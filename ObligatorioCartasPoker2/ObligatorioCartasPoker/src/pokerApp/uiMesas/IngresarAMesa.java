@@ -31,15 +31,23 @@ public class IngresarAMesa extends javax.swing.JDialog {
     
     
     public void CargarMesas() {
+
     mesasAbiertas = Fachada.getInstancia().obtenerMesasAbiertas();
-    DefaultListModel<Mesa> model = new DefaultListModel<>();
-
-    for (Mesa mesa : mesasAbiertas) {
-        model.addElement(mesa); // Agrega la instancia Mesa directamente
+            List <String> mesas= new ArrayList<String>();
+    //        siguiente información para cada mesa: 
+    //        -Número de mesa 
+    //        -Cantidad de jugadores requeridos para iniciar la mesa
+    //        -Valor de la apuesta base -Cantidad actual de jugadores
+    //        -Porcentaje de comisión de la mesa 
+            for (Mesa mesa : mesasAbiertas) {
+                mesas.add("Numero de mesa: "+ mesa.getNumeroMesa()
+                        + "Cantidad de jugadores requeridos: "+ mesa.getCantidadJugadoresRequeridos()
+                        + "Valor de apuesta base: "+ mesa.getApuestaBase()
+                        + "Cantidad actual de jugadores: "+ mesa.getCantidadJugadoresActual()
+                        +"Porcentaje de comision de mesa: "+ mesa.getComision()+"%");
+            }
+            lstMesasAbiertas.setListData(mesas.toArray());
     }
-
-    lstMesasAbiertas.setModel(model);
-}
    
     
     @SuppressWarnings("unchecked")
