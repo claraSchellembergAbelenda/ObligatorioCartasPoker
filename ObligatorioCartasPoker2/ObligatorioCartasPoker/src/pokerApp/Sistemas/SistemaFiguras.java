@@ -31,12 +31,12 @@ public class SistemaFiguras {
     }
 
     public TipoFigura compararFiguras(List<TipoFigura> figuras) {
-    TipoFigura mejorFigura = figuras.get(0);
+        TipoFigura mejorFigura = figuras.get(0);
 
-    for (int i = 1; i < figuras.size(); i++) {
-        mejorFigura = compararDosFiguras(mejorFigura, figuras.get(i));
-    }
-    return mejorFigura;
+        for (int i = 1; i < figuras.size(); i++) {
+            mejorFigura = compararDosFiguras(mejorFigura, figuras.get(i));
+        }
+        return mejorFigura;
     }
 
     public TipoFigura compararDosFiguras(TipoFigura figura1, TipoFigura figura2) {

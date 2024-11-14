@@ -1,5 +1,5 @@
 package utilidades;
 
-public interface Observador {
-    void actualizar(Observable origen, Object evento);
+public interface Observador <T>{
+    void actualizar(Observable<T> origen, T evento);
 }

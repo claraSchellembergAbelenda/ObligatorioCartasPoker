@@ -301,7 +301,7 @@ public class Mesa extends Observable{
             mano.setNumeroMano(i);
             mano.incrementarPozoApuestas(apuestaBase * i);
             mano.setCantJugadores(jugadoresEnMesa.size());
-            mano.setEstadoMano(EstadoMano.TERMINADA);
+            mano.setEstadoMano(EstadoMano.ESPERANDO_APUESTA);
             if (!jugadoresEnMesa.isEmpty()) {
                 mano.setJugadorGanador(jugadoresEnMesa.get(0));
             }

@@ -3,6 +3,7 @@ package pokerApp.iuJuego;
 import estados.EstadoPartida;
 import java.util.ArrayList;
 import java.util.List;
+import javax.swing.JOptionPane;
 import pokerApp.juego.IniciarApuesta;
 import pokerApp.juego.JuegoPoker;
 import panelCartasPoker.CartaPoker;
@@ -15,19 +16,25 @@ import pokerApp.figurasYCartas.Carta;
 import pokerApp.figurasYCartas.TipoFigura;
 import pokerApp.juego.Mesa;
 import pokerApp.listeners.ApuestaListener;
+import pokerApp.listeners.ApuestaManager;
+import pokerApp.listeners.EventoApuesta;
 import pokerApp.uiMesas.IngresarAMesa;
 import pokerApp.usuarios.Jugador;
+import utilidades.Observable;
+import utilidades.Observador;
 
-public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener, ApuestaListener {
+public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener, 
+        ApuestaListener, Observador<EventoApuesta> {
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
     private Mesa mesa;
     private List<String>figuras;
     private List<Carta> cartasSeleccionadas = new ArrayList<>();
+    private ArrayList<Jugador>jugadoresEnMano= new ArrayList<>();
     
     
-    public PanelDeCartas(JuegoPoker juegoPoker, Jugador jugador, Mesa mesa) {
+    public PanelDeCartas(JuegoPoker juegoPoker, Jugador jugador, Mesa mesa, ArrayList<Jugador>jugadores) {
         initComponents();
         this.juegoPoker = juegoPoker;
         this.jugador = jugador;
@@ -37,7 +44,9 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
         cargarFiguras();
-
+        jugadoresEnMano=jugadores;
+        ApuestaManager.getInstancia().agregar(this);
+        
         // Asignar cartas aleatorias al jugador desde el mazo
         List<Carta> cartasJugador = mesa.getMazo().sacarCartas(5);
         jugador.setCartas((ArrayList<Carta>) cartasJugador);
@@ -45,7 +54,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
 //        cargarCartasEnPanel(jugador.getCartas()); 
         lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
         lblMensaje.setText("El juego ha comenzado en la mesa " 
-                + juegoPoker.getMesa().getNumeroMesa());
+                + juegoPoker.getMesa().getNumeroMesa() + "bienvenido jugador: "+ jugador.getNombre());
         mostrarFiguraFormada();
     }
     
@@ -298,8 +307,27 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
                 actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
 
+                // Notifica al ApuestaManager que un jugador ha hecho una apuesta
+                ApuestaManager.getInstancia().registrarApuesta(jugador, montoApuesta);
+
                 float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
                 mesa.setApuestaBase(pozoActual);
+                
+                 // Notifica a los demás jugadores
+                for (Jugador j : jugadoresEnMano) {
+                    if (j != jugador) {
+                        // Muestra diálogo de confirmación para los demás jugadores
+                        int respuesta = JOptionPane.showConfirmDialog(this, 
+                            jugador.getNombreCompleto() + " ha apostado $" + montoApuesta +
+                            ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
+                            JOptionPane.YES_NO_OPTION);
+                        if (respuesta == JOptionPane.YES_OPTION && j.tieneSaldoSuficiente(montoApuesta)) {
+                            j.descontarSaldo(montoApuesta);
+                            mesa.incrementarPozo(montoApuesta);
+                            lblMensaje.setText(j.getNombreCompleto() + " ha pagado la apuesta.");
+                        }
+                    }
+                }
                 lblMensaje.setText( "El pozo actual es: $" + pozoActual);
                 actualizarSaldoJugador();
             }
@@ -354,10 +382,12 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                     if (jugadorRestante.tieneSaldoSuficiente((float) montoApuesta)) {
                         jugadorRestante.descontarSaldo((float) montoApuesta);
                         mesa.incrementarPozo(montoApuesta);
-                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + " ha pagado la apuesta.");
+                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + 
+                                " ha pagado la apuesta.");
                         actualizarInterfaz();
                     } else {
-                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + " no tiene saldo suficiente para pagar la apuesta.");
+                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + 
+                                " no tiene saldo suficiente para pagar la apuesta.");
                     }
                 } else {
                     // Si el jugador decide no pagar, se le deshabilitan los botones excepto 'Abandonar Mesa'
@@ -367,7 +397,8 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                         btnJugar.setEnabled(false);
                         btnPasar.setEnabled(false);
                     }
-                    lblMensaje.setText(jugadorRestante.getNombreCompleto() + " ha decidido no pagar la apuesta.");
+                    lblMensaje.setText(jugadorRestante.getNombreCompleto() + 
+                            " ha decidido no pagar la apuesta.");
                 }
             }
         }
@@ -426,9 +457,10 @@ public static void main(String[] args) {
 
         // Inicializar el juego de póker con la mesa
         JuegoPoker juegoPoker = new JuegoPoker(mesa);
+        ArrayList<Jugador>jugadores=new ArrayList<>();
         
         // Crear y mostrar la ventana de PanelDeCartas
-        PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador, mesa);
+        PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador, mesa, jugadores);
         panelCartas.setVisible(true);
     });
 }
@@ -528,6 +560,29 @@ public static void main(String[] args) {
         TipoFigura tipoFigura =Fachada.getInstancia().determinarFigura(jugador.getCartas());
         lblFiguraMayor.setText("La figura mas grande formada es: "+ tipoFigura.getNombre());
         
+    }
+
+    @Override
+    public void actualizar(Observable origen, EventoApuesta evento) {
+        if(evento.getJugador()!=jugador){
+            int respuesta = JOptionPane.showConfirmDialog(this, 
+                    evento.getJugador().getNombreCompleto() + " ha realizado una apuesta de $" + evento.getMonto() +
+                    ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
+                    JOptionPane.YES_NO_OPTION);
+                if (respuesta == JOptionPane.YES_OPTION && jugador.tieneSaldoSuficiente(evento.getMonto())) {
+                    jugador.descontarSaldo(evento.getMonto());
+                    mesa.incrementarPozo(evento.getMonto());
+                    lblMensaje.setText(jugador.getNombreCompleto() + " ha pagado la apuesta.");
+                } else {
+                lblMensaje.setText(jugador.getNombreCompleto() + " ha decidido no pagar la apuesta.");
+                // Desactiva botones si el jugador no paga
+                btnPagarApuesta.setEnabled(false);
+                btnCambiarCartas.setEnabled(false);
+                btnJugar.setEnabled(false);
+                btnPasar.setEnabled(false);
+            }
+        }
+               
     }
 
     

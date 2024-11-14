@@ -1,6 +1,7 @@
 
 package pokerApp.iuJuego;
 
+import java.util.ArrayList;
 import javax.swing.Timer;
 import pokerApp.Exceptions.UsuarioException;
 import pokerApp.juego.JuegoPoker;
@@ -14,6 +15,7 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
     private Mesa mesa;
     private JuegoPoker juegoPoker;
     private Timer timer;
+    private static ArrayList<Jugador>jugadores = new ArrayList<>();
 
     
     public SalaEsperaPoker(java.awt.Frame parent, boolean modal, Mesa mesa, Jugador jugador) {
@@ -23,6 +25,7 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
         this.mesa.agregarJugador(jugador);
         initComponents();
         cargarMensaje();
+        jugadores.add(jugador);
         
         //temporizador que verifica el inicio del juego cada 3 segundos
         timer = new Timer(3000, e -> verificarInicioJuego());
@@ -104,8 +107,9 @@ public static void main(String[] args) {
             juegoPoker.iniciarJuego(); // Cambia el estado y reparte cartas
             juegoPoker.iniciarMano();
             // Cierra la sala de espera e inicia el panel de cartas
-            PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador, mesa); // Pasa juego y jugador al panel
+            PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador, mesa, new ArrayList<>(jugadores)); // Pasa juego y jugador al panel
             panelCartas.setVisible(true);
+            //jugadores.clear();
             this.dispose(); // Cierra la sala de espera
         }catch(UsuarioException ue){
             lblMensaje.setText("Error: "+ue.getMessage());
