@@ -1,12 +1,8 @@
 package pokerApp.iuJuego;
 
 import estados.EstadoPartida;
-import estados.EstadoMano;
-import inicio.DatosPrueba;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Vector;
-import javax.swing.DefaultListModel;
 import pokerApp.juego.IniciarApuesta;
 import pokerApp.juego.JuegoPoker;
 import panelCartasPoker.CartaPoker;
@@ -43,10 +39,10 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         cargarFiguras();
 
         // Asignar cartas aleatorias al jugador desde el mazo
-    List<Carta> cartasJugador = mesa.getMazo().sacarCartas(5);
-    jugador.setCartas((ArrayList<Carta>) cartasJugador);
-    cargarCartasEnPanel(jugador.getCartas());
-        cargarCartasEnPanel(jugador.getCartas()); 
+        List<Carta> cartasJugador = mesa.getMazo().sacarCartas(5);
+        jugador.setCartas((ArrayList<Carta>) cartasJugador);
+        cargarCartasEnPanel(jugador.getCartas());
+//        cargarCartasEnPanel(jugador.getCartas()); 
         lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
         lblMensaje.setText("El juego ha comenzado en la mesa " 
                 + juegoPoker.getMesa().getNumeroMesa());
@@ -302,7 +298,8 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
                 actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
 
-                double pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
+                float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
+                mesa.setApuestaBase(pozoActual);
                 lblMensaje.setText( "El pozo actual es: $" + pozoActual);
                 actializarSaldoJugador();
             }
@@ -335,7 +332,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         //si ponen que si se les descuenta
         //si no pagan la apuesta se cierra esa ventana y se le desabilitan todos los botones excepto el de abandonar mesa
         // Obtener el monto de la apuesta actual
-    double montoApuesta = mesa.getApuestaBase();
+    float montoApuesta = mesa.getApuestaBase();
 
     // Descontar el saldo al jugador que hace la apuesta
     try {
@@ -417,7 +414,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         // Aquí podrías actualizar otros elementos de la interfaz, como el saldo o el pozo.
         // Por ejemplo:
         Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
-        double pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
+        float pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
         lblMensaje.setText("El pozo actual es: $" + pozo);
     }
 
