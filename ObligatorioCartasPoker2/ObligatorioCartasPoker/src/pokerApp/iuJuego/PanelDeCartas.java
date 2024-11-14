@@ -241,7 +241,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 lblMensaje.setText("¡Felicidades " + ganador.getNombreCompleto() + "! Has ganado $" + montoGanado + ".");
                 
                 // Actualizar el saldo en la interfaz
-                actializarSaldoJugador();
+                actualizarSaldoJugador();
             } else {
                 // Si no hay ganador, acumula el pozo para la próxima mano
                 lblMensaje.setText("La mano ha terminado sin ganador. El pozo se acumula para la siguiente mano.");
@@ -304,7 +304,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
 
                 double pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
                 lblMensaje.setText( "El pozo actual es: $" + pozoActual);
-                actializarSaldoJugador();
+                actualizarSaldoJugador();
             }
             catch (UsuarioException ue) {
             lblMensaje.setText("No hay jugadores en la mesa. No se puede iniciar la apuesta.");
@@ -314,7 +314,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         }
     }
     
-    public void actializarSaldoJugador(){
+    public void actualizarSaldoJugador(){
         lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
     }
     
@@ -335,7 +335,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         //si ponen que si se les descuenta
         //si no pagan la apuesta se cierra esa ventana y se le desabilitan todos los botones excepto el de abandonar mesa
         // Obtener el monto de la apuesta actual
-    double montoApuesta = mesa.getApuestaBase();
+    float montoApuesta = mesa.getApuestaBase();
 
     // Descontar el saldo al jugador que hace la apuesta
     try {
