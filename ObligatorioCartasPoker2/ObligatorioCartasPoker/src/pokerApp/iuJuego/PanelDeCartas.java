@@ -305,7 +305,6 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         try {
                 juegoPoker.iniciarApuesta(montoApuesta);
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
-                actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
 
                 float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
                 mesa.setApuestaBase(pozoActual);
@@ -313,6 +312,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 // Notifica al ApuestaManager que un jugador ha hecho una apuesta
                 ApuestaManager.getInstancia().registrarApuesta(jugador, montoApuesta);
 
+                actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
                 
                  // Notifica a los demás jugadores
 //                for (Jugador j : jugadoresEnMano) {
