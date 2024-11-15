@@ -307,27 +307,27 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
                 actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
 
+                float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
+                mesa.setApuestaBase(pozoActual);
+                //jugador.descontarSaldo(montoApuesta);
                 // Notifica al ApuestaManager que un jugador ha hecho una apuesta
                 ApuestaManager.getInstancia().registrarApuesta(jugador, montoApuesta);
 
-                float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
-                mesa.setApuestaBase(pozoActual);
                 
                  // Notifica a los demás jugadores
-                for (Jugador j : jugadoresEnMano) {
-                    if (j != jugador) {
-                        // Muestra diálogo de confirmación para los demás jugadores
-                        int respuesta = JOptionPane.showConfirmDialog(this, 
-                            jugador.getNombreCompleto() + " ha apostado $" + montoApuesta +
-                            ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
-                            JOptionPane.YES_NO_OPTION);
-                        if (respuesta == JOptionPane.YES_OPTION && j.tieneSaldoSuficiente(montoApuesta)) {
-                            j.descontarSaldo(montoApuesta);
-                            mesa.incrementarPozo(montoApuesta);
-                            lblMensaje.setText(j.getNombreCompleto() + " ha pagado la apuesta.");
-                        }
-                    }
-                }
+//                for (Jugador j : jugadoresEnMano) {
+//                    if (j != jugador) {
+//                        // Muestra diálogo de confirmación para los demás jugadores
+//                        int respuesta = JOptionPane.showConfirmDialog(this, 
+//                            jugador.getNombreCompleto() + " ha apostado $" + montoApuesta +
+//                            ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
+//                            JOptionPane.YES_NO_OPTION);
+//                        if (respuesta == JOptionPane.YES_OPTION && j.tieneSaldoSuficiente(montoApuesta)) {
+//                            j.descontarSaldo(montoApuesta);
+//                            mesa.incrementarPozo(montoApuesta);
+//                        }
+//                    }
+//                }
                 lblMensaje.setText( "El pozo actual es: $" + pozoActual);
                 actualizarSaldoJugador();
             }
@@ -446,6 +446,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         // Por ejemplo:
         Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
         float pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
+        actualizarSaldoJugador();
         lblMensaje.setText("El pozo actual es: $" + pozo);
     }
 
@@ -573,6 +574,7 @@ public static void main(String[] args) {
                     jugador.descontarSaldo(evento.getMonto());
                     mesa.incrementarPozo(evento.getMonto());
                     lblMensaje.setText(jugador.getNombreCompleto() + " ha pagado la apuesta.");
+                    actualizarInterfaz();
                 } else {
                 lblMensaje.setText(jugador.getNombreCompleto() + " ha decidido no pagar la apuesta.");
                 // Desactiva botones si el jugador no paga
