@@ -1,13 +1,13 @@
 
 package inicio;
 
-import pokerApp.Fachada.Fachada;
+import dominio.Fachada.Fachada;
 import pokerApp.iuJuego.PanelDeCartas;
-import pokerApp.uiUsuariosYLogin.Login;
-import pokerApp.uiUsuariosYLogin.LoginAdministrador;
-import pokerApp.uiUsuariosYLogin.LoginJugador;
-import pokerApp.usuarios.Sesion;
-import pokerApp.usuarios.Usuario;
+import interfazusuario.Login;
+import interfazusuario.LoginAdministrador;
+import interfazusuario.LoginJugador;
+import dominiousuario.Sesion;
+import dominiousuario.Usuario;
 
 
 public class Test {

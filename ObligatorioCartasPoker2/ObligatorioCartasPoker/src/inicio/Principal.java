@@ -1,9 +1,9 @@
 
 package inicio;
 
-import pokerApp.Fachada.Fachada;
-import pokerApp.uiUsuariosYLogin.LoginAdministrador;
-import pokerApp.uiUsuariosYLogin.LoginJugador;
+import dominio.Fachada.Fachada;
+import interfazusuario.LoginAdministrador;
+import interfazusuario.LoginJugador;
 
 
 public class Principal extends javax.swing.JFrame{

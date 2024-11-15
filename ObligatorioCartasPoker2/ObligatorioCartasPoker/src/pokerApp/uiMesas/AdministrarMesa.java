@@ -5,8 +5,8 @@ import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
-import pokerApp.Fachada.Fachada;
-import pokerApp.juego.Mesa;
+import dominio.Fachada.Fachada;
+import dominioMesaYMano.Mesa;
 
 public class AdministrarMesa extends javax.swing.JDialog {
 
@@ -127,22 +127,6 @@ public class AdministrarMesa extends javax.swing.JDialog {
     }//GEN-LAST:event_btnCrearMesaActionPerformed
 
 
-    public static void main(String args[]) {
-
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                Fachada.getInstancia().getMesas();
-                AdministrarMesa dialog = new AdministrarMesa(new javax.swing.JFrame(), true, Fachada.getInstancia().getMesas());
-                dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-                    @Override
-                    public void windowClosing(java.awt.event.WindowEvent e) {
-                        System.exit(0);
-                    }
-                });
-                dialog.setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnCrearMesa;

@@ -3,10 +3,10 @@ package pokerApp.iuJuego;
 
 import java.util.ArrayList;
 import javax.swing.Timer;
-import pokerApp.Exceptions.UsuarioException;
+import dominiousuario.UsuarioException;
 import pokerApp.juego.JuegoPoker;
-import pokerApp.juego.Mesa;
-import pokerApp.usuarios.Jugador;
+import dominioMesaYMano.Mesa;
+import dominiousuario.Jugador;
 
 
 public class SalaEsperaPoker extends javax.swing.JDialog {
@@ -61,26 +61,7 @@ public class SalaEsperaPoker extends javax.swing.JDialog {
         pack();
     }// </editor-fold>//GEN-END:initComponents
 
-    /**
-     * @param args the command line arguments
-     */
-public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(() -> {
-        // Crear objetos necesarios para inicializar SalaEsperaPoker
-        Mesa mesa = new Mesa(1, 1000, 5); // Número de mesa, apuesta base y jugadores requeridos
-        Jugador jugador = new Jugador("ID123", "jugador1", "Maximiliano", 5000); // Inicializa el jugador con un saldo
 
-        // Crear y mostrar la ventana de SalaEsperaPoker
-        SalaEsperaPoker dialog = new SalaEsperaPoker(new javax.swing.JFrame(), true, mesa, jugador);
-        dialog.addWindowListener(new java.awt.event.WindowAdapter() {
-            @Override
-            public void windowClosing(java.awt.event.WindowEvent e) {
-                System.exit(0);
-            }
-        });
-        dialog.setVisible(true);
-    });
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JLabel lblMensaje;

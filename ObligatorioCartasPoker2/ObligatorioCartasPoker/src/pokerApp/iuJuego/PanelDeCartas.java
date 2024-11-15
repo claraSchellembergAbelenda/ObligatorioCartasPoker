@@ -9,17 +9,17 @@ import pokerApp.juego.JuegoPoker;
 import panelCartasPoker.CartaPoker;
 import panelCartasPoker.PanelCartasListener;
 import panelCartasPoker.PanelCartasPokerException;
-import pokerApp.Exceptions.ManoException;
-import pokerApp.Exceptions.UsuarioException;
-import pokerApp.Fachada.Fachada;
-import pokerApp.figurasYCartas.Carta;
-import pokerApp.figurasYCartas.TipoFigura;
-import pokerApp.juego.Mesa;
+import dominioMesaYMano.ManoException;
+import dominiousuario.UsuarioException;
+import dominio.Fachada.Fachada;
+import dominiocartasyfiguras.Carta;
+import dominiocartasyfiguras.TipoFigura;
+import dominioMesaYMano.Mesa;
 import pokerApp.listeners.ApuestaListener;
 import pokerApp.listeners.ApuestaManager;
 import pokerApp.listeners.EventoApuesta;
 import pokerApp.uiMesas.IngresarAMesa;
-import pokerApp.usuarios.Jugador;
+import dominiousuario.Jugador;
 import utilidades.Observable;
 import utilidades.Observador;
 
@@ -67,14 +67,12 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     // <editor-fold defaultstate="collapsed" desc="Generated Code">                          
     private void initComponents() {
 
-        panelCartas1 = new pokerApp.iuJuego.PanelCartas();
         panelCartasPoker = new panelCartasPoker.PanelCartasPoker();
         btnIniciarApuesta = new javax.swing.JButton();
         btnPasar = new javax.swing.JButton();
         btnCambiarCartas = new javax.swing.JButton();
         btnAbandonarMesa = new javax.swing.JButton();
         btnJugar = new javax.swing.JButton();
-        btnPagarApuesta = new javax.swing.JButton();
         jSeparator1 = new javax.swing.JSeparator();
         lblSaldoJugador = new javax.swing.JLabel();
         lblMensaje = new javax.swing.JLabel();
@@ -120,12 +118,6 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
             }
         });
 
-        btnPagarApuesta.setText("Pagar Apuesta");
-        btnPagarApuesta.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnPagarApuestaActionPerformed(evt);
-            }
-        });
 
         lblSaldoJugador.setText("Saldo:");
 
@@ -153,9 +145,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                                 .addGap(39, 39, 39))
                             .addGroup(layout.createSequentialGroup()
                                 .addComponent(btnIniciarApuesta)
-                                .addGap(37, 37, 37)
-                                .addComponent(btnPagarApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 116, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(13, 13, 13)))
+                                .addGap(37, 37, 37)))
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(layout.createSequentialGroup()
                                 .addGap(35, 35, 35)
@@ -209,7 +199,6 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 111, Short.MAX_VALUE)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                             .addComponent(btnIniciarApuesta)
-                            .addComponent(btnPagarApuesta)
                             .addComponent(btnCambiarCartas))
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
@@ -314,20 +303,6 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
 
                 actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
                 
-                 // Notifica a los demás jugadores
-//                for (Jugador j : jugadoresEnMano) {
-//                    if (j != jugador) {
-//                        // Muestra diálogo de confirmación para los demás jugadores
-//                        int respuesta = JOptionPane.showConfirmDialog(this, 
-//                            jugador.getNombreCompleto() + " ha apostado $" + montoApuesta +
-//                            ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
-//                            JOptionPane.YES_NO_OPTION);
-//                        if (respuesta == JOptionPane.YES_OPTION && j.tieneSaldoSuficiente(montoApuesta)) {
-//                            j.descontarSaldo(montoApuesta);
-//                            mesa.incrementarPozo(montoApuesta);
-//                        }
-//                    }
-//                }
                 lblMensaje.setText( "El pozo actual es: $" + pozoActual);
                 actualizarSaldoJugador();
             }
@@ -348,66 +323,12 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         btnAbandonarMesa.setEnabled(false);
         btnCambiarCartas.setEnabled(false);
         btnIniciarApuesta.setEnabled(false);
-        btnPagarApuesta.setEnabled(false);
         btnJugar.setEnabled(false);
         btnPasar.setEnabled(false);
         //logica para pasar 
     }
 
-    private void btnPagarApuestaActionPerformed(java.awt.event.ActionEvent evt) {
-        //uno apuesta, se le resta de su saldo el valor de la apuesta hecha y les aparece un dialogo al resto de los 
-        //jugadores que dice "tal jugador hizo una apuesta, desea pagar, si o no"
-        //si ponen que si se les descuenta
-        //si no pagan la apuesta se cierra esa ventana y se le desabilitan todos los botones excepto el de abandonar mesa
-        // Obtener el monto de la apuesta actual
-    float montoApuesta = mesa.getApuestaBase();
 
-    // Descontar el saldo al jugador que hace la apuesta
-    try {
-        juegoPoker.realizarApuesta(jugador, (float) montoApuesta);
-        lblMensaje.setText("Has realizado una apuesta de $" + montoApuesta + ".");
-        actualizarInterfaz();
-
-        // Preguntar al resto de los jugadores si desean pagar la apuesta
-        for (Jugador jugadorRestante : mesa.getJugadoresEnMesa()) {
-            if (jugadorRestante != jugador) {
-                // Crear una ventana de confirmación para el jugador restante
-                int respuesta = javax.swing.JOptionPane.showConfirmDialog(this, 
-                    jugador.getNombreCompleto() + " ha realizado una apuesta de $" + montoApuesta + 
-                    ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
-                    javax.swing.JOptionPane.YES_NO_OPTION);
-
-                if (respuesta == javax.swing.JOptionPane.YES_OPTION) {
-                    // Si el jugador decide pagar, descontar saldo y actualizar el pozo
-                    if (jugadorRestante.tieneSaldoSuficiente((float) montoApuesta)) {
-                        jugadorRestante.descontarSaldo((float) montoApuesta);
-                        mesa.incrementarPozo(montoApuesta);
-                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + 
-                                " ha pagado la apuesta.");
-                        actualizarInterfaz();
-                    } else {
-                        lblMensaje.setText(jugadorRestante.getNombreCompleto() + 
-                                " no tiene saldo suficiente para pagar la apuesta.");
-                    }
-                } else {
-                    // Si el jugador decide no pagar, se le deshabilitan los botones excepto 'Abandonar Mesa'
-                    if (jugadorRestante == this.jugador) {
-                        btnPagarApuesta.setEnabled(false);
-                        btnCambiarCartas.setEnabled(false);
-                        btnJugar.setEnabled(false);
-                        btnPasar.setEnabled(false);
-                    }
-                    lblMensaje.setText(jugadorRestante.getNombreCompleto() + 
-                            " ha decidido no pagar la apuesta.");
-                }
-            }
-        }
-    } catch (UsuarioException ex) {
-        lblMensaje.setText("Error al realizar la apuesta: " + ex.getMessage());
-    }
-        
-        
-    }
 
     private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {                                                 
         //logica para cambiar cartas
@@ -450,28 +371,13 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         lblMensaje.setText("El pozo actual es: $" + pozo);
     }
 
-public static void main(String[] args) {
-    java.awt.EventQueue.invokeLater(() -> {
-        // Crear una mesa y un jugador
-        Mesa mesa = new Mesa(1, 1000, 5); // ID mesa, apuesta base, jugadores requeridos
-        Jugador jugador = new Jugador("ID123", "jugador1", "Maximiliano", 5000); // Jugador de prueba
 
-        // Inicializar el juego de póker con la mesa
-        JuegoPoker juegoPoker = new JuegoPoker(mesa);
-        ArrayList<Jugador>jugadores=new ArrayList<>();
-        
-        // Crear y mostrar la ventana de PanelDeCartas
-        PanelDeCartas panelCartas = new PanelDeCartas(juegoPoker, jugador, mesa, jugadores);
-        panelCartas.setVisible(true);
-    });
-}
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnAbandonarMesa;
     private javax.swing.JButton btnCambiarCartas;
     private javax.swing.JButton btnIniciarApuesta;
     private javax.swing.JButton btnJugar;
-    private javax.swing.JButton btnPagarApuesta;
     private javax.swing.JButton btnPasar;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JSeparator jSeparator1;
@@ -480,7 +386,6 @@ public static void main(String[] args) {
     private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblSaldoJugador;
     private javax.swing.JList lstFiguras;
-    private pokerApp.iuJuego.PanelCartas panelCartas1;
     private panelCartasPoker.PanelCartasPoker panelCartasPoker;
     // End of variables declaration//GEN-END:variables
 
@@ -578,7 +483,6 @@ public static void main(String[] args) {
                 } else {
                 lblMensaje.setText(jugador.getNombreCompleto() + " ha decidido no pagar la apuesta.");
                 // Desactiva botones si el jugador no paga
-                btnPagarApuesta.setEnabled(false);
                 btnCambiarCartas.setEnabled(false);
                 btnJugar.setEnabled(false);
                 btnPasar.setEnabled(false);

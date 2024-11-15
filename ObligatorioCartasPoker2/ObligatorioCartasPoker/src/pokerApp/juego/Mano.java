@@ -2,15 +2,15 @@
 package pokerApp.juego;
 
 import estados.EstadoMano;
-import pokerApp.figurasYCartas.Figura;
-import pokerApp.usuarios.Jugador;
+import dominiocartasyfiguras.Figura;
+import dominiousuario.Jugador;
 import java.util.ArrayList;
 import java.util.List;
-import pokerApp.Exceptions.UsuarioException;
-import pokerApp.Sistemas.SistemaFiguras;
-import pokerApp.figurasYCartas.Carta;
-import pokerApp.figurasYCartas.Mazo;
-import pokerApp.figurasYCartas.TipoFigura;
+import dominiousuario.UsuarioException;
+import dominiocartasyfiguras.SistemaFiguras;
+import dominiocartasyfiguras.Carta;
+import dominiocartasyfiguras.Mazo;
+import dominiocartasyfiguras.TipoFigura;
 
 
 public class Mano {

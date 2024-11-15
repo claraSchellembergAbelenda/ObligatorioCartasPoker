@@ -4,13 +4,13 @@ package pokerApp.uiMesas;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
-import pokerApp.Exceptions.MesaException;
-import pokerApp.Exceptions.UsuarioException;
-import pokerApp.Fachada.Fachada;
+import dominiomesaymano.MesaException;
+import dominiousuario.UsuarioException;
+import dominio.Fachada.Fachada;
 import pokerApp.iuJuego.SalaEsperaPoker;
-import pokerApp.juego.Mesa;
-import pokerApp.usuarios.Jugador;
-import pokerApp.usuarios.Sesion;
+import dominioMesaYMano.Mesa;
+import dominiousuario.Jugador;
+import dominiousuario.Sesion;
 
 
 public class IngresarAMesa extends javax.swing.JDialog {

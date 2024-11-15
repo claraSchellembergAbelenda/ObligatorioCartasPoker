@@ -1,7 +1,7 @@
 
 package pokerApp.listeners;
 
-import pokerApp.usuarios.Jugador;
+import dominiousuario.Jugador;
 import utilidades.Observable;
 
 

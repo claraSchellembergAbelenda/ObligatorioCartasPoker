@@ -2,13 +2,13 @@ package pokerApp.juego;
 
 import estados.EstadoMano;
 import java.util.ArrayList;
-import pokerApp.juego.Mesa;
-import pokerApp.usuarios.Jugador;
+import dominioMesaYMano.Mesa;
+import dominiousuario.Jugador;
 import estados.EstadoPartida;
-import pokerApp.Exceptions.ManoException;
-import pokerApp.Exceptions.UsuarioException;
-import pokerApp.figurasYCartas.Carta;
-import pokerApp.figurasYCartas.Mazo;
+import dominioMesaYMano.ManoException;
+import dominiousuario.UsuarioException;
+import dominiocartasyfiguras.Carta;
+import dominiocartasyfiguras.Mazo;
 
 public class JuegoPoker {
     private Mesa mesa;
