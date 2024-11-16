@@ -5,6 +5,8 @@ import java.util.List;
 import modelCartasYFiguras.Carta;
 import pokerApp.listeners.EventoMesa;
 import java.util.ArrayList;
+import modelCartasYFiguras.SistemaFiguras;
+import modelCartasYFiguras.TipoFigura;
 import modelJuego.Mesa;
 import utilidades.Observable;
 
@@ -15,12 +17,17 @@ public class Jugador extends Usuario implements Observador{
     private float apuesta;
     private ArrayList<Carta> cartas= new ArrayList<>();
     private EstadoJugadorEnMano estadoJugadorEnMano;
+    private TipoFigura figuraActual; // Figura actual del jugador
+    private SistemaFiguras sistemaFiguras; // Sistema para gestionar figuras
     
     public Jugador(String cedula, String password, String nombreCompleto, float saldo) {
         super(cedula, password, nombreCompleto); // Llamamos al constructor de la clase base Usuario
         this.nombreCompleto = nombreCompleto;
         this.saldo = saldo;
         this.estadoJugadorEnMano=EstadoJugadorEnMano.ACCION_PENDIENTE;
+        this.sistemaFiguras = new SistemaFiguras(); // Inicializamos el sistema de figuras
+        this.figuraActual = sistemaFiguras.determinarFigura(cartas); // Calcula la figura inicial
+
     }
 
     public EstadoJugadorEnMano getEstadoJugadorEnMano() {
@@ -136,13 +143,30 @@ public class Jugador extends Usuario implements Observador{
                 cartas.set(index, nuevasCartas.get(i)); // Reemplaza la carta en la posición correcta
             }
         }
+        
+        // Recalcula la figura después de cambiar cartas
+        recalcularFigura();
+        
         System.out.println(getNombreCompleto() + " ha cambiado sus cartas.");
     }
 
+    public void recalcularFigura() {
+        this.figuraActual = sistemaFiguras.determinarFigura(cartas);
+        System.out.println("Figura actualizada para " + getNombreCompleto() + ": " + figuraActual.getNombre());
+    }
+
+
+    
     public void agregarCarta(Carta carta) {
         this.cartas.add(carta);
+        recalcularFigura(); // Recalcula la figura al agregar una nueva carta
+
     }
-    
+
+    public TipoFigura getFiguraActual() {
+        return this.figuraActual; // Retorna la figura actual del jugador
+    }
+
     
     
     

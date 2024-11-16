@@ -247,31 +247,31 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         this.dispose(); 
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed
 
-    private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
-        try {
-            if (cartasSeleccionadas.isEmpty()) {
-                lblMensaje.setText("No se han seleccionado cartas para cambiar.");
-                return;
-            }
-
-            // Obtén nuevas cartas para reemplazar
-            ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
-
-            // Reemplaza las cartas seleccionadas con las nuevas
-            for (int i = 0; i < cartasSeleccionadas.size(); i++) {
-                Carta cartaActual = cartasSeleccionadas.get(i);
-                jugador.getCartas().set(jugador.getCartas().indexOf(cartaActual), nuevasCartas.get(i));
-            }
-
-            // Limpia la selección y recarga el panel visualmente
-            cartasSeleccionadas.clear();
-            cargarCartasEnPanel(jugador.getCartas());
-
-            lblMensaje.setText("Cartas cambiadas exitosamente.");
-        } catch (Exception ex) {
-            lblMensaje.setText("Error al cambiar cartas: " + ex.getMessage());
+private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
+    try {
+        if (cartasSeleccionadas.isEmpty()) {
+            lblMensaje.setText("No se han seleccionado cartas para cambiar.");
+            return;
         }
+
+        // Obtén nuevas cartas para reemplazar
+        ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
+
+        // Cambia las cartas seleccionadas en el jugador
+        jugador.cambiarCartas(new ArrayList<>(cartasSeleccionadas), nuevasCartas);
+
+        // Limpia la selección y recarga el panel visualmente
+        cartasSeleccionadas.clear();
+        cargarCartasEnPanel(jugador.getCartas());
+
+        // Actualiza la figura del jugador y muestra el mensaje correspondiente
+        MostrarMayorFiguraFormada();
+
+        lblMensaje.setText("Cartas cambiadas exitosamente.");
+    } catch (Exception ex) {
+        lblMensaje.setText("Error al cambiar cartas: " + ex.getMessage());
     }
+}
 
     
     public void apuestaIngresada(float montoApuesta){
@@ -387,8 +387,8 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     }
 
     private void MostrarMayorFiguraFormada() {
-        TipoFigura tipoFigura =Fachada.getInstancia().determinarFigura(jugador.getCartas());
-        lblFiguraMayor.setText("La figura mas grande formada es: "+ tipoFigura.getNombre());
+        TipoFigura figuraActual = jugador.getFiguraActual(); // Obtén la figura actualizada del jugador
+        lblFiguraMayor.setText("La figura más grande formada es: " + figuraActual.getNombre());
     }
 
     private void CargarJugadores() {
