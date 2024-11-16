@@ -75,7 +75,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         lstFiguras = new javax.swing.JList();
         lblJugadoresEnMano = new javax.swing.JLabel();
         jScrollPane3 = new javax.swing.JScrollPane();
-        lstJugadoresEnMano = new javax.swing.JList();
+        lstJugadoresMismaSituacion = new javax.swing.JList();
         lblNumeroMesa = new javax.swing.JLabel();
         lblSaldoJugador = new javax.swing.JLabel();
         lblNombreJugador = new javax.swing.JLabel();
@@ -100,7 +100,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
 
         lblJugadoresEnMano.setText("Jugadores en mano:");
 
-        jScrollPane3.setViewportView(lstJugadoresEnMano);
+        jScrollPane3.setViewportView(lstJugadoresMismaSituacion);
 
         lblNumeroMesa.setText("lblNumeroMesa");
 
@@ -142,8 +142,22 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
             .addGroup(layout.createSequentialGroup()
                 .addContainerGap()
                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
+                        .addGroup(layout.createSequentialGroup()
+                            .addComponent(lblSaldoJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                            .addComponent(btnIniciarApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(92, 92, 92)
+                            .addComponent(btnPasarMano, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addGap(330, 330, 330))
+                        .addGroup(layout.createSequentialGroup()
+                            .addGap(327, 327, 327)
+                            .addComponent(btnCambiarCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(btnAbandonarMesa)))
                     .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(panelCartasPoker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                                     .addGroup(layout.createSequentialGroup()
@@ -170,27 +184,9 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
                                     .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 140, javax.swing.GroupLayout.PREFERRED_SIZE))
                                 .addGap(71, 71, 71)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                    .addComponent(lblJugadoresEnMano, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(panelCartasPoker1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(2, 2, 2)))
-                        .addGap(0, 0, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING, false)
-                            .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblSaldoJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 209, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(btnIniciarApuesta, javax.swing.GroupLayout.PREFERRED_SIZE, 132, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(92, 92, 92)
-                                .addComponent(btnPasarMano, javax.swing.GroupLayout.PREFERRED_SIZE, 141, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addGap(330, 330, 330))
-                            .addGroup(layout.createSequentialGroup()
-                                .addGap(327, 327, 327)
-                                .addComponent(btnCambiarCartas, javax.swing.GroupLayout.PREFERRED_SIZE, 126, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                                .addComponent(btnAbandonarMesa)))
-                        .addGap(339, 716, Short.MAX_VALUE))))
+                                    .addComponent(lblJugadoresEnMano, javax.swing.GroupLayout.PREFERRED_SIZE, 143, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(jScrollPane3, javax.swing.GroupLayout.PREFERRED_SIZE, 249, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                        .addContainerGap())))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -340,7 +336,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private javax.swing.JLabel lblSaldoJugador;
     private javax.swing.JLabel lblValorActualPozo;
     private javax.swing.JList lstFiguras;
-    private javax.swing.JList lstJugadoresEnMano;
+    private javax.swing.JList lstJugadoresMismaSituacion;
     private panelCartasPoker.PanelCartasPoker panelCartasPoker1;
     // End of variables declaration//GEN-END:variables
 
@@ -393,6 +389,14 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private void CargarJugadores() {
         //crear un arrayList con los jugadores que estan en la misma mesa y 
         //misma situacion de mano
+        ArrayList<Jugador> jugadoresMismaSituacion = new ArrayList<>();
+        for (Jugador j : jugadoresEnMano) {
+            if(j.getEstadoJugadorEnMano()==jugador.getEstadoJugadorEnMano()){
+                jugadoresMismaSituacion.add(j);
+            }
+        }
+        
+        lstJugadoresMismaSituacion.setListData(jugadoresMismaSituacion.toArray());
        // throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 

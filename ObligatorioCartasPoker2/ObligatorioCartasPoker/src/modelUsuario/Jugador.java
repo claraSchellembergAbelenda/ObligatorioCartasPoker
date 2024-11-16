@@ -1,4 +1,5 @@
 package modelUsuario;
+import estados.EstadoJugadorEnMano;
 import utilidades.Observador;
 import java.util.List;
 import modelCartasYFiguras.Carta;
@@ -13,13 +14,24 @@ public class Jugador extends Usuario implements Observador{
     private float saldo;
     private float apuesta;
     private ArrayList<Carta> cartas= new ArrayList<>();
+    private EstadoJugadorEnMano estadoJugadorEnMano;
     
     public Jugador(String cedula, String password, String nombreCompleto, float saldo) {
         super(cedula, password, nombreCompleto); // Llamamos al constructor de la clase base Usuario
         this.nombreCompleto = nombreCompleto;
         this.saldo = saldo;
+        this.estadoJugadorEnMano=EstadoJugadorEnMano.ACCION_PENDIENTE;
     }
 
+    public EstadoJugadorEnMano getEstadoJugadorEnMano() {
+        return estadoJugadorEnMano;
+    }
+
+    public void setEstadoJugadorEnMano(EstadoJugadorEnMano estadoJugadorEnMano) {
+        this.estadoJugadorEnMano = estadoJugadorEnMano;
+    }
+
+    
     
     public float getSaldo() {
         return saldo;

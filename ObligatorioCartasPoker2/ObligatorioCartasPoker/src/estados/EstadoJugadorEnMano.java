@@ -2,7 +2,7 @@
 package estados;
 
 
-public enum EstadoJugador {
+public enum EstadoJugadorEnMano {
     ACCION_PENDIENTE,
     APUESTA_INICIADA,
     APUESTA_PAGADA,
