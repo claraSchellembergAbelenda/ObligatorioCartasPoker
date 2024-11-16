@@ -387,7 +387,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
     }
 
     private void MostrarMayorFiguraFormada() {
-        TipoFigura figuraActual = jugador.getFiguraActual(); // Obtén la figura actualizada del jugador
+        TipoFigura figuraActual = Fachada.getInstancia().determinarFigura(jugador.getCartas());
         lblFiguraMayor.setText("La figura más grande formada es: " + figuraActual.getNombre());
     }
 
