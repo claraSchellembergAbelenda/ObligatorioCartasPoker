@@ -16,8 +16,8 @@ public class Mazo {
 
     // Método que precarga las 52 cartas en el mazo
     private void precargarCartas() {
-        String[] palos = {"Corazón", "Diamante", "Trébol", "Pique"};
-        int[] valores = {14, 13, 12, 11, 10, 9, 8, 7, 6, 5,4,3,2};
+        String[] palos = {"C", "D", "T", "P"};
+        int[] valores = {13, 12, 11, 10, 9, 8, 7, 6, 5,4,3,2,1};
 
         for (String palo : palos) {
             for (int valor : valores) {

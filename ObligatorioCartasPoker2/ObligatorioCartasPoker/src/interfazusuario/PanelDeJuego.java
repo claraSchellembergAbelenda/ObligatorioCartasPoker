@@ -43,8 +43,6 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         figuras=TipoFigura.getTodasFiguras();
         cargarFiguras();
         ApuestaManager.getInstancia().agregar(this);
-        ArrayList<Carta>cartasJugador = mesa.getMazo().sacarCartas(5);//rehacer esto de forma experta
-        jugador.setCartas(cartasJugador);
         MostrarSaldoJugador();
         MostrarMensaje();
         MostrarNombreJugador();
@@ -54,6 +52,8 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         MostrarMayorFiguraFormada();
         CargarJugadores();
         MostrarPozoActual();
+        cargarCartasEnPanel(jugador.getCartas());
+        
     }
     
 
@@ -423,52 +423,57 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
 //
 //        lblMensaje.setText("Cartas seleccionadas: " + cartasSeleccionadas.size());
     }
-    public void cargarCartasEnPanel(List<Carta> cartas) {
-    ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
-
-    // Crear instancias de CartaPoker para cada Carta y agregar a la lista
-    for (Carta carta : cartas) {
-        CartaPoker cartaPoker = new CartaPoker() {
-            @Override
-            public int getValorCarta() {
-                return carta.getValorCarta();
-            }
-
-            @Override
-            public String getPaloCarta() {
-                switch (carta.getPaloCarta().toUpperCase()) {
-                    case "CORAZON":
-                        return CartaPoker.CORAZON;
-                    case "DIAMANTE":
-                        return CartaPoker.DIAMANTE;
-                    case "TREBOL":
-                        return CartaPoker.TREBOL;
-                    case "PIQUE":
-                        return CartaPoker.PIQUE;
-                    default:
-                        return "P";  // valor por defecto
-                }
-            }
-
-            @Override
-            public boolean estaVisible() {
-                return true;
-            }
-
-            @Override
-            public void setVisible(boolean b) {
-                // Controla la visibilidad si es necesario
-            }
-        };
-        cartasPoker.add(cartaPoker);
-    }
-
-    // Recargar las cartas en el panel visualmente
+    public void cargarCartasEnPanel(ArrayList<Carta> cartas) {
+//    ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
+//
+//    // Crear instancias de CartaPoker para cada Carta y agregar a la lista
+//    for (Carta carta : cartas) {
+//        System.out.println("carta numero "+ carta.getPaloCarta()+"numero "+carta.getValorCarta()+"jugador "+ jugador.getNombre());
+//        CartaPoker cartaPoker = new CartaPoker() {
+//            @Override
+//            public int getValorCarta() {
+//                return carta.getValorCarta();
+//            }
+//
+//            @Override
+//            public String getPaloCarta() {
+//                switch (carta.getPaloCarta().toUpperCase()) {
+//                    case "CORAZON":
+//                        return CartaPoker.CORAZON;
+//                    case "DIAMANTE":
+//                        return CartaPoker.DIAMANTE;
+//                    case "TREBOL":
+//                        return CartaPoker.TREBOL;
+//                    case "PIQUE":
+//                        return CartaPoker.PIQUE;
+//                    default:
+//                        return "P";  // valor por defecto
+//                }
+//            }
+//
+//            @Override
+//            public boolean estaVisible() {
+//                return true;
+//            }
+//
+//            @Override
+//            public void setVisible(boolean b) {
+//                // Controla la visibilidad si es necesario
+//            }
+//        };
+//        cartasPoker.add(cartaPoker);
+//    }
+//
+//    // Recargar las cartas en el panel visualmente
     try {
-        System.out.println("cargando cartas: "+ cartasPoker.size()
+        System.out.println("cargando cartas: "+ cartas.size()
                 +"A partir de: "+cartas.size()+
                 " nombre jugador: "+ jugador.getNombreCompleto()
         );
+        ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
+         for (Carta carta : cartas) {
+            cartasPoker.add(carta);
+        }
         panelCartasPoker1.cargarCartas(cartasPoker);
     } catch (PanelCartasPokerException ex) {
         lblMensaje.setText("Error al cargar cartas en el panel: " + ex.getMessage());
