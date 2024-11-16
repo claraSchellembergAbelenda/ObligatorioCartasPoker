@@ -9,10 +9,21 @@ public class Carta implements CartaPoker {
     private String palo;
     private String nombre;
     private boolean visible = true;
+    private boolean seleccionada = false;
 
+        
+        
     public Carta(int num, String palo) {
         this.numero = num;
         this.palo = palo;
+    }
+    
+    public boolean isSeleccionada() {
+        return seleccionada;
+    }
+
+    public void setSeleccionada(boolean seleccionada) {
+        this.seleccionada = seleccionada;
     }
     
     @Override

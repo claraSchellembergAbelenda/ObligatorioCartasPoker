@@ -247,26 +247,31 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         this.dispose(); 
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed
 
-    private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCambiarCartasActionPerformed
-
-//logica para cambiar cartas
-        //se cambian las cartad del jugador, y en el panel se visualizan las cartas nuevas tambien
+    private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
         try {
-        if (!cartasSeleccionadas.isEmpty()) {
-            ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
-            jugador.cambiarCartas(new ArrayList<>(cartasSeleccionadas), nuevasCartas);
-            
-            // Recargar cartas en el panel y limpiar selección
-            cargarCartasEnPanel(jugador.getCartas());  // Actualiza las cartas en el panel
-            cartasSeleccionadas.clear();
-            lblMensaje.setText("Cartas cambiadas exitosamente.");
-            } else {
-            lblMensaje.setText("No se han seleccionado cartas para cambiar.");
+            if (cartasSeleccionadas.isEmpty()) {
+                lblMensaje.setText("No se han seleccionado cartas para cambiar.");
+                return;
             }
+
+            // Obtén nuevas cartas para reemplazar
+            ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
+
+            // Reemplaza las cartas seleccionadas con las nuevas
+            for (int i = 0; i < cartasSeleccionadas.size(); i++) {
+                Carta cartaActual = cartasSeleccionadas.get(i);
+                jugador.getCartas().set(jugador.getCartas().indexOf(cartaActual), nuevasCartas.get(i));
+            }
+
+            // Limpia la selección y recarga el panel visualmente
+            cartasSeleccionadas.clear();
+            cargarCartasEnPanel(jugador.getCartas());
+
+            lblMensaje.setText("Cartas cambiadas exitosamente.");
         } catch (Exception ex) {
             lblMensaje.setText("Error al cambiar cartas: " + ex.getMessage());
-        }        
-    }//GEN-LAST:event_btnCambiarCartasActionPerformed
+        }
+    }
 
     
     public void apuestaIngresada(float montoApuesta){
@@ -410,76 +415,45 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     
     //--------------------------------------override methods------------------------------------------------------------------------------
     
-    @Override
-    public void clickEnCarta(CartaPoker carta) {
-//        Carta carta = new Carta(cartaPoker.getValorCarta(), cartaPoker.getPaloCarta());
-//
-//                // Verificar si la carta ya está seleccionada y quitarla si es necesario
-//                if (cartasSeleccionadas.contains(carta)) {
-//                    cartasSeleccionadas.remove(carta);
-//                } else {
-//                    cartasSeleccionadas.add(carta);
-//                }
-//
-//        lblMensaje.setText("Cartas seleccionadas: " + cartasSeleccionadas.size());
-    }
-    public void cargarCartasEnPanel(ArrayList<Carta> cartas) {
-//    ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
-//
-//    // Crear instancias de CartaPoker para cada Carta y agregar a la lista
-//    for (Carta carta : cartas) {
-//        System.out.println("carta numero "+ carta.getPaloCarta()+"numero "+carta.getValorCarta()+"jugador "+ jugador.getNombre());
-//        CartaPoker cartaPoker = new CartaPoker() {
-//            @Override
-//            public int getValorCarta() {
-//                return carta.getValorCarta();
-//            }
-//
-//            @Override
-//            public String getPaloCarta() {
-//                switch (carta.getPaloCarta().toUpperCase()) {
-//                    case "CORAZON":
-//                        return CartaPoker.CORAZON;
-//                    case "DIAMANTE":
-//                        return CartaPoker.DIAMANTE;
-//                    case "TREBOL":
-//                        return CartaPoker.TREBOL;
-//                    case "PIQUE":
-//                        return CartaPoker.PIQUE;
-//                    default:
-//                        return "P";  // valor por defecto
-//                }
-//            }
-//
-//            @Override
-//            public boolean estaVisible() {
-//                return true;
-//            }
-//
-//            @Override
-//            public void setVisible(boolean b) {
-//                // Controla la visibilidad si es necesario
-//            }
-//        };
-//        cartasPoker.add(cartaPoker);
-//    }
-//
-//    // Recargar las cartas en el panel visualmente
-    try {
-        System.out.println("cargando cartas: "+ cartas.size()
-                +"A partir de: "+cartas.size()+
-                " nombre jugador: "+ jugador.getNombreCompleto()
-        );
-        ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
-         for (Carta carta : cartas) {
-            cartasPoker.add(carta);
+@Override
+public void clickEnCarta(CartaPoker cartaPoker) {
+    // Encuentra la carta correspondiente al objeto CartaPoker
+    for (Carta carta : jugador.getCartas()) {
+        if (carta.getValorCarta() == cartaPoker.getValorCarta() &&
+            carta.getPaloCarta().equals(cartaPoker.getPaloCarta())) {
+            
+            if (carta.isSeleccionada()) {
+                carta.setSeleccionada(false); // Deseleccionar
+                cartasSeleccionadas.remove(carta);
+            } else {
+                carta.setSeleccionada(true); // Seleccionar
+                cartasSeleccionadas.add(carta);
+            }
+            break; // Sal del bucle después de encontrar la carta
         }
+    }
+
+    // Recarga las cartas en el panel visualmente
+    cargarCartasEnPanel(jugador.getCartas());
+    lblMensaje.setText("Cartas seleccionadas: " + cartasSeleccionadas.size());
+}
+    
+    
+    
+    public void cargarCartasEnPanel(ArrayList<Carta> cartas) {
+    try {
+        ArrayList<CartaPoker> cartasPoker = new ArrayList<>();
+
+        for (Carta carta : cartas) {
+            carta.setVisible(!carta.isSeleccionada()); // Oculta las cartas seleccionadas visualmente
+            cartasPoker.add(carta); // Agrega la carta a la lista
+        }
+
         panelCartasPoker1.cargarCartas(cartasPoker);
     } catch (PanelCartasPokerException ex) {
         lblMensaje.setText("Error al cargar cartas en el panel: " + ex.getMessage());
     }
 }
-
     
 
     @Override

@@ -84,10 +84,23 @@ public class JuegoPoker {
         System.out.println(jugador.getNombre() + " ha abandonado la mesa.");
     }
 
-    public void cambiarCartas(Jugador jugador, ArrayList<Carta> cartasACambiar) {
+    //metodo  nuevo cambiar cartas
+    public void cambiarCartas(Jugador jugador, ArrayList<Carta> cartasACambiar) throws UsuarioException {
+        if (cartasACambiar.isEmpty()) {
+            throw new UsuarioException("No hay cartas seleccionadas para cambiar.");
+        }
+
+        // Verifica que el jugador tiene suficientes cartas para cambiar
+        if (cartasACambiar.size() > jugador.getCartas().size()) {
+            throw new UsuarioException("El número de cartas seleccionadas excede las que posee el jugador.");
+        }
+
+        // Reemplaza las cartas seleccionadas por nuevas cartas del mazo
         ArrayList<Carta> nuevasCartas = mazo.sacarCartas(cartasACambiar.size());
-        jugador.cambiarCartas(cartasACambiar, nuevasCartas); // Asume que el jugador tiene un método `cambiarCartas`
-        System.out.println(jugador.getNombre() + " ha cambiado " + cartasACambiar.size() + " cartas.");
+        jugador.cambiarCartas(cartasACambiar, nuevasCartas);
+
+        // Imprime el estado actualizado del jugador
+        System.out.println("Cartas actualizadas para " + jugador.getNombre() + ": " + jugador.getCartas());
     }
 
     public boolean pagarApuesta(Jugador jugador, double monto) throws UsuarioException {
