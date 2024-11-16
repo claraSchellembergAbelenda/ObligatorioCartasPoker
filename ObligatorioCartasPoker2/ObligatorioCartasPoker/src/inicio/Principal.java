@@ -1,7 +1,7 @@
 
 package inicio;
 
-import dominio.Fachada.Fachada;
+import modelFachada.Fachada;
 import interfazusuario.LoginAdministrador;
 import interfazusuario.LoginJugador;
 

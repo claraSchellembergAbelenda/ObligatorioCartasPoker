@@ -1,10 +1,10 @@
 package interfazusuario;
 
 import java.awt.Color;
-import dominiousuario.UsuarioException;
-import dominiousuario.Sesion;
-import dominio.Fachada.Fachada;
-import dominiousuario.Usuario;
+import modelUsuario.UsuarioException;
+import modelUsuario.Sesion;
+import modelFachada.Fachada;
+import modelUsuario.Usuario;
 
 public abstract class Login extends javax.swing.JDialog {
 

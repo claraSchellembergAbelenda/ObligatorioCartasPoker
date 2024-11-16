@@ -1,25 +1,25 @@
 package pokerApp.iuJuego;
 
+import interfazusuario.IniciarApuesta;
 import estados.EstadoPartida;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
-import pokerApp.juego.IniciarApuesta;
-import pokerApp.juego.JuegoPoker;
+import modelJuego.JuegoPoker;
 import panelCartasPoker.CartaPoker;
 import panelCartasPoker.PanelCartasListener;
 import panelCartasPoker.PanelCartasPokerException;
-import dominioMesaYMano.ManoException;
-import dominiousuario.UsuarioException;
-import dominio.Fachada.Fachada;
-import dominiocartasyfiguras.Carta;
-import dominiocartasyfiguras.TipoFigura;
-import dominioMesaYMano.Mesa;
+import modelJuego.ManoException;
+import modelUsuario.UsuarioException;
+import modelFachada.Fachada;
+import modelCartasYFiguras.Carta;
+import modelCartasYFiguras.TipoFigura;
+import modelJuego.Mesa;
 import pokerApp.listeners.ApuestaListener;
 import pokerApp.listeners.ApuestaManager;
 import pokerApp.listeners.EventoApuesta;
-import pokerApp.uiMesas.IngresarAMesa;
-import dominiousuario.Jugador;
+import interfazusuario.IngresarAMesa;
+import modelUsuario.Jugador;
 import utilidades.Observable;
 import utilidades.Observador;
 
@@ -34,17 +34,17 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     private ArrayList<Jugador>jugadoresEnMano= new ArrayList<>();
     
     
-    public PanelDeCartas(JuegoPoker juegoPoker, Jugador jugador, Mesa mesa, ArrayList<Jugador>jugadores) {
+    public PanelDeCartas(JuegoPoker juegoPoker, Jugador jugador, Mesa mesa) {
         initComponents();
         this.juegoPoker = juegoPoker;
         this.jugador = jugador;
         this.mesa = mesa;
-        this.mesa.agregarJugador(jugador);
+        //this.mesa.agregarJugador(jugador);
+        jugadoresEnMano=mesa.getJugadoresEnMesa();
         inicializarPanelCartas();
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
         cargarFiguras();
-        jugadoresEnMano=jugadores;
         ApuestaManager.getInstancia().agregar(this);
         
         // Asignar cartas aleatorias al jugador desde el mazo
@@ -54,7 +54,8 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
 //        cargarCartasEnPanel(jugador.getCartas()); 
         lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
         lblMensaje.setText("El juego ha comenzado en la mesa " 
-                + juegoPoker.getMesa().getNumeroMesa() + "bienvenido jugador: "+ jugador.getNombre());
+                + juegoPoker.getMesa().getNumeroMesa() + "bienvenido jugador: "
+                + jugador.getNombre());
         mostrarFiguraFormada();
     }
     
@@ -445,6 +446,10 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
 
     // Recargar las cartas en el panel visualmente
     try {
+        System.out.println("cargando cartas: "+ cartasPoker.size()
+                +"A partir de: "+cartas.size()+
+                " nombre jugador: "+ jugador.getNombreCompleto()
+        );
         panelCartasPoker.cargarCartas(cartasPoker);
     } catch (PanelCartasPokerException ex) {
         lblMensaje.setText("Error al cargar cartas en el panel: " + ex.getMessage());

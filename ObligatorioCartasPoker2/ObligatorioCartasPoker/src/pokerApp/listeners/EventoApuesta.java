@@ -1,7 +1,7 @@
 
 package pokerApp.listeners;
 
-import dominiousuario.Jugador;
+import modelUsuario.Jugador;
 
 
 public class EventoApuesta {

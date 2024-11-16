@@ -1,11 +1,10 @@
 package interfazusuario;
 
-import pokerApp.uiMesas.AdministrarMesa;
 import java.awt.Frame;
-import dominiousuario.UsuarioException;
-import dominio.Fachada.Fachada;
-import dominiousuario.Sesion;
-import dominiousuario.Usuario;
+import modelUsuario.UsuarioException;
+import modelFachada.Fachada;
+import modelUsuario.Sesion;
+import modelUsuario.Usuario;
 
 
 public class LoginAdministrador extends Login {

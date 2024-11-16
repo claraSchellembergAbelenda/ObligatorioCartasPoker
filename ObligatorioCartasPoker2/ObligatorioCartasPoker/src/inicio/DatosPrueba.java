@@ -1,6 +1,6 @@
 package inicio;
 
-import dominio.Fachada.Fachada;
+import modelFachada.Fachada;
 
 
 
