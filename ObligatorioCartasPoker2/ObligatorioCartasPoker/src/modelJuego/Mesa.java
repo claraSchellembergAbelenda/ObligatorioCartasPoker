@@ -193,7 +193,7 @@ public class Mesa extends Observable{
             if(this.getCantidadJugadoresActual()==this.getCantidadJugadoresRequeridos()){
                 juegoPoker = new JuegoPoker(this);
                 juegoPoker.iniciarJuego();
-                juegoPoker.iniciarMano();
+                juegoPoker.iniciarNuevaMano();
                 avisar(EventoMesa.MESA_COMPLETA);
                 
             }
@@ -385,9 +385,7 @@ public class Mesa extends Observable{
         return this.manoActual.determinarGanador();
     }
 
-    public EstadoMano getEstadoMano() {
-        return manoActual.getEstadoMano();
-    }
+    
 
     public boolean todosJugadoresPasaron() {
         int cantidad=0;

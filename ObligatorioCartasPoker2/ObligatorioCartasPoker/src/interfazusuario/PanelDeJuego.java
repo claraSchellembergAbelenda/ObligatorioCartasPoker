@@ -192,8 +192,8 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(lblNombreJugador, javax.swing.GroupLayout.PREFERRED_SIZE, 189, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(85, 85, 85)
-                                                .addComponent(lblEstadoMano, javax.swing.GroupLayout.PREFERRED_SIZE, 201, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                                .addGap(232, 232, 232))
+                                                .addComponent(lblEstadoMano, javax.swing.GroupLayout.PREFERRED_SIZE, 401, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                                .addGap(32, 32, 32))
                                             .addGroup(layout.createSequentialGroup()
                                                 .addComponent(lblSeguirJugando, javax.swing.GroupLayout.PREFERRED_SIZE, 236, javax.swing.GroupLayout.PREFERRED_SIZE)
                                                 .addGap(47, 47, 47))))
@@ -310,6 +310,9 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private void btnSeguirJugandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguirJugandoActionPerformed
         // TODO add your handling code here:
         //empezar aca una siguiente mano
+        juegoPoker.iniciarNuevaMano();
+        lblSeguirJugando.setVisible(false);
+        btnSeguirJugando.setVisible(false);
     }//GEN-LAST:event_btnSeguirJugandoActionPerformed
 
 private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
@@ -446,7 +449,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
     }
 
     private void MostrarEstadoMano() {
-        lblEstadoMano.setText("Estado mano actual: "+mesa.getEstadoMano());
+        lblEstadoMano.setText("Estado mano actual: "+juegoPoker.getEstadoMano());
     }
 
     private void MostrarNumeroMesa() {

@@ -39,7 +39,7 @@ public class JuegoPoker extends Observable{
             System.out.println("El juego ha comenzado en la mesa " + mesa.getNumeroMesa());
             mesa.setEstadoPartida(EstadoPartida.JUGANDO);  // Cambia el estado de la mesa a 'Jugando'
             mesa.descontarSaldo();
-            this.iniciarMano();
+            this.iniciarNuevaMano();
         }
     }
 
@@ -130,6 +130,7 @@ public class JuegoPoker extends Observable{
             if(mano.getEstadoMano()!=EstadoMano.ESPERANDO_APUESTA){
                 throw new ManoException("No es posible realizar una apuesta en este momento");
             }
+            mano.setEstadoMano(EstadoMano.APUESTA_INICIADA);
             jugador.tieneSaldoSuficiente(monto);
             jugador.descontarSaldo(monto);
             mesa.incrementarPozo(monto); // Incrementa el pozo de la mesa con el monto apostado
@@ -137,18 +138,9 @@ public class JuegoPoker extends Observable{
         
     }
 
-    public void iniciarMano(){
-            if (mesa.getCantidadJugadoresActual() == mesa.getCantidadJugadoresRequeridos()) {
-                //mesa.validarSaldos();
-            //en vez de validar saldos hay que sacar a los q no tengan
-            //plata suficiente y despues checkear si hay suficientes 
-            //jugadores para seguir la partida
-            //puede haber eventos del jugador para avisarle que se quedo sin plata 
-            //y q panel escuche ambos
-                mesa.iniciarNuevaMano();
-            }
-            
-        }
+  public EstadoMano getEstadoMano() {
+        return mano.getEstadoMano();
+    }
 
     public void pasoMano(Jugador jugador) {
         jugador.pasoMano();
@@ -163,16 +155,18 @@ public class JuegoPoker extends Observable{
                    sacarJugadoresSinSaldo();
                    
                    
-//                   //iniciar nueva mano
-//                   if(mesa.getCantidadJugadoresActual()>=2){
-//                       
-//                        mesa.iniciarNuevaMano();
-//                   }else{
-//                       //notificar finalizacion de mesa
-//                       //y cerrar paneles y etc
-//                   }
-                   
                }
+    }
+    public void iniciarNuevaMano(){
+        
+                   //iniciar nueva mano
+                   if(mesa.getCantidadJugadoresActual()>=2){
+                       
+                        mesa.iniciarNuevaMano();
+                   }else{
+                       //notificar finalizacion de mesa
+                       //y cerrar paneles y et
+                   }
     }
     
 
