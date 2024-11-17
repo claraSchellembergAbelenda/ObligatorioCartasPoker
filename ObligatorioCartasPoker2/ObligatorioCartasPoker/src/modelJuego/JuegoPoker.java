@@ -162,18 +162,19 @@ public class JuegoPoker extends Observable{
                    //sacar jugadores
                    sacarJugadoresSinSaldo();
                    
-                   //iniciar nueva mano
-                   if(mesa.getCantidadJugadoresActual()>=2){
-                       
-                        mesa.iniciarNuevaMano();
-                   }else{
-                       //notificar finalizacion de mesa
-                       //y cerrar paneles y etc
-                   }
                    
+//                   //iniciar nueva mano
+//                   if(mesa.getCantidadJugadoresActual()>=2){
+//                       
+//                        mesa.iniciarNuevaMano();
+//                   }else{
+//                       //notificar finalizacion de mesa
+//                       //y cerrar paneles y etc
+//                   }
                    
                }
     }
+    
 
     private void sacarJugadoresSinSaldo() {
             //verifica que todoa loa jugadores tengan saldo suficiente y saca de la mesa a los q no

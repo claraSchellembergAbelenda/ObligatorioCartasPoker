@@ -409,6 +409,10 @@ public class Mesa extends Observable{
         ganador.aumentarSaldo(montoGanado);
         pozoActual=0;
     }
+
+    public ResultadoGanador getResultadoMano() {
+        return this.manoActual.determinarResultadoGanador();
+    }
     
     
  
