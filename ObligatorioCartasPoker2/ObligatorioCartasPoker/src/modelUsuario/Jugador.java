@@ -10,7 +10,7 @@ import modelCartasYFiguras.TipoFigura;
 import modelJuego.Mesa;
 import utilidades.Observable;
 
-public class Jugador extends Usuario implements Observador{
+public class Jugador extends Usuario{
 
     private String nombreCompleto;
     private float saldo;
@@ -89,16 +89,7 @@ public class Jugador extends Usuario implements Observador{
         return "Jugador{" + "saldo=" + saldo + ", nombre=" + getNombreCompleto() + '}';
     }
 
-    @Override
-    public void actualizar(Observable origen, Object evento) {
-        if (evento == EventoMesa.NUEVA_MANO_INICIADA) {
-            System.out.println("Nueva mano iniciada en la mesa.");
-        } else if (evento == EventoMesa.MESA_FINALIZADA) {
-            System.out.println("La mesa ha finalizado.");
-        } else if (evento == EventoMesa.JUGADOR_AGREGADO) {
-            System.out.println("Un jugador se ha unido a la mesa.");
-        }
-    }
+    
 
     public void validarSaldo(Mesa mesaSeleccionada) throws UsuarioException{
         if(this.getSaldo()<(mesaSeleccionada.getApuestaBase()*10)){
@@ -177,9 +168,4 @@ public class Jugador extends Usuario implements Observador{
     }
 
     
-    
-    
-    
-        
-   
 }

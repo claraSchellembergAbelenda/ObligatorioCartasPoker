@@ -79,7 +79,7 @@ public class SalaEsperaPoker extends javax.swing.JDialog implements Observador{
     }
     
 
-    public void actualizarMesa(Observable<EventoMesa> origen, EventoMesa evento) {
+    public void actualizarMesa(Observable origen, EventoMesa evento) {
             if (evento == EventoMesa.MESA_COMPLETA) {
             // La mesa está completa, inicializar JuegoPoker y abrir PanelDeCartas
             //this.juegoPoker = new JuegoPoker(mesa);

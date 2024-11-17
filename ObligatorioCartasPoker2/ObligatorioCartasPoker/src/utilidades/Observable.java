@@ -3,7 +3,7 @@ package utilidades;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Observable<T> {
+public class Observable {
     private final List<Observador> observadores = new ArrayList<>();
 
     public void agregar(Observador observador) {

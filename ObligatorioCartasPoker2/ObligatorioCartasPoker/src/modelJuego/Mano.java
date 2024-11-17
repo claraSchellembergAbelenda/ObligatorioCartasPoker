@@ -26,15 +26,8 @@ public class Mano {
     private ResultadoGanador resultadoGanador;
 
 
-    public Mano(ArrayList<Figura> figurasJugadas, int numeroMano) {
-        this.figurasJugadas = figurasJugadas;
-        this.pozoApuestas = 0;
-        this.numeroMano = numeroMano;
-        this.estadoMano=EstadoMano.ESPERANDO_APUESTA;
-    }
-
 // Constructor que recibe la lista de jugadoresEnMano y crea las listas necesarias
-    public Mano(List<Jugador> jugadores) {
+    public Mano(List<Jugador> jugadores, int numeroMano) {
         this.jugadoresEnMano = jugadores; 
         this.sistemaFiguras = new SistemaFiguras();  // Inicializamos el sistema de figuras
         this.figurasJugadas = figurasJugadas;

@@ -5,7 +5,7 @@ import modelUsuario.Jugador;
 import utilidades.Observable;
 
 
-public class ApuestaManager extends Observable<EventoApuesta>{
+public class ApuestaManager extends Observable{
     private static ApuestaManager instancia;
 
     private ApuestaManager() {}

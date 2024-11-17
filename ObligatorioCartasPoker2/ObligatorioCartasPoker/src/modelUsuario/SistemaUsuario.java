@@ -35,7 +35,7 @@ public class SistemaUsuario {
         usuariosJugadores.add(new Jugador("6", "6", "J6", 6000));
         usuariosJugadores.add(new Jugador("7", "7", "J7", 7000));
         usuariosJugadores.add(new Jugador("8", "8", "J8", 8000));
-        usuariosJugadores.add(new Jugador("9", "9", "J9", 9000));
+        usuariosJugadores.add(new Jugador("9", "9", "J9", 8000));
         //personalizados
         usuariosJugadores.add(new Jugador("52940836", "maxi1234", "Maximiliano", 9000));
         usuariosJugadores.add(new Jugador("12345678", "clara1234", "Clara", 2000));

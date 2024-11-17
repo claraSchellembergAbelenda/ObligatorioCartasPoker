@@ -37,7 +37,7 @@ public class SistemaMesa {
     
     //precarga de datos
     public void precargaMesas(){
-        mesas.add(new Mesa(3, 500, 35));
+        mesas.add(new Mesa(2, 500, 35));
         mesas.add(new Mesa(4, 7000, 50));
         mesas.add(new Mesa(3, 500, 30));
         mesas.add(new Mesa(2, 1000, 25));
@@ -68,7 +68,6 @@ public class SistemaMesa {
     public void agregarJugador(Mesa mesa, Jugador jugador){
         if (mesa.getJugadoresEnMesa().size() < mesa.getCantidadJugadoresRequeridos()) {
             mesa.agregarJugador(jugador);          // Agrega el jugador a la lista de la mesa
-            mesa.agregarObservador(jugador);       // Agrega el jugador como observador de la mesa
             
             System.out.println("Jugador agregado a la mesa.");
         } else {
@@ -182,7 +181,7 @@ public class SistemaMesa {
     // Obtener detalles de las manos jugadas en una mesa
     public ArrayList<String> obtenerDetallesManos(Mesa mesa) {
         ArrayList<String> detallesManos = new ArrayList<>();
-        for (Mano mano : mesa.getManosJugadas()) {
+        for (Mano mano : mesa.getManos()) {
             detallesManos.add("Número de mano: " + mano.getNumeroMano());
             detallesManos.add("Cantidad de jugadores: " + mano.getCantJugadores());
             detallesManos.add("Total apostado: " + mano.getPozoApuestas());

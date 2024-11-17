@@ -11,9 +11,10 @@ import modelUsuario.UsuarioException;
 import modelCartasYFiguras.Carta;
 import modelCartasYFiguras.Mazo;
 import modelCartasYFiguras.TipoFigura;
+import pokerApp.listeners.EventoJugador;
 import utilidades.Observable;
 
-public class JuegoPoker extends Observable<EstadoMano>{
+public class JuegoPoker extends Observable{
     private Mesa mesa;
     private Mano mano;
     private Mazo mazo;
@@ -22,6 +23,7 @@ public class JuegoPoker extends Observable<EstadoMano>{
         this.mesa = mesa;
         this.mazo = mesa.getMazo();
         this.mano = mesa.getManoActual();
+        
         iniciarJuego();
     }
 
@@ -151,21 +153,43 @@ public class JuegoPoker extends Observable<EstadoMano>{
     public void pasoMano(Jugador jugador) {
         jugador.pasoMano();
                if(mesa.todosJugadoresPasaron()){
-                   //un evento
-                   avisar(EstadoMano.TERMINADA);
+                   //terminar mano actual
                    Jugador ganador = mano.determinarGanador();
                    TipoFigura figuraGanadora = mano.determinarFiguraGanadora();
-                   mesa.incrementarSaldoAGanador(ganador);
+                   mesa.darPozoAGanador(ganador);
+                   avisar(EstadoMano.TERMINADA);
                    
-                   String mensaje =mesa.iniciarNuevaMano();
-                   if(mensaje.contains("saldo")){
-                       IngresarAMesa ingresarAMesa = new IngresarAMesa(null,false,jugador);
-                       ingresarAMesa.setVisible(true);
+                   //sacar jugadores
+                   sacarJugadoresSinSaldo();
+                   
+                   //iniciar nueva mano
+                   if(mesa.getCantidadJugadoresActual()>=2){
+                       
+                        mesa.iniciarNuevaMano();
+                   }else{
+                       //notificar finalizacion de mesa
+                       //y cerrar paneles y etc
                    }
-                    //si le devuelve mensaje de q no tiene suficiente se ejecuta cu
-                   //de ingresar a una mesa
+                   
                    
                }
+    }
+
+    private void sacarJugadoresSinSaldo() {
+            //verifica que todoa loa jugadores tengan saldo suficiente y saca de la mesa a los q no
+        for (Jugador jugador : mesa.getJugadoresEnMesa()) {
+            if(!jugador.tieneSaldoSuficiente(mesa.getApuestaBase())){
+                this.mesa.removerJugador(jugador);
+                //avisar(EventoJugador.NO_TIENE_SALDO_SUFICIENTE);
+//               if(mensaje.contains("saldo")){
+//                       IngresarAMesa ingresarAMesa = new IngresarAMesa(null,false,jugador);
+//                       ingresarAMesa.setVisible(true);
+//                   }
+                //avisar solo al jugador que se quedo sin plata 
+                //desde la ui del jugador que se quedo sin plata tiene que ir al ingresarAMesa
+                //y cerrar el panel
+            }
+        }
     }
 
 

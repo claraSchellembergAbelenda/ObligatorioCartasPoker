@@ -1,6 +1,8 @@
 package modelUsuario;
 
-public abstract class Usuario {
+import utilidades.Observable;
+
+public abstract class Usuario  extends Observable{
     private String cedula;
     private String password;
     private String nombreCompleto;

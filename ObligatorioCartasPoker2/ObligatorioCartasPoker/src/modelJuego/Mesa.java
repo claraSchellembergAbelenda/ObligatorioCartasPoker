@@ -14,7 +14,7 @@ import utilidades.Observador;
 public class Mesa extends Observable{
 
     private ArrayList<Jugador> jugadoresEnMesa;
-    private ArrayList<Mano> manosJugadas;
+    private ArrayList<Mano> manos;
     private Mazo mazo;
     private float apuestaBase;
     private EstadoPartida estadoPartida;
@@ -23,6 +23,7 @@ public class Mesa extends Observable{
     private Mano manoActual;
     private float montoTotalApostado;
     private float montoTotalRecaudado;
+    private float pozoActual;
     private float comision;
     private Jugador ganador;
     private Figura figuraGanadora;
@@ -30,12 +31,13 @@ public class Mesa extends Observable{
     private int numeroMesa; 
     private JuegoPoker juegoPoker;
     private ResultadoGanador resultadoGanador;
+    private int cantManos;
     
     
     // Constructor
     public Mesa( int cantidadJugadoresRequeridos, float apuestaBase, float comision) {
         this.jugadoresEnMesa = new ArrayList<>();
-        this.manosJugadas = new ArrayList<>();
+        this.manos = new ArrayList<>();
         this.mazo = new Mazo(); // Inicializamos el mazo
         this.apuestaBase = apuestaBase;
         this.cantidadJugadoresRequeridos = cantidadJugadoresRequeridos;
@@ -45,7 +47,9 @@ public class Mesa extends Observable{
         this.montoTotalApostado = 0;
         this.montoTotalRecaudado = 0;
         this.cantidadJugadoresActual = 0;
-        this.manoActual = new Mano(jugadoresEnMesa); // Inicializamos una mano inicial
+        this.pozoActual=0;
+        this.cantManos=0;
+        //iniciarNuevaMano();
     }
 
     
@@ -71,12 +75,12 @@ public class Mesa extends Observable{
         this.jugadoresEnMesa = jugadoresEnMesa;
     }
 
-    public ArrayList<Mano> getManosJugadas() {
-        return manosJugadas;
+    public ArrayList<Mano> getManos() {
+        return manos;
     }
 
-    public void setManosJugadas(ArrayList<Mano> manosJugadas) {
-        this.manosJugadas = manosJugadas;
+    public void setManos(ArrayList<Mano> manos) {
+        this.manos = manos;
     }
 
     public Mazo getMazo() {
@@ -101,6 +105,10 @@ public class Mesa extends Observable{
 
     public void setEstadoPartida(EstadoPartida estadoPartida) {
         this.estadoPartida = estadoPartida;
+    }
+
+    public float getPozoActual() {
+        return pozoActual;
     }
 
 
@@ -208,7 +216,7 @@ public class Mesa extends Observable{
 
     // Registrar una nueva mano y actualizar el monto total apostado
     public void registrarMano(Mano mano) {
-        manosJugadas.add(mano);
+        manos.add(mano);
         montoTotalApostado += mano.getPozoApuestas();
         montoTotalRecaudado += (1 - (comision / 100)) * mano.getPozoApuestas();
     }
@@ -224,7 +232,7 @@ public class Mesa extends Observable{
     // Reiniciar la mesa para una nueva partida
     public void reiniciarMesa() {
         jugadoresEnMesa.clear();
-        manosJugadas.clear();
+        manos.clear();
         montoTotalApostado = 0;
         montoTotalRecaudado = 0;
         this.estadoPartida = EstadoPartida.ABIERTA;
@@ -257,26 +265,15 @@ public class Mesa extends Observable{
         }
     }
     //metodo actualizado con validaciones
-    public String iniciarNuevaMano() {
-        String mensaje="";
-            //verifica que todoa loa jugadores tengan saldo suficiente y saca de la mesa a los q no
-        for (Jugador jugador : jugadoresEnMesa) {
-            if(!jugador.tieneSaldoSuficiente(apuestaBase)){
-                this.removerJugador(jugador);
-                avisar(EventoJugador.NO_TIENE_SALDO_SUFICIENTE);
-                mensaje="No tienes saldo suficiente para continuar jugando";
-                //ver de avisar de otra forma a juegoPoker
-                return mensaje;
-            }//else vuelve a false pasoMano
-        }
+    public void iniciarNuevaMano() {
+            cantManos++;
             estadoPartida = EstadoPartida.JUGANDO;
-            Mano nuevaMano = new Mano(jugadoresEnMesa);
-            manosJugadas.add(nuevaMano);
+            Mano nuevaMano = new Mano(jugadoresEnMesa, this.cantManos);
+            manos.add(nuevaMano);
             this.manoActual=nuevaMano;
             nuevaMano.repartirCartas();
             avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)
-            mensaje="mano creada con exito";
-            return mensaje;
+
     }
 
 
@@ -284,7 +281,7 @@ public class Mesa extends Observable{
     // Método para reiniciar la mesa
     public void reiniciar() {
         jugadoresEnMesa.clear();
-        manosJugadas.clear();
+        manos.clear();
         estadoPartida = EstadoPartida.ABIERTA;
         cantidadJugadoresActual = 0;
         montoTotalApostado = 0;
@@ -296,7 +293,7 @@ public class Mesa extends Observable{
     // Método para calcular el pozo total apostado en la mesa
     public void calcularPozoTotal() {
         montoTotalApostado = 0;
-        for (Mano mano : manosJugadas) {
+        for (Mano mano : manos) {
             montoTotalApostado += mano.getPozoApuestas();
         }
         montoTotalRecaudado = montoTotalApostado - (montoTotalApostado * comision / 100);
@@ -315,7 +312,7 @@ public class Mesa extends Observable{
     
     public ArrayList<Mano> cargarManos(){
         ArrayList<Mano>manos= new ArrayList<>();
-        for (Mano manoJugada : manosJugadas) {
+        for (Mano manoJugada : this.manos) {
             manos.add(manoJugada);
         }
         return manos;
@@ -324,19 +321,18 @@ public class Mesa extends Observable{
     
     public void pracargaManos() {
         for (int i = 1; i <= 3; i++) { // Precarga de 3 manos para el ejemplo
-            Mano mano = new Mano(jugadoresEnMesa); // Constructor puede ajustarse
-            mano.setNumeroMano(i);
+            Mano mano = new Mano(jugadoresEnMesa, i); // Constructor puede ajustarse
             mano.incrementarPozoApuestas(apuestaBase * i);
             mano.setCantJugadores(jugadoresEnMesa.size());
             mano.setEstadoMano(EstadoMano.ESPERANDO_APUESTA);
             if (!jugadoresEnMesa.isEmpty()) {
                 mano.setJugadorGanador(jugadoresEnMesa.get(0));
             }
-            manosJugadas.add(mano);
+            manos.add(mano);
         }
         // Asignar la última mano creada como la actual
-        if (!manosJugadas.isEmpty()) {
-            manoActual = manosJugadas.get(manosJugadas.size() - 1);
+        if (!manos.isEmpty()) {
+            manoActual = manos.get(manos.size() - 1);
         }
     }
 
@@ -356,10 +352,7 @@ public class Mesa extends Observable{
         super.avisar(eventoMesa);  // Llama al método avisar de Observable
     }
 
-    public void agregarObservador(Jugador jugador) {
-        super.agregar( jugador); // Llama al método agregar de Observable
-        System.out.println("Jugador " + jugador.getNombreCompleto() + " agregado como observador de la mesa.");
-    }
+    
 
     @Override
     public String toString() {
@@ -409,12 +402,14 @@ public class Mesa extends Observable{
         return false;
     }
 
-    public void incrementarSaldoAGanador(Jugador ganador) {
-        float montoComisionado = this.montoTotalApostado* (comision/100);
+    public void darPozoAGanador(Jugador ganador) {
+        float montoComisionado = this.pozoActual* (comision/100);
         this.montoTotalRecaudado+=montoComisionado;
-        float montoGanado = montoTotalApostado-montoComisionado;
+        float montoGanado = pozoActual-montoComisionado;
         ganador.aumentarSaldo(montoGanado);
+        pozoActual=0;
     }
+    
     
  
 

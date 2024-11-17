@@ -80,7 +80,7 @@ public class MostrarManosJugadas extends javax.swing.JDialog {
         DefaultTableModel model = (DefaultTableModel) tblManos.getModel();
         model.setRowCount(0); // Limpiar la tabla
 
-        ArrayList<Mano> manos = mesaSeleccionada.getManosJugadas();
+        ArrayList<Mano> manos = mesaSeleccionada.getManos();
         System.out.println("Número de manos en mesa seleccionada: " + manos.size());
 
         if (manos.isEmpty()) {

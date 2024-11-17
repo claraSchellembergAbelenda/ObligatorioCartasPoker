@@ -22,6 +22,7 @@ import utilidades.Observable;
 import utilidades.Observador;
 import modelCartasYFiguras.Carta;
 import pokerApp.listeners.EventoJugador;
+import pokerApp.listeners.EventoMesa;
 
 
 public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListener,
@@ -46,7 +47,9 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
         cargarFiguras();
-        ApuestaManager.getInstancia().agregar(this);
+        juegoPoker.agregar(this);
+        mesa.agregar(this);
+        ApuestaManager.getInstancia().agregar(this);//arreglar esto
         MostrarSaldoJugador();
         MostrarMensaje();
         MostrarNombreJugador();
@@ -257,8 +260,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed
 
     private void btnPasarManoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarManoActionPerformed
-        
-        btnAbandonarMesa.setEnabled(false);
+
         btnCambiarCartas.setEnabled(false);
         btnIniciarApuesta.setEnabled(false);
         btnPasarMano.setEnabled(false);
@@ -339,10 +341,16 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
         //editar el PanelCartasPoker
         // Aquí podrías actualizar otros elementos de la interfaz, como el saldo o el pozo.
         // Por ejemplo:
-        Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
-        float pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
-        MostrarSaldoJugador();
-        lblValorActualPozo.setText("El pozo actual es: $" + pozo);
+        this.MostrarEstadoMano();
+        this.MostrarMayorFiguraFormada();
+        this.MostrarMensaje();
+        this.MostrarNumeroMano();
+        this.MostrarPozoActual();
+        this.MostrarSaldoJugador();
+//        Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
+//        float pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
+//        MostrarSaldoJugador();
+//        lblValorActualPozo.setText("El pozo actual es: $" + pozo);
     }
     
     
@@ -373,7 +381,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
     
     //---------------------------------------------mostrar mensajes----------------------------------------------------------------------------------------------
     private void inicializarPanelJuego() {
-         panelCartasPoker1.setListener(this); // Configura el listener del panel!
+        panelCartasPoker1.setListener(this); // Configura el listener del panel!
     }
 
     private void cargarFiguras() {
@@ -481,7 +489,7 @@ public void clickEnCarta(CartaPoker cartaPoker) {
 }
     
 
-    public void actualizarApuesta(Observable<EventoApuesta> origen, EventoApuesta evento) {
+    public void actualizarApuesta(Observable origen, EventoApuesta evento) {
         if(evento.getJugador()!=jugador){
                    int respuesta = JOptionPane.showConfirmDialog(this, 
                            evento.getJugador().getNombreCompleto()
@@ -516,12 +524,26 @@ public void clickEnCarta(CartaPoker cartaPoker) {
         if(evento.equals(EventoJugador.NO_TIENE_SALDO_SUFICIENTE)){
             actualizarJugadorSinSaldo();
         }
+        if(evento.equals(EventoMesa.NUEVA_MANO_INICIADA)){
+            actualizarManoIniciada();
+            System.out.println("empezo mano nueva");
+        }
+        //en evento mano_terminada se crea un dialogo que diga quien es el ganador y con que figura
     }
 
     public void actualizarJugadorSinSaldo(){
         IngresarAMesa ingresarAMesa=new IngresarAMesa(null, false, jugador);
         ingresarAMesa.setVisible(true);
         this.dispose();
+    }
+
+    private void actualizarManoIniciada() {
+        this.btnAbandonarMesa.setEnabled(true); 
+        btnCambiarCartas.setEnabled(true);
+        btnIniciarApuesta.setEnabled(true);
+        btnPasarMano.setEnabled(true);
+        this.MostrarNumeroMano();
+        this.actualizarInterfaz();
     }
 
    
