@@ -9,9 +9,7 @@ import modelJuego.Mesa;
 
 public class MostrarManosJugadas extends javax.swing.JDialog {
 
-    /**
-     * Creates new form MostrarManosJugadas
-     */
+    
     Mesa mesaSeleccionada=null;
     public MostrarManosJugadas(java.awt.Frame parent, boolean modal) {
         super(parent, modal);

@@ -4,20 +4,20 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class Observable<T> {
-    private final List<Observador<T>> observadores = new ArrayList<>();
+    private final List<Observador> observadores = new ArrayList<>();
 
-    public void agregar(Observador<T> observador) {
+    public void agregar(Observador observador) {
         if (!observadores.contains(observador)) {
             observadores.add(observador);
         }
     }
 
-    public void quitar(Observador<T> observador) {
+    public void quitar(Observador observador) {
         observadores.remove(observador);
     }
 
-    protected void avisar(T evento) {
-        for (Observador<T> observador : new ArrayList<>(observadores)) {
+    protected void avisar(Object evento) {
+        for (Observador observador : new ArrayList<>(observadores)) {
             observador.actualizar(this, evento);
         }
     }

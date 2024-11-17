@@ -1,12 +1,16 @@
 
 package interfazusuario;
 
+import estados.EstadoMano;
 import java.util.ArrayList;
 import java.util.List;
 import modelUsuario.UsuarioException;
 import modelFachada.Fachada;
 import modelJuego.Mesa;
 import modelUsuario.Jugador;
+import pokerApp.listeners.EventoJugador;
+import utilidades.Observable;
+import utilidades.Observador;
 
 
 public class IngresarAMesa extends javax.swing.JDialog {
@@ -171,6 +175,8 @@ public class IngresarAMesa extends javax.swing.JDialog {
         lblDatosJugador.setText(jugador.getNombreCompleto()
                 +" saldo: "+ jugador.getSaldo());
     }
+
+    
 
     
 }

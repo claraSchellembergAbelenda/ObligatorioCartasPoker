@@ -1,6 +1,7 @@
 
 package interfazusuario;
 
+import estados.EstadoMano;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -20,10 +21,11 @@ import pokerApp.listeners.EventoApuesta;
 import utilidades.Observable;
 import utilidades.Observador;
 import modelCartasYFiguras.Carta;
+import pokerApp.listeners.EventoJugador;
 
 
 public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListener,
-        ApuestaListener, Observador<EventoApuesta>{
+        ApuestaListener, Observador{
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
@@ -31,6 +33,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private List<String> figuras;
     private List<Carta> cartasSeleccionadas= new ArrayList<>();
     private ArrayList<Jugador> jugadoresEnMano= new ArrayList<>();
+    private boolean cambioCartas;
     
     public PanelDeJuego( Jugador jugador, Mesa mesa){
         initComponents();
@@ -38,6 +41,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         this.juegoPoker = mesa.getJuegoPoker();
         this.jugador=jugador;
         jugadoresEnMano = mesa.getJugadoresEnMesa();
+        cambioCartas=false;
         inicializarPanelJuego();
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
@@ -120,6 +124,11 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         });
 
         btnPasarMano.setText("Pasar mano");
+        btnPasarMano.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnPasarManoActionPerformed(evt);
+            }
+        });
 
         btnCambiarCartas.setText("Cambiar cartas");
         btnCambiarCartas.addActionListener(new java.awt.event.ActionListener() {
@@ -236,7 +245,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private void btnIniciarApuestaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnIniciarApuestaActionPerformed
         // TODO add your handling code here:
         
-         IniciarApuesta iniciarApuesta = new IniciarApuesta(this, false, jugador);
+        IniciarApuesta iniciarApuesta = new IniciarApuesta(this, false, jugador);
         iniciarApuesta.setApuestaListener(this);
         iniciarApuesta.setVisible(true);
     }//GEN-LAST:event_btnIniciarApuestaActionPerformed
@@ -247,27 +256,49 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         this.dispose(); 
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed
 
+    private void btnPasarManoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnPasarManoActionPerformed
+        
+        btnAbandonarMesa.setEnabled(false);
+        btnCambiarCartas.setEnabled(false);
+        btnIniciarApuesta.setEnabled(false);
+        btnPasarMano.setEnabled(false);
+        //logica para pasar 
+        //crear una funcion en juegoPoker que notifique/guarde el dato de que el 
+        //jugador paso de mano
+        juegoPoker.pasoMano(jugador);
+        //en juego poker cuando hago ese checkeo tengo que verificar si hay 
+        //jugadores uqe no han pasado de mano
+        //si no hay jugadores entonces sigue
+        //si todos los jugadores pasaron de mano, hacer un evento que sea finDeMano
+        //tengo que vincular ese evento con el panel de cartas
+        //en juegoPoker hacer lo correspondiente a si ese evento sucediera(empieza una mano nueva)
+    }//GEN-LAST:event_btnPasarManoActionPerformed
+
 private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
     try {
         if (cartasSeleccionadas.isEmpty()) {
             lblMensaje.setText("No se han seleccionado cartas para cambiar.");
             return;
         }
+        if(!cambioCartas){
+            // Obtén nuevas cartas para reemplazar
+            ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
 
-        // Obtén nuevas cartas para reemplazar
-        ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
+            // Cambia las cartas seleccionadas en el jugador
+            jugador.cambiarCartas(new ArrayList<>(cartasSeleccionadas), nuevasCartas);
 
-        // Cambia las cartas seleccionadas en el jugador
-        jugador.cambiarCartas(new ArrayList<>(cartasSeleccionadas), nuevasCartas);
+            // Limpia la selección y recarga el panel visualmente
+            cartasSeleccionadas.clear();
+            cargarCartasEnPanel(jugador.getCartas());
 
-        // Limpia la selección y recarga el panel visualmente
-        cartasSeleccionadas.clear();
-        cargarCartasEnPanel(jugador.getCartas());
+            // Actualiza la figura del jugador y muestra el mensaje correspondiente
+            MostrarMayorFiguraFormada();
 
-        // Actualiza la figura del jugador y muestra el mensaje correspondiente
-        MostrarMayorFiguraFormada();
-
-        lblMensaje.setText("Cartas cambiadas exitosamente.");
+            lblMensaje.setText("Pediste "+nuevasCartas.size()+" nuevas");
+        }else{
+            lblMensaje.setText("Solo puede cambiar cartas 1 vez por turno");
+        }
+        
     } catch (Exception ex) {
         lblMensaje.setText("Error al cambiar cartas: " + ex.getMessage());
     }
@@ -276,7 +307,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
     
     public void apuestaIngresada(float montoApuesta){
         try {
-                juegoPoker.iniciarApuesta(montoApuesta);
+                juegoPoker.iniciarApuesta(montoApuesta, jugador);
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
 
                 float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
@@ -298,13 +329,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
         }
     }
     
-    private void btnPasarActionPerformed(java.awt.event.ActionEvent evt) {  
-        btnAbandonarMesa.setEnabled(false);
-        btnCambiarCartas.setEnabled(false);
-        btnIniciarApuesta.setEnabled(false);
-        btnPasarMano.setEnabled(false);
-        //logica para pasar 
-    }
+    
     
     // Método para actualizar la interfaz con el estado actual del juego
     private void actualizarInterfaz() {
@@ -317,7 +342,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
         Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
         float pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
         MostrarSaldoJugador();
-        lblMensaje.setText("El pozo actual es: $" + pozo);
+        lblValorActualPozo.setText("El pozo actual es: $" + pozo);
     }
     
     
@@ -456,8 +481,7 @@ public void clickEnCarta(CartaPoker cartaPoker) {
 }
     
 
-    @Override
-    public void actualizar(Observable<EventoApuesta> origen, EventoApuesta evento) {
+    public void actualizarApuesta(Observable<EventoApuesta> origen, EventoApuesta evento) {
         if(evento.getJugador()!=jugador){
                    int respuesta = JOptionPane.showConfirmDialog(this, 
                            evento.getJugador().getNombreCompleto()
@@ -480,8 +504,25 @@ public void clickEnCarta(CartaPoker cartaPoker) {
                    }
                }
            }
-
     
+    
+    
+
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        if(evento instanceof EventoApuesta){
+            actualizarApuesta(origen, (EventoApuesta) evento);
+        }
+        if(evento.equals(EventoJugador.NO_TIENE_SALDO_SUFICIENTE)){
+            actualizarJugadorSinSaldo();
+        }
+    }
+
+    public void actualizarJugadorSinSaldo(){
+        IngresarAMesa ingresarAMesa=new IngresarAMesa(null, false, jugador);
+        ingresarAMesa.setVisible(true);
+        this.dispose();
+    }
 
    
 }

@@ -4,7 +4,7 @@ package pokerApp.listeners;
 import modelUsuario.Jugador;
 
 
-public class EventoApuesta {
+public class EventoApuesta{
     private Jugador jugador;
     private float monto;
 
@@ -20,6 +20,8 @@ public class EventoApuesta {
     public float getMonto() {
         return monto;
     }
+
+   
     
     
 }

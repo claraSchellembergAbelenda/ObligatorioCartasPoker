@@ -5,12 +5,15 @@ import java.util.ArrayList;
 import modelJuego.Mesa;
 import modelUsuario.Jugador;
 import estados.EstadoPartida;
+import interfazusuario.IngresarAMesa;
 import modelJuego.ManoException;
 import modelUsuario.UsuarioException;
 import modelCartasYFiguras.Carta;
 import modelCartasYFiguras.Mazo;
+import modelCartasYFiguras.TipoFigura;
+import utilidades.Observable;
 
-public class JuegoPoker {
+public class JuegoPoker extends Observable<EstadoMano>{
     private Mesa mesa;
     private Mano mano;
     private Mazo mazo;
@@ -119,9 +122,8 @@ public class JuegoPoker {
         return this.mano.getPozoApuestas();
     }
 
-    public void iniciarApuesta(float monto) throws UsuarioException, ManoException{
+    public void iniciarApuesta(float monto, Jugador jugador) throws UsuarioException, ManoException{
         
-        Jugador jugador = mano.getJugadorActual(); 
         // Suponiendo que obtienes el jugador actual de la mesa
             if(mano.getEstadoMano()!=EstadoMano.ESPERANDO_APUESTA){
                 throw new ManoException("No es posible realizar una apuesta en este momento");
@@ -145,6 +147,26 @@ public class JuegoPoker {
             }
             
         }
+
+    public void pasoMano(Jugador jugador) {
+        jugador.pasoMano();
+               if(mesa.todosJugadoresPasaron()){
+                   //un evento
+                   avisar(EstadoMano.TERMINADA);
+                   Jugador ganador = mano.determinarGanador();
+                   TipoFigura figuraGanadora = mano.determinarFiguraGanadora();
+                   mesa.incrementarSaldoAGanador(ganador);
+                   
+                   String mensaje =mesa.iniciarNuevaMano();
+                   if(mensaje.contains("saldo")){
+                       IngresarAMesa ingresarAMesa = new IngresarAMesa(null,false,jugador);
+                       ingresarAMesa.setVisible(true);
+                   }
+                    //si le devuelve mensaje de q no tiene suficiente se ejecuta cu
+                   //de ingresar a una mesa
+                   
+               }
+    }
 
 
 }

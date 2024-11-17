@@ -7,11 +7,11 @@ import modelCartasYFiguras.Mazo;
 import modelCartasYFiguras.Figura;
 import modelUsuario.Jugador;
 import java.util.ArrayList;
-import modelJuego.MesaException;
 import modelUsuario.UsuarioException;
+import pokerApp.listeners.EventoJugador;
 import utilidades.Observador;
 
-public class Mesa extends Observable<EventoMesa>{
+public class Mesa extends Observable{
 
     private ArrayList<Jugador> jugadoresEnMesa;
     private ArrayList<Mano> manosJugadas;
@@ -29,6 +29,7 @@ public class Mesa extends Observable<EventoMesa>{
     private static int contadorMesas = 1;  
     private int numeroMesa; 
     private JuegoPoker juegoPoker;
+    private ResultadoGanador resultadoGanador;
     
     
     // Constructor
@@ -256,14 +257,26 @@ public class Mesa extends Observable<EventoMesa>{
         }
     }
     //metodo actualizado con validaciones
-    public void iniciarNuevaMano() {
+    public String iniciarNuevaMano() {
+        String mensaje="";
+            //verifica que todoa loa jugadores tengan saldo suficiente y saca de la mesa a los q no
+        for (Jugador jugador : jugadoresEnMesa) {
+            if(!jugador.tieneSaldoSuficiente(apuestaBase)){
+                this.removerJugador(jugador);
+                avisar(EventoJugador.NO_TIENE_SALDO_SUFICIENTE);
+                mensaje="No tienes saldo suficiente para continuar jugando";
+                //ver de avisar de otra forma a juegoPoker
+                return mensaje;
+            }//else vuelve a false pasoMano
+        }
             estadoPartida = EstadoPartida.JUGANDO;
             Mano nuevaMano = new Mano(jugadoresEnMesa);
-            nuevaMano.repartirCartas();
             manosJugadas.add(nuevaMano);
             this.manoActual=nuevaMano;
+            nuevaMano.repartirCartas();
             avisar(EventoMesa.NUEVA_MANO_INICIADA);  // Notifica a todos los observadores (jugadores)
-        
+            mensaje="mano creada con exito";
+            return mensaje;
     }
 
 
@@ -344,7 +357,7 @@ public class Mesa extends Observable<EventoMesa>{
     }
 
     public void agregarObservador(Jugador jugador) {
-        super.agregar((Observador) jugador); // Llama al método agregar de Observable
+        super.agregar( jugador); // Llama al método agregar de Observable
         System.out.println("Jugador " + jugador.getNombreCompleto() + " agregado como observador de la mesa.");
     }
 
@@ -383,6 +396,27 @@ public class Mesa extends Observable<EventoMesa>{
         return manoActual.getEstadoMano();
     }
 
+    public boolean todosJugadoresPasaron() {
+        int cantidad=0;
+        for (Jugador jugador : jugadoresEnMesa) {
+            if(jugador.getPasoMano()){
+                cantidad++;
+            }
+        }
+        if(cantidad==jugadoresEnMesa.size()){
+            return true;
+        }
+        return false;
+    }
+
+    public void incrementarSaldoAGanador(Jugador ganador) {
+        float montoComisionado = this.montoTotalApostado* (comision/100);
+        this.montoTotalRecaudado+=montoComisionado;
+        float montoGanado = montoTotalApostado-montoComisionado;
+        ganador.aumentarSaldo(montoGanado);
+    }
+    
+ 
 
     
 

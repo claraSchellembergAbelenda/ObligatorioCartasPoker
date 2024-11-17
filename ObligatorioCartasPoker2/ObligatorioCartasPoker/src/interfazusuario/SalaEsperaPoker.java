@@ -13,7 +13,7 @@ import utilidades.Observable;
 import utilidades.Observador;
 
 
-public class SalaEsperaPoker extends javax.swing.JDialog implements Observador<EventoMesa>{
+public class SalaEsperaPoker extends javax.swing.JDialog implements Observador{
 
     private Jugador jugador;
     private Mesa mesa;
@@ -23,17 +23,19 @@ public class SalaEsperaPoker extends javax.swing.JDialog implements Observador<E
     
     public SalaEsperaPoker(java.awt.Frame parent, boolean modal, Mesa mesa, Jugador jugador) {
         super(parent, modal);
+        initComponents();
         this.jugador = jugador;
         this.mesa = mesa;
         this.mesa.agregar(this);
         this.mesa.agregarJugador(jugador);
-        initComponents();
-        cargarMensaje();
         jugadores.add(jugador);
+        cargarMensaje();
         
         //temporizador que verifica el inicio del juego cada 3 segundos
         
-        
+        if(this.jugadores.equals(mesa.getJugadoresEnMesa())){
+            this.dispose();
+        }
     }
 
     @SuppressWarnings("unchecked")
@@ -77,11 +79,10 @@ public class SalaEsperaPoker extends javax.swing.JDialog implements Observador<E
     }
     
 
-    @Override
-    public void actualizar(Observable<EventoMesa> origen, EventoMesa evento) {
+    public void actualizarMesa(Observable<EventoMesa> origen, EventoMesa evento) {
             if (evento == EventoMesa.MESA_COMPLETA) {
             // La mesa está completa, inicializar JuegoPoker y abrir PanelDeCartas
-            this.juegoPoker = new JuegoPoker(mesa);
+            //this.juegoPoker = new JuegoPoker(mesa);
             PanelDeJuego panelDeJuego = new PanelDeJuego(jugador, mesa);
             panelDeJuego.setVisible(true);
             
@@ -93,6 +94,14 @@ public class SalaEsperaPoker extends javax.swing.JDialog implements Observador<E
             }
         
     }
+
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        if(evento instanceof EventoMesa){
+            actualizarMesa(origen, (EventoMesa)evento);
+        }
+    }
+    
     
     
     

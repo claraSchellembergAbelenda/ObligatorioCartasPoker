@@ -8,5 +8,6 @@ public enum EventoMesa {
     MESA_FINALIZADA,
     JUGADOR_AGREGADO,
     JUGADOR_REMOVIDO,
-    MESA_COMPLETA
+    MESA_COMPLETA;
+
 }

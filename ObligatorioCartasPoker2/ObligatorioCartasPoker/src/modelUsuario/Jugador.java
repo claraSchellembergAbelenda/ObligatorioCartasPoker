@@ -18,6 +18,7 @@ public class Jugador extends Usuario implements Observador{
     private ArrayList<Carta> cartas= new ArrayList<>();
     private EstadoJugadorEnMano estadoJugadorEnMano;
     private TipoFigura figuraActual; // Figura actual del jugador
+    private boolean pasoMano=false;
     
     public Jugador(String cedula, String password, String nombreCompleto, float saldo) {
         super(cedula, password, nombreCompleto); // Llamamos al constructor de la clase base Usuario
@@ -55,6 +56,16 @@ public class Jugador extends Usuario implements Observador{
     public String getNombre() {
         return nombreCompleto;
     }
+
+    public boolean getPasoMano() {
+        return pasoMano;
+    }
+
+    public void setPasoMano(boolean pasoMano) {
+        this.pasoMano = pasoMano;
+    }
+    
+    
     
     public void apostar(float cantidad) {
         if (saldo >= cantidad) {
@@ -159,6 +170,10 @@ public class Jugador extends Usuario implements Observador{
     public void setFiguraActual(TipoFigura figuraActual) {
         this.figuraActual = figuraActual;
         System.out.println("Figura actualizada para " + getNombreCompleto() + ": " + figuraActual.getNombre());
+    }
+
+    public void pasoMano() {
+        this.pasoMano=true;
     }
 
     

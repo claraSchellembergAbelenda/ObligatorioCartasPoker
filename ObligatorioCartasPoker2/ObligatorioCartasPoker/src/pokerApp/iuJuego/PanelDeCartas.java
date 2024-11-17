@@ -24,7 +24,7 @@ import utilidades.Observable;
 import utilidades.Observador;
 
 public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasListener, 
-        ApuestaListener, Observador<EventoApuesta> {
+        ApuestaListener, Observador {
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
@@ -293,7 +293,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
     }
     public void apuestaIngresada(float montoApuesta){
         try {
-                juegoPoker.iniciarApuesta(montoApuesta);
+                juegoPoker.iniciarApuesta(montoApuesta, jugador);
                 lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
 
                 float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
@@ -473,8 +473,7 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
         
     }
 
-    @Override
-    public void actualizar(Observable origen, EventoApuesta evento) {
+    public void actualizarEvento(Observable origen, EventoApuesta evento) {
         if(evento.getJugador()!=jugador){
             int respuesta = JOptionPane.showConfirmDialog(this, 
                     evento.getJugador().getNombreCompleto() + " ha realizado una apuesta de $" + evento.getMonto() +
@@ -494,6 +493,11 @@ public class PanelDeCartas extends javax.swing.JFrame implements PanelCartasList
             }
         }
                
+    }
+
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
     }
 
     
