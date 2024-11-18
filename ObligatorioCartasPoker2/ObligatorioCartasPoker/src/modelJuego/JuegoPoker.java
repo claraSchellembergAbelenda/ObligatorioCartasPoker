@@ -86,6 +86,10 @@ public class JuegoPoker extends Observable{
 
     public void abandonarMesa(Jugador jugador) {
         mesa.removerJugador(jugador);
+        if(mesa.getCantidadJugadoresActual()==1){
+            mesa.setEstadoPartida(EstadoPartida.FINALIZADA);
+            avisar(EstadoPartida.FINALIZADA);
+        }
         System.out.println(jugador.getNombre() + " ha abandonado la mesa.");
     }
 
@@ -131,9 +135,13 @@ public class JuegoPoker extends Observable{
                 throw new ManoException("No es posible realizar una apuesta en este momento");
             }
             mano.setEstadoMano(EstadoMano.APUESTA_INICIADA);
-            jugador.tieneSaldoSuficiente(monto);
-            jugador.descontarSaldo(monto);
-            mesa.incrementarPozo(monto); // Incrementa el pozo de la mesa con el monto apostado
+            if(jugador.tieneSaldoSuficiente(monto)){
+                jugador.descontarSaldo(monto);
+                mesa.incrementarPozo(monto); 
+            }else{
+                throw new UsuarioException("No tiene saldo suficiente");
+            }
+            // Incrementa el pozo de la mesa con el monto apostado
             // Saldo insuficiente
         
     }
@@ -149,6 +157,7 @@ public class JuegoPoker extends Observable{
                    Jugador ganador = mano.determinarGanador();
                    TipoFigura figuraGanadora = mano.determinarFiguraGanadora();
                    mesa.darPozoAGanador(ganador);
+                   mano.setEstadoMano(EstadoMano.TERMINADA);
                    avisar(EstadoMano.TERMINADA);
                    
                    //sacar jugadores
@@ -165,6 +174,7 @@ public class JuegoPoker extends Observable{
                        
                         mesa.iniciarNuevaMano();
                    }else{
+                       avisar(EstadoPartida.FINALIZADA);
                        //notificar finalizacion de mesa
                        //y cerrar paneles y et
                    }
@@ -187,6 +197,41 @@ public class JuegoPoker extends Observable{
             }
         }
     }
+
+    public void cambiarEstadoMano(EstadoMano estado) {
+        mano.setEstadoMano(estado);
+    }
+//
+//    public void gestionarEstadoMano() {
+//        switch (mano.getEstadoMano()) {
+//            case ESPERANDO_APUESTA:
+//                if(mesa.todosJugadoresPasaron()){
+//                    System.out.println("todos los jugadores pasaron");
+//                    mano.incrementarPozoApuestas(mesa.getMontoTotalApostado());
+//                    mano.setEstadoMano(EstadoMano.TERMINADA);
+//                    this.iniciarNuevaMano();
+//                }else{
+//                    mano.setEstadoMano(EstadoMano.APUESTA_INICIADA);
+//                }
+//                
+//                break;
+//            case APUESTA_INICIADA:
+//                if(mesa.alMenosUnJugadorAposto()){
+//                    System.out.println("estado = pidiendo cartas");
+//                    mano.setEstadoMano(EstadoMano.PIDIENDO_CARTAS);
+//                }else{
+//                    Jugador jugadorGanador =mano.getJugadorQueAposto();
+//                    if(jugadorGanador!=null){
+//                        System.out.println("gano: "+ jugadorGanador.getNombre());
+//                        
+//                    }
+//                }
+//                break;
+//            default:
+//                throw new AssertionError();
+//        }
+//        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+//    }
 
 
 }

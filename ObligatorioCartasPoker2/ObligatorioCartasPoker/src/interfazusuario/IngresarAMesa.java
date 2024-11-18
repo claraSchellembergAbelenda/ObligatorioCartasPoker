@@ -2,14 +2,17 @@
 package interfazusuario;
 
 import controladores.IngresarAMesaController;
+import estados.EstadoPartida;
 import java.util.ArrayList;
 import java.util.List;
 import modelJuego.Mesa;
 import modelUsuario.Jugador;
+import utilidades.Observable;
+import utilidades.Observador;
 import vista.VistaIngresarAMesa;
 
 
-public class IngresarAMesa extends javax.swing.JDialog implements VistaIngresarAMesa  {
+public class IngresarAMesa extends javax.swing.JDialog implements VistaIngresarAMesa, Observador  {
     private List<Mesa> mesas = new ArrayList<>();
     private IngresarAMesaController controlador;
     
@@ -144,4 +147,11 @@ public class IngresarAMesa extends javax.swing.JDialog implements VistaIngresarA
     private javax.swing.JLabel lblRespuestaIngreso;
     private javax.swing.JList lstMesasAbiertas;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void actualizar(Observable origen, Object evento) {
+        if(evento.equals(EstadoPartida.FINALIZADA)){
+            lblRespuestaIngreso.setText("La mesa a finalizado");
+        }
+    }
 }

@@ -25,4 +25,5 @@ public interface VistaPanelDeJuego {
     public void actualizarJugadorSinSaldo();
     public void actualizarManoIniciada();
     public void actualizarManoTerminada();
+    public void actualizarPartidaTerminada();
 }

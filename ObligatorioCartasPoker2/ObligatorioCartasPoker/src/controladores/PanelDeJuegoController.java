@@ -2,6 +2,7 @@
 package controladores;
 
 import estados.EstadoMano;
+import estados.EstadoPartida;
 import interfazusuario.IngresarAMesa;
 import java.util.ArrayList;
 import java.util.List;
@@ -93,7 +94,7 @@ public class PanelDeJuegoController  implements Observador{
 
     private void mostrarNumeroMano() {
         String mensaje="Numero de mano: "+ mesa.getNumeroManoActual();
-        vista.mostrarNumeroMesa(mensaje);
+        vista.mostrarNumeroMano(mensaje);
     }
 
     public void mostrarMayorFiguraFormada() {
@@ -120,6 +121,7 @@ public class PanelDeJuegoController  implements Observador{
     public void actualizarInterfaz(){
         this.mostrarEstadoMano();
         this.mostrarMayorFiguraFormada();
+        this.mostrarNumeroMesa();
         this.mostrarNumeroMano();
         this.mostrarPozoActual();
         this.mostrarSaldoJugador();
@@ -169,56 +171,17 @@ public class PanelDeJuegoController  implements Observador{
                if(evento.equals(EstadoMano.TERMINADA)){
                    vista.actualizarManoTerminada();
                }
+               if(evento.equals(EstadoPartida.FINALIZADA)){
+                   vista.actualizarPartidaTerminada();
+            
+        }
            }
-//    
-//    
-//    public void actualizarApuesta(Observable origen, EventoApuesta evento) {
-//        if(evento.getJugador()!=jugador){
-//                   int respuesta = JOptionPane.showConfirmDialog(null, 
-//                           evento.getJugador().getNombreCompleto()
-//                                   + " ha realizado una apuesta de $" + evento.getMonto() +
-//                           ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
-//                           JOptionPane.YES_NO_OPTION);
-//                       if (respuesta == JOptionPane.YES_OPTION && 
-//                               jugador.tieneSaldoSuficiente(evento.getMonto())) {
-//                           jugador.descontarSaldo(evento.getMonto());
-//                           mesa.incrementarPozo(evento.getMonto());
-//                           mostrarMensaje(jugador.getNombreCompleto() + " ha pagado la apuesta.");
-//                           actualizarInterfaz();
-//                       } else {
-//                       mostrarMensaje(jugador.getNombreCompleto() 
-//                               + " ha decidido no pagar la apuesta.");
-//                       // Desactiva botones si el jugador no paga
-//                       btnCambiarCartas.setEnabled(false);
-//                       //btnJugar.setEnabled(false);
-//                       btnPasarMano.setEnabled(false);
-//                   }
-//               }
-//           }
-//    
-//     public void actualizarJugadorSinSaldo(){
-//        IngresarAMesa ingresarAMesa=new IngresarAMesa(null, false, jugador);
-//        ingresarAMesa.setVisible(true);
-//        this.dispose();
-//    }
-//
-//    private void actualizarManoIniciada() {
-//        this.btnAbandonarMesa.setEnabled(true); 
-//        btnCambiarCartas.setEnabled(true);
-//        btnIniciarApuesta.setEnabled(true);
-//        btnPasarMano.setEnabled(true);
-//        this.actualizarInterfaz();
-//    }
-//
-//    private void actualizarManoTerminada() {
-//        ResultadoGanador resultado = mesa.getResultadoMano();
-//        lblMensaje.setText("El ganador de la mano es: "+ resultado.getJugador().getNombre()
-//        +" con la figura: "+resultado.getFigura().getNombre());
-//        btnCambiarCartas.setEnabled(false);
-//        btnIniciarApuesta.setEnabled(false);
-//        btnPasarMano.setEnabled(false);
-//        lblSeguirJugando.setText("Desea continuar jugando: ");
-//        btnSeguirJugando.setVisible(true);
-//        
+
+    public void cambiarEstadoMano(EstadoMano estado) {
+        juegoPoker.cambiarEstadoMano(estado);
+    }
+    
+//    public void gestionarEstadoMano(){
+//        juegoPoker.gestionarEstadoMano();
 //    }
 }

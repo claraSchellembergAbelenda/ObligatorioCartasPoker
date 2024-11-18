@@ -3,6 +3,7 @@ package interfazusuario;
 
 import controladores.PanelDeJuegoController;
 import estados.EstadoMano;
+import estados.EstadoPartida;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.JOptionPane;
@@ -140,8 +141,6 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
                 btnAbandonarMesaActionPerformed(evt);
             }
         });
-
-        lblSeguirJugando.setText("lblSeguirJugando");
 
         btnSeguirJugando.setText("Continuar jugando");
         btnSeguirJugando.addActionListener(new java.awt.event.ActionListener() {
@@ -333,7 +332,7 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
 
     
     public void apuestaIngresada(float montoApuesta){
-              controlador.ingresarApuesta(montoApuesta);
+        controlador.ingresarApuesta(montoApuesta);
 
     }
     
@@ -422,17 +421,18 @@ public void clickEnCarta(CartaPoker cartaPoker) {
 
     public void actualizarApuesta(Observable origen, EventoApuesta evento) {
         if(evento.getJugador()!=jugador){
-                   int respuesta = JOptionPane.showConfirmDialog(this, 
+            if(jugador.tieneSaldoSuficiente(evento.getMonto())){
+                int respuesta = JOptionPane.showConfirmDialog(this, 
                            evento.getJugador().getNombreCompleto()
                                    + " ha realizado una apuesta de $" + evento.getMonto() +
                            ". ¿Deseas pagar la apuesta?", "Pagar Apuesta", 
                            JOptionPane.YES_NO_OPTION);
-                       if (respuesta == JOptionPane.YES_OPTION && 
-                               jugador.tieneSaldoSuficiente(evento.getMonto())) {
+                       if (respuesta == JOptionPane.YES_OPTION ) {
                            jugador.descontarSaldo(evento.getMonto());
                            mesa.incrementarPozo(evento.getMonto());
                            lblMensaje.setText(jugador.getNombreCompleto() + " ha pagado la apuesta.");
                            actualizarInterfaz();
+                           controlador.cambiarEstadoMano(EstadoMano.PIDIENDO_CARTAS);
                        } else {
                        lblMensaje.setText(jugador.getNombreCompleto() 
                                + " ha decidido no pagar la apuesta.");
@@ -441,8 +441,15 @@ public void clickEnCarta(CartaPoker cartaPoker) {
                        //btnJugar.setEnabled(false);
                        btnPasarMano.setEnabled(false);
                    }
-               }
-           }
+            }else{
+                
+                lblMensaje.setText("No tiene saldo suficiente para pagar la apuesta");
+            }
+                   
+            
+                   
+    }
+}
     
     
     
@@ -463,9 +470,17 @@ public void clickEnCarta(CartaPoker cartaPoker) {
         if(evento.equals(EstadoMano.TERMINADA)){
             actualizarManoTerminada();
         }
+        if(evento.equals(EstadoPartida.FINALIZADA)){
+            actualizarPartidaTerminada();
+        }
         //en evento mano_terminada se crea un dialogo que diga quien es el ganador y con que figura
     }
 
+    public void actualizarPartidaTerminada(){
+        IngresarAMesa ingresarAMesa=new IngresarAMesa(null, false, jugador);
+            ingresarAMesa.setVisible(true);
+            dispose();
+    }
     public void actualizarJugadorSinSaldo(){
         IngresarAMesa ingresarAMesa=new IngresarAMesa(null, false, jugador);
         ingresarAMesa.setVisible(true);
@@ -477,6 +492,7 @@ public void clickEnCarta(CartaPoker cartaPoker) {
         btnCambiarCartas.setEnabled(true);
         btnIniciarApuesta.setEnabled(true);
         btnPasarMano.setEnabled(true);
+        cargarCartasEnPanel(jugador.getCartas());
         this.actualizarInterfaz();
     }
 
