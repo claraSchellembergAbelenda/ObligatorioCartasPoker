@@ -200,6 +200,7 @@ public class JuegoPoker extends Observable{
 
     public void cambiarEstadoMano(EstadoMano estado) {
         mano.setEstadoMano(estado);
+        avisar(estado);
     }
 //
 //    public void gestionarEstadoMano() {

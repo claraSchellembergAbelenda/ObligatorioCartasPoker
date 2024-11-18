@@ -105,6 +105,9 @@ public class Mesa extends Observable{
 
     public void setEstadoPartida(EstadoPartida estadoPartida) {
         this.estadoPartida = estadoPartida;
+        if(estadoPartida==EstadoPartida.FINALIZADA){
+            avisar(estadoPartida);
+        }
     }
 
     public float getPozoActual() {

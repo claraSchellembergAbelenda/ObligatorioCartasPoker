@@ -28,7 +28,7 @@ import vista.VistaPanelDeJuego;
 
 
 public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListener,
-        ApuestaListener, Observador, VistaPanelDeJuego{
+        ApuestaListener, VistaPanelDeJuego{
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
@@ -48,9 +48,9 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         inicializarPanelJuego();
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
-        juegoPoker.agregar(this);
-        mesa.agregar(this);
-        ApuestaManager.getInstancia().agregar(this);
+//        juegoPoker.agregar(this);
+//        mesa.agregar(this);
+       // ApuestaManager.getInstancia().agregar(this);
         cargarCartasEnPanel(jugador.getCartas());
         btnSeguirJugando.setVisible(false);
         
@@ -321,7 +321,9 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
 
             // Actualiza la figura del jugador y muestra el mensaje correspondiente
             controlador.mostrarMayorFiguraFormada();
-
+            
+            controlador.cambiarEstadoMano(EstadoMano.TERMINADA);
+            
             lblMensaje.setText("Pediste "+nuevasCartas.size()+" nuevas");
         
         
@@ -451,30 +453,7 @@ public void clickEnCarta(CartaPoker cartaPoker) {
     }
 }
     
-    
-    
-
-    @Override
-    public void actualizar(Observable origen, Object evento) {
-        if(evento instanceof EventoApuesta){
-            actualizarApuesta(origen, (EventoApuesta) evento);
-        }
-        if(evento.equals(EventoJugador.NO_TIENE_SALDO_SUFICIENTE)){
-            actualizarJugadorSinSaldo();
-            //mostrar mensaje de error y cerrar ventana
-        }
-        if(evento.equals(EventoMesa.NUEVA_MANO_INICIADA)){
-            actualizarManoIniciada();
-            System.out.println("empezo mano nueva");
-        }
-        if(evento.equals(EstadoMano.TERMINADA)){
-            actualizarManoTerminada();
-        }
-        if(evento.equals(EstadoPartida.FINALIZADA)){
-            actualizarPartidaTerminada();
-        }
-        //en evento mano_terminada se crea un dialogo que diga quien es el ganador y con que figura
-    }
+  
 
     public void actualizarPartidaTerminada(){
         IngresarAMesa ingresarAMesa=new IngresarAMesa(null, false, jugador);

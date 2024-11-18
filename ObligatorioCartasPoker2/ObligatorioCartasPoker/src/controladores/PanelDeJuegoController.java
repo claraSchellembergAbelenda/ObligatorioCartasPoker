@@ -16,6 +16,7 @@ import modelJuego.Mesa;
 import modelJuego.ResultadoGanador;
 import modelUsuario.Jugador;
 import modelUsuario.UsuarioException;
+import pokerApp.listeners.ApuestaListener;
 import pokerApp.listeners.ApuestaManager;
 import pokerApp.listeners.EventoApuesta;
 import pokerApp.listeners.EventoJugador;
@@ -144,8 +145,10 @@ public class PanelDeJuegoController  implements Observador{
             mostrarMensaje("Apuesta de $" + montoApostado + " iniciada.");
             float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
             mesa.setApuestaBase(pozoActual);
+            
             ApuestaManager.getInstancia().registrarApuesta(jugador, montoApostado);
             actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
+            cambiarEstadoMano(EstadoMano.PIDIENDO_CARTAS);
             mostrarMensaje("Apuesta realizada");
         }catch(UsuarioException ue){
             mostrarMensaje("Error: "+ue.getMessage());
@@ -157,7 +160,7 @@ public class PanelDeJuegoController  implements Observador{
     
     @Override
     public void actualizar(Observable origen, Object evento) {
-        if(evento instanceof EventoApuesta){
+                if(evento instanceof EventoApuesta){
                    vista.actualizarApuesta(origen, (EventoApuesta) evento);
                }
                if(evento.equals(EventoJugador.NO_TIENE_SALDO_SUFICIENTE)){
@@ -181,7 +184,6 @@ public class PanelDeJuegoController  implements Observador{
         juegoPoker.cambiarEstadoMano(estado);
     }
     
-//    public void gestionarEstadoMano(){
-//        juegoPoker.gestionarEstadoMano();
-//    }
+    
+    
 }

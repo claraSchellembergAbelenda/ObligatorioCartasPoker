@@ -12,7 +12,7 @@ import utilidades.Observador;
 import vista.VistaIngresarAMesa;
 
 
-public class IngresarAMesa extends javax.swing.JDialog implements VistaIngresarAMesa, Observador  {
+public class IngresarAMesa extends javax.swing.JDialog implements VistaIngresarAMesa  {
     private List<Mesa> mesas = new ArrayList<>();
     private IngresarAMesaController controlador;
     
@@ -148,10 +148,5 @@ public class IngresarAMesa extends javax.swing.JDialog implements VistaIngresarA
     private javax.swing.JList lstMesasAbiertas;
     // End of variables declaration//GEN-END:variables
 
-    @Override
-    public void actualizar(Observable origen, Object evento) {
-        if(evento.equals(EstadoPartida.FINALIZADA)){
-            lblRespuestaIngreso.setText("La mesa a finalizado");
-        }
-    }
+    
 }
