@@ -180,8 +180,6 @@ public class AdministrarMesa extends javax.swing.JDialog implements VistaAdminis
             if(mesa.getManoActual()!=null){
                        numeroMano= mesa.getNumeroManoActual();
             }
-            //num mesa, cant Jugadores Req, Apuesta Base Jugadores Act:Mano, Apostado
-            //Comisión, Recaudado Estado
             datosMesas.add("numero de mesa: "+ mesa.getNumeroMesa()+
                     " Cantidad de jugadores req: "+
             mesa.getCantidadJugadoresRequeridos()+
@@ -212,6 +210,7 @@ public class AdministrarMesa extends javax.swing.JDialog implements VistaAdminis
         for (Mesa mesa : mesas) {
             cmbMesas.addItem(mesa);
         }
+        cargandoComboMesas=false;
     }
     
 }
