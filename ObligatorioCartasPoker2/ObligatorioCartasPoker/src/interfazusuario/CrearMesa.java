@@ -134,6 +134,7 @@ public class CrearMesa extends javax.swing.JDialog {
             // Llama a actualizarMesas en AdministrarMesa para refrescar el combo
             if (administrarMesa != null) {
                 administrarMesa.actualizarMesas(); 
+                this.dispose();
             }
         }catch(MesaException me){
             // Recuerde que puede mostrar mensajes al usuario utilizando por 

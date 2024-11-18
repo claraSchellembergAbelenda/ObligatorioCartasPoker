@@ -1,6 +1,8 @@
 
 package controladores;
 
+import modelFachada.Fachada;
+import modelJuego.MesaException;
 import vista.VistaCrearMesa;
 
 public class CrearMesaController {
@@ -23,7 +25,13 @@ public class CrearMesaController {
     }
     
     
-    
+    private void crearMesa(int cantJugadores, float apuestaBase, float comision){
+        try{
+            Fachada.getInstancia().crearMesa(cantJugadores ,apuestaBase ,comision);
+        }catch(MesaException me){
+            vista.mostrarMensajeError("error: "+ me.getMessage());
+        }
+    }
     
     
 }

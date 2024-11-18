@@ -157,6 +157,7 @@ public class JuegoPoker extends Observable{
                    
                }
     }
+    
     public void iniciarNuevaMano(){
         
                    //iniciar nueva mano

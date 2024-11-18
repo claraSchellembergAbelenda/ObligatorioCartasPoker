@@ -374,22 +374,12 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
     
     // Método para actualizar la interfaz con el estado actual del juego
     private void actualizarInterfaz() {
-        // Actualiza paneles o etiquetas con la información actual del juego
-        //panelCartasPoker.actualizarCartas(juegoPoker.getCartasJugador());
-        //hay que ver como actualizar ya que esta en el package libreria y no deja
-        //editar el PanelCartasPoker
-        // Aquí podrías actualizar otros elementos de la interfaz, como el saldo o el pozo.
-        // Por ejemplo:
         this.MostrarEstadoMano();
         this.MostrarMayorFiguraFormada();
         this.MostrarMensaje();
         this.MostrarNumeroMano();
         this.MostrarPozoActual();
         this.MostrarSaldoJugador();
-//        Mesa mesa = juegoPoker.getMesa(); // Obtener la mesa desde juegoPoker
-//        float pozo = mesa.getMontoTotalApostado(); // Obtener el pozo desde mesa
-//        MostrarSaldoJugador();
-//        lblValorActualPozo.setText("El pozo actual es: $" + pozo);
     }
     
     

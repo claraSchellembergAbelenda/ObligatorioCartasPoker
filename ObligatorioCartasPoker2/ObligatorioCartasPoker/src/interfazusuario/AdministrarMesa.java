@@ -139,9 +139,13 @@ public class AdministrarMesa extends javax.swing.JDialog {
     // End of variables declaration//GEN-END:variables
 
     public void CargarDatosEnLista() {
-    
+       
         List <String> datosMesas= new ArrayList<String>();
         for (Mesa mesa : mesas) {
+            int numeroMano=0;
+            if(mesa.getManoActual()!=null){
+                       numeroMano= mesa.getNumeroManoActual();
+            }
             //num mesa, cant Jugadores Req, Apuesta Base Jugadores Act:Mano, Apostado
             //Comisión, Recaudado Estado
             datosMesas.add("numero de mesa: "+ mesa.getNumeroMesa()+
@@ -152,8 +156,8 @@ public class AdministrarMesa extends javax.swing.JDialog {
                     " Cantidad de jugadores actual: "+
             mesa.getCantidadJugadoresActual()+
                     " Mano actual: "+
-            mesa.getNumeroManoActual()+
-                    " Monto total apostado: "+
+            numeroMano+
+                  " Monto total apostado: "+
             mesa.getMontoTotalApostado()+
                     " Comisión"+
             mesa.getComision()+
