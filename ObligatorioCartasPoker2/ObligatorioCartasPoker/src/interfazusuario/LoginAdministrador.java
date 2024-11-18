@@ -20,8 +20,7 @@ public class LoginAdministrador extends Login {
 
     @Override
     public void mostrarProximaInterfaz(Usuario usuario) {
-        AdministrarMesa administrarMesa = new AdministrarMesa(null, false, 
-                Fachada.getInstancia().getMesas());
+        AdministrarMesa administrarMesa = new AdministrarMesa(null, false);
         administrarMesa.setVisible(true);
     }
     

@@ -1,32 +1,30 @@
 
 package interfazusuario;
 
+import controladores.AdministrarMesaController;
 import java.util.ArrayList;
 import java.util.List;
 import javax.swing.DefaultListModel;
 import javax.swing.JFrame;
 import modelFachada.Fachada;
 import modelJuego.Mesa;
+import vista.VistaAdministrarMesa;
 
-public class AdministrarMesa extends javax.swing.JDialog {
+public class AdministrarMesa extends javax.swing.JDialog implements VistaAdministrarMesa{
 
+    private AdministrarMesaController controlador;
     
     private ArrayList<Mesa> mesas=new ArrayList<>();
     private boolean cargandoComboMesas=false;
     
-    public AdministrarMesa(java.awt.Frame parent, boolean modal, ArrayList<Mesa> mesas) {
+    public AdministrarMesa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
-        //this.mesas=mesas;
         this.mesas=Fachada.getInstancia().getMesas();
         initComponents();
-        CargarDatosEnLista();
-        CargarCombo();
+        controlador=new AdministrarMesaController(this);
         
     }
 
-    private AdministrarMesa(JFrame jFrame, boolean b) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
 
 
     @SuppressWarnings("unchecked")
@@ -40,6 +38,7 @@ public class AdministrarMesa extends javax.swing.JDialog {
         btnCrearMesa = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
         lstMesas = new javax.swing.JList();
+        lblMensaje = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
 
@@ -65,6 +64,8 @@ public class AdministrarMesa extends javax.swing.JDialog {
 
         jScrollPane2.setViewportView(lstMesas);
 
+        lblMensaje.setText("lblMensaje");
+
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
@@ -76,11 +77,15 @@ public class AdministrarMesa extends javax.swing.JDialog {
                         .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addComponent(lblMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 71, javax.swing.GroupLayout.PREFERRED_SIZE)
                             .addGroup(layout.createSequentialGroup()
-                                .addComponent(lblMontoTotalRecaudado)
-                                .addGap(121, 121, 121)
                                 .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(lblMesas2)
-                                    .addComponent(cmbMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))))
+                                    .addComponent(lblMontoTotalRecaudado)
+                                    .addGroup(layout.createSequentialGroup()
+                                        .addGap(12, 12, 12)
+                                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 196, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                .addGap(38, 38, 38)
+                                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                    .addComponent(cmbMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(lblMesas2)))))
                     .addGroup(layout.createSequentialGroup()
                         .addGap(63, 63, 63)
                         .addComponent(btnCrearMesa))
@@ -92,16 +97,21 @@ public class AdministrarMesa extends javax.swing.JDialog {
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(33, 33, 33)
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(lblMontoTotalRecaudado)
-                    .addComponent(lblMesas2))
-                .addGap(5, 5, 5)
-                .addComponent(cmbMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(33, 33, 33)
+                        .addComponent(lblMesas2))
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(11, 11, 11)
+                        .addComponent(lblMensaje, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                .addGap(18, 18, 18)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                    .addComponent(cmbMesas, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(lblMontoTotalRecaudado))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(lblMesas, javax.swing.GroupLayout.PREFERRED_SIZE, 37, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 270, Short.MAX_VALUE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 257, Short.MAX_VALUE)
                 .addGap(18, 18, 18)
                 .addComponent(btnCrearMesa)
                 .addContainerGap())
@@ -123,7 +133,7 @@ public class AdministrarMesa extends javax.swing.JDialog {
         CrearMesa crearmesa = new CrearMesa(null, false,this);
         crearmesa.setVisible(true);
         
-        CargarCombo();
+        CargarCombo(mesas);
     }//GEN-LAST:event_btnCrearMesaActionPerformed
 
 
@@ -132,15 +142,39 @@ public class AdministrarMesa extends javax.swing.JDialog {
     private javax.swing.JButton btnCrearMesa;
     private javax.swing.JComboBox cmbMesas;
     private javax.swing.JScrollPane jScrollPane2;
+    private javax.swing.JLabel lblMensaje;
     private javax.swing.JLabel lblMesas;
     private javax.swing.JLabel lblMesas2;
     private javax.swing.JLabel lblMontoTotalRecaudado;
     private javax.swing.JList lstMesas;
     // End of variables declaration//GEN-END:variables
 
-    public void CargarDatosEnLista() {
-       
-        List <String> datosMesas= new ArrayList<String>();
+    //cuando aprieto crear mesa esto deberia actualizar e combo.
+    public void actualizarMesas() {
+        this.mesas = Fachada.getInstancia().getMesas();
+        CargarCombo(mesas);
+        CargarDatosEnLista(mesas);
+    }
+
+    @Override
+    public void mostrarTitulo(String mensaje) {
+        setTitle(mensaje);
+    }
+
+    @Override
+    public void mostrarMensajeExitoso(String mensaje) {
+        lblMensaje.setText(mensaje);
+        }
+
+    @Override
+    public void mostrarMensajeError(String mensaje) {
+
+        lblMensaje.setText(mensaje);
+    }
+
+    @Override
+    public void CargarDatosEnLista(ArrayList<Mesa> mesas) {
+         List <String> datosMesas= new ArrayList<String>();
         for (Mesa mesa : mesas) {
             int numeroMano=0;
             if(mesa.getManoActual()!=null){
@@ -170,22 +204,13 @@ public class AdministrarMesa extends javax.swing.JDialog {
              lstMesas.setListData(datosMesas.toArray());
 
     }
-        
 
-    public void CargarCombo() {
-        cargandoComboMesas=true;
+    @Override
+    public void CargarCombo(ArrayList<Mesa> mesas) {
         cmbMesas.removeAllItems();
         for (Mesa mesa : mesas) {
             cmbMesas.addItem(mesa);
         }
-        cargandoComboMesas=false;
-    }
-    
-    //cuando aprieto crear mesa esto deberia actualizar e combo.
-    public void actualizarMesas() {
-        this.mesas = Fachada.getInstancia().getMesas();
-        CargarCombo();
-        CargarDatosEnLista();
     }
     
 }
