@@ -165,7 +165,7 @@ public class CrearMesa extends javax.swing.JDialog implements VistaCrearMesa {
         int cantJugadores = Integer.parseInt(txtNumeroJugadores.getText());
         float montoBase = Float.parseFloat(txtMontoBase.getText());
         float porcentajeComision = Float.parseFloat(txtPorcentajeComision.getText());
-        controlador.crearMesa(cantJugadores, montoBase, montoBase);
+        controlador.crearMesa(cantJugadores, montoBase, porcentajeComision);
         if (administrarMesa != null) {
                 administrarMesa.actualizarMesas(); 
                 this.dispose();
