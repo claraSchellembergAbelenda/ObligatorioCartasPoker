@@ -207,6 +207,7 @@ public class AdministrarMesa extends javax.swing.JDialog implements VistaAdminis
 
     @Override
     public void CargarCombo(ArrayList<Mesa> mesas) {
+        cargandoComboMesas=true;
         cmbMesas.removeAllItems();
         for (Mesa mesa : mesas) {
             cmbMesas.addItem(mesa);

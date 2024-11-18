@@ -11,6 +11,7 @@ public class CrearMesa extends javax.swing.JDialog implements VistaCrearMesa {
     
     private AdministrarMesa administrarMesa;
     private CrearMesaController controlador;
+    private boolean creoMesa=false;
     
     public CrearMesa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -126,19 +127,6 @@ public class CrearMesa extends javax.swing.JDialog implements VistaCrearMesa {
 
     private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
         crearMesa();
-//        try{
-//        Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
-//        lblMensaje.setText( "Mesa creada con exito");
-//            // Llama a actualizarMesas en AdministrarMesa para refrescar el combo
-//            
-//        }catch(MesaException me){
-//            // Recuerde que puede mostrar mensajes al usuario utilizando por 
-////            ejemplo etiquetas, barras de estado o áreas de texto específicas para mensajes.  
-//            lblMensaje.setText(
-//                    "Error: "+
-//                    me.getMessage());
-//        }
-
         
     }//GEN-LAST:event_btnCrearMesaActionPerformed
 
@@ -166,20 +154,28 @@ public class CrearMesa extends javax.swing.JDialog implements VistaCrearMesa {
         float montoBase = Float.parseFloat(txtMontoBase.getText());
         float porcentajeComision = Float.parseFloat(txtPorcentajeComision.getText());
         controlador.crearMesa(cantJugadores, montoBase, porcentajeComision);
-        if (administrarMesa != null) {
+        if (administrarMesa != null&&creoMesa) {
                 administrarMesa.actualizarMesas(); 
                 this.dispose();
-            }
+            }else{
+            limpiarTextos();
+                administrarMesa.actualizarMesas(); 
+            
+        }
+        
     }
 
     @Override
     public void limpiarTextos() {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+        txtNumeroJugadores.setText("");
+        txtMontoBase.setText("");
+        txtPorcentajeComision.setText("");
     }
 
     @Override
     public void mostrarMensajeExitoso(String mensaje) {
         lblMensaje.setText(mensaje);
+        this.creoMesa=true;
     }
 
     @Override
