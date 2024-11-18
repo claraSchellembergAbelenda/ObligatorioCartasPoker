@@ -12,22 +12,21 @@ public class CrearMesaController {
     public CrearMesaController(VistaCrearMesa vista) {
         this.vista = vista;
         //this.administrador = administrador;
-        mostrarTitulo();
-        limpiarCampos();
     }
 
-    private void mostrarTitulo() {
+    public void mostrarTitulo() {
         vista.mostrarTitulo("Crear mesa");
     }
 
-    private void limpiarCampos() {
+    public void limpiarCampos() {
         vista.limpiarTextos();
     }
     
     
-    private void crearMesa(int cantJugadores, float apuestaBase, float comision){
+    public void crearMesa(int cantJugadores, float apuestaBase, float comision){
         try{
             Fachada.getInstancia().crearMesa(cantJugadores ,apuestaBase ,comision);
+            vista.mostrarMensajeExitoso("Mesa creada con exito");
         }catch(MesaException me){
             vista.mostrarMensajeError("error: "+ me.getMessage());
         }

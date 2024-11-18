@@ -7,10 +7,10 @@ import modelJuego.MesaException;
 import modelFachada.Fachada;
 import vista.VistaCrearMesa;
 
-public class CrearMesa extends javax.swing.JDialog {
+public class CrearMesa extends javax.swing.JDialog implements VistaCrearMesa {
     
     private AdministrarMesa administrarMesa;
-    private CrearMesaController mesaController;
+    private CrearMesaController controlador;
     
     public CrearMesa(java.awt.Frame parent, boolean modal) {
         super(parent, modal);
@@ -20,9 +20,10 @@ public class CrearMesa extends javax.swing.JDialog {
     // Constructor con AdministrarMesa como parámetro
     public CrearMesa(java.awt.Frame parent, boolean modal, AdministrarMesa administrarMesa) {
         super(parent, modal);
-        mostrarTitulo();
         initComponents();
         this.administrarMesa = administrarMesa;
+        this.controlador= new CrearMesaController(this);
+        mostrarTitulo();
 
     }
     
@@ -124,25 +125,19 @@ public class CrearMesa extends javax.swing.JDialog {
     }//GEN-LAST:event_txtPorcentajeComisionActionPerformed
 
     private void btnCrearMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnCrearMesaActionPerformed
-        
-        int cantJugadores = Integer.parseInt(txtNumeroJugadores.getText());
-        float montoBase = Float.parseFloat(txtMontoBase.getText());
-        float porcentajeComision = Float.parseFloat(txtPorcentajeComision.getText());
-        try{
-        Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
-        lblMensaje.setText( "Mesa creada con exito");
-            // Llama a actualizarMesas en AdministrarMesa para refrescar el combo
-            if (administrarMesa != null) {
-                administrarMesa.actualizarMesas(); 
-                this.dispose();
-            }
-        }catch(MesaException me){
-            // Recuerde que puede mostrar mensajes al usuario utilizando por 
-//            ejemplo etiquetas, barras de estado o áreas de texto específicas para mensajes.  
-            lblMensaje.setText(
-                    "Error: "+
-                    me.getMessage());
-        }
+        crearMesa();
+//        try{
+//        Fachada.getInstancia().crearMesa(cantJugadores ,montoBase ,porcentajeComision);
+//        lblMensaje.setText( "Mesa creada con exito");
+//            // Llama a actualizarMesas en AdministrarMesa para refrescar el combo
+//            
+//        }catch(MesaException me){
+//            // Recuerde que puede mostrar mensajes al usuario utilizando por 
+////            ejemplo etiquetas, barras de estado o áreas de texto específicas para mensajes.  
+//            lblMensaje.setText(
+//                    "Error: "+
+//                    me.getMessage());
+//        }
 
         
     }//GEN-LAST:event_btnCrearMesaActionPerformed
@@ -159,4 +154,36 @@ public class CrearMesa extends javax.swing.JDialog {
     private javax.swing.JTextField txtNumeroJugadores;
     private javax.swing.JTextField txtPorcentajeComision;
     // End of variables declaration//GEN-END:variables
+
+    @Override
+    public void mostrarTitulo(String titulo) {
+        controlador.mostrarTitulo();
+    }
+
+    @Override
+    public void crearMesa() {
+        int cantJugadores = Integer.parseInt(txtNumeroJugadores.getText());
+        float montoBase = Float.parseFloat(txtMontoBase.getText());
+        float porcentajeComision = Float.parseFloat(txtPorcentajeComision.getText());
+        controlador.crearMesa(cantJugadores, montoBase, montoBase);
+        if (administrarMesa != null) {
+                administrarMesa.actualizarMesas(); 
+                this.dispose();
+            }
+    }
+
+    @Override
+    public void limpiarTextos() {
+        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    }
+
+    @Override
+    public void mostrarMensajeExitoso(String mensaje) {
+        lblMensaje.setText(mensaje);
+    }
+
+    @Override
+    public void mostrarMensajeError(String mensaje) {
+        lblMensaje.setText(mensaje);
+    }
 }
