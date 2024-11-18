@@ -1,6 +1,7 @@
 
 package interfazusuario;
 
+import controladores.PanelDeJuegoController;
 import estados.EstadoMano;
 import java.util.ArrayList;
 import java.util.List;
@@ -8,10 +9,8 @@ import javax.swing.JOptionPane;
 import modelCartasYFiguras.TipoFigura;
 import modelFachada.Fachada;
 import modelJuego.JuegoPoker;
-import modelJuego.ManoException;
 import modelJuego.Mesa;
 import modelUsuario.Jugador;
-import modelUsuario.UsuarioException;
 import panelCartasPoker.CartaPoker;
 import panelCartasPoker.PanelCartasListener;
 import panelCartasPoker.PanelCartasPokerException;
@@ -24,10 +23,11 @@ import modelCartasYFiguras.Carta;
 import modelJuego.ResultadoGanador;
 import pokerApp.listeners.EventoJugador;
 import pokerApp.listeners.EventoMesa;
+import vista.VistaPanelDeJuego;
 
 
 public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListener,
-        ApuestaListener, Observador{
+        ApuestaListener, Observador, VistaPanelDeJuego{
 
     private JuegoPoker juegoPoker;
     private Jugador jugador;
@@ -35,31 +35,21 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private List<String> figuras;
     private List<Carta> cartasSeleccionadas= new ArrayList<>();
     private ArrayList<Jugador> jugadoresEnMano= new ArrayList<>();
-    private boolean cambioCartas;
+    private PanelDeJuegoController controlador;
     
     public PanelDeJuego( Jugador jugador, Mesa mesa){
         initComponents();
+        controlador=new PanelDeJuegoController(jugador, mesa, this);
         this.mesa = mesa;
         this.juegoPoker = mesa.getJuegoPoker();
         this.jugador=jugador;
         jugadoresEnMano = mesa.getJugadoresEnMesa();
-        cambioCartas=false;
         inicializarPanelJuego();
         Fachada.getInstancia().precargarFiguras();
         figuras=TipoFigura.getTodasFiguras();
-        cargarFiguras();
         juegoPoker.agregar(this);
         mesa.agregar(this);
-        ApuestaManager.getInstancia().agregar(this);//arreglar esto
-        MostrarSaldoJugador();
-        MostrarMensaje();
-        MostrarNombreJugador();
-        MostrarEstadoMano();
-        MostrarNumeroMesa();
-        MostrarNumeroMano();
-        MostrarMayorFiguraFormada();
-        CargarJugadores();
-        MostrarPozoActual();
+        ApuestaManager.getInstancia().agregar(this);
         cargarCartasEnPanel(jugador.getCartas());
         btnSeguirJugando.setVisible(false);
         
@@ -285,8 +275,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     }//GEN-LAST:event_btnIniciarApuestaActionPerformed
 
     private void btnAbandonarMesaActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnAbandonarMesaActionPerformed
-        juegoPoker.abandonarMesa(jugador);
-        lblMensaje.setText("Has abandonado la mesa.");
+        controlador.abandonarMesa(jugador);
         this.dispose(); 
     }//GEN-LAST:event_btnAbandonarMesaActionPerformed
 
@@ -298,7 +287,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
         //logica para pasar 
         //crear una funcion en juegoPoker que notifique/guarde el dato de que el 
         //jugador paso de mano
-        juegoPoker.pasoMano(jugador);
+        controlador.pasarMano(jugador);
         //en juego poker cuando hago ese checkeo tengo que verificar si hay 
         //jugadores uqe no han pasado de mano
         //si no hay jugadores entonces sigue
@@ -310,7 +299,7 @@ public class PanelDeJuego extends javax.swing.JFrame implements PanelCartasListe
     private void btnSeguirJugandoActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSeguirJugandoActionPerformed
         // TODO add your handling code here:
         //empezar aca una siguiente mano
-        juegoPoker.iniciarNuevaMano();
+        controlador.iniciarNuevaMano();
         lblSeguirJugando.setVisible(false);
         btnSeguirJugando.setVisible(false);
     }//GEN-LAST:event_btnSeguirJugandoActionPerformed
@@ -321,7 +310,6 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
             lblMensaje.setText("No se han seleccionado cartas para cambiar.");
             return;
         }
-        if(!cambioCartas){
             // Obtén nuevas cartas para reemplazar
             ArrayList<Carta> nuevasCartas = juegoPoker.getMesa().getMazo().sacarCartas(cartasSeleccionadas.size());
 
@@ -333,12 +321,10 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
             cargarCartasEnPanel(jugador.getCartas());
 
             // Actualiza la figura del jugador y muestra el mensaje correspondiente
-            MostrarMayorFiguraFormada();
+            controlador.mostrarMayorFiguraFormada();
 
             lblMensaje.setText("Pediste "+nuevasCartas.size()+" nuevas");
-        }else{
-            lblMensaje.setText("Solo puede cambiar cartas 1 vez por turno");
-        }
+        
         
     } catch (Exception ex) {
         lblMensaje.setText("Error al cambiar cartas: " + ex.getMessage());
@@ -347,39 +333,15 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
 
     
     public void apuestaIngresada(float montoApuesta){
-        try {
-                juegoPoker.iniciarApuesta(montoApuesta, jugador);
-                lblMensaje.setText( "Apuesta de $" + montoApuesta + " iniciada.");
+              controlador.ingresarApuesta(montoApuesta);
 
-                float pozoActual = juegoPoker.getMesa().getMontoTotalApostado();
-                mesa.setApuestaBase(pozoActual);
-                //jugador.descontarSaldo(montoApuesta);
-                // Notifica al ApuestaManager que un jugador ha hecho una apuesta
-                ApuestaManager.getInstancia().registrarApuesta(jugador, montoApuesta);
-
-                actualizarInterfaz(); // Actualiza la interfaz para reflejar los cambios
-                
-                lblMensaje.setText( "El pozo actual es: $" + pozoActual);
-                MostrarSaldoJugador();
-            }
-            catch (UsuarioException ue) {
-            lblMensaje.setText("No hay jugadores en la mesa. No se puede iniciar la apuesta.");
-        }
-        catch(ManoException me){
-            lblMensaje.setText("Error: "+me.getMessage());
-        }
     }
     
     
     
     // Método para actualizar la interfaz con el estado actual del juego
     private void actualizarInterfaz() {
-        this.MostrarEstadoMano();
-        this.MostrarMayorFiguraFormada();
-        this.MostrarMensaje();
-        this.MostrarNumeroMano();
-        this.MostrarPozoActual();
-        this.MostrarSaldoJugador();
+        controlador.actualizarInterfaz();
     }
     
     
@@ -415,67 +377,6 @@ private void btnCambiarCartasActionPerformed(java.awt.event.ActionEvent evt) {
         panelCartasPoker1.setListener(this); // Configura el listener del panel!
     }
 
-    private void cargarFiguras() {
-        List<String> auxiliar = new ArrayList<String>();
-
-                for (String figura : figuras) {
-                    auxiliar.add(figura);
-                }
-        
-        lstFiguras.setListData(auxiliar.toArray());
-    }
-
-    private void MostrarSaldoJugador() {
-        lblSaldoJugador.setText("Saldo: $" + jugador.getSaldo());
-    }
-
-    private void MostrarMensaje() {
-        lblMensaje.setText("El juego ha comenzado en la mesa " 
-                + juegoPoker.getMesa().getNumeroMesa() );
-    }
-
-    private void MostrarNombreJugador() {
-        lblNombreJugador.setText( "bienvenido jugador: "+ jugador.getNombre());
-    }
-
-    private void MostrarEstadoMano() {
-        lblEstadoMano.setText("Estado mano actual: "+juegoPoker.getEstadoMano());
-    }
-
-    private void MostrarNumeroMesa() {
-        lblNumeroMesa.setText("Numero de mesa: "+ mesa.getNumeroMesa());
-    }
-
-    private void MostrarNumeroMano() {
-        lblNumeroMano.setText("Numero de mano actual: "+mesa.getNumeroManoActual());
-    }
-
-    private void MostrarMayorFiguraFormada() {
-        TipoFigura figuraActual = Fachada.getInstancia().determinarFigura(jugador.getCartas());
-        lblFiguraMayor.setText("La figura más grande formada es: " + figuraActual.getNombre());
-    }
-
-    private void CargarJugadores() {
-        //crear un arrayList con los jugadores que estan en la misma mesa y 
-        //misma situacion de mano
-        ArrayList<Jugador> jugadoresMismaSituacion = new ArrayList<>();
-        for (Jugador j : jugadoresEnMano) {
-            if(j.getEstadoJugadorEnMano()==jugador.getEstadoJugadorEnMano()){
-                jugadoresMismaSituacion.add(j);
-            }
-        }
-        
-        lstJugadoresMismaSituacion.setListData(jugadoresMismaSituacion.toArray());
-    }
-
-    private void MostrarPozoActual() {
-        lblValorActualPozo.setText("Pozo actual"+mesa.getApuestaBase());
-    }
-
-    
-    
-    
-    
     //--------------------------------------override methods------------------------------------------------------------------------------
     
 @Override
@@ -570,17 +471,16 @@ public void clickEnCarta(CartaPoker cartaPoker) {
         ingresarAMesa.setVisible(true);
         this.dispose();
     }
-
-    private void actualizarManoIniciada() {
+    
+    public void actualizarManoIniciada() {
         this.btnAbandonarMesa.setEnabled(true); 
         btnCambiarCartas.setEnabled(true);
         btnIniciarApuesta.setEnabled(true);
         btnPasarMano.setEnabled(true);
-        this.MostrarNumeroMano();
         this.actualizarInterfaz();
     }
 
-    private void actualizarManoTerminada() {
+    public void actualizarManoTerminada() {
         ResultadoGanador resultado = mesa.getResultadoMano();
         lblMensaje.setText("El ganador de la mano es: "+ resultado.getJugador().getNombre()
         +" con la figura: "+resultado.getFigura().getNombre());
@@ -590,6 +490,56 @@ public void clickEnCarta(CartaPoker cartaPoker) {
         lblSeguirJugando.setText("Desea continuar jugando: ");
         btnSeguirJugando.setVisible(true);
         
+    }
+
+    @Override
+    public void mostrarSaldoJugador(String saldo) {
+        lblSaldoJugador.setText(saldo);
+    }
+
+    @Override
+    public void mostrarMensaje(String mensaje) {
+        lblMensaje.setText(mensaje);
+    }
+
+    @Override
+    public void mostrarNombreJugador(String nombre) {
+        lblNombreJugador.setText(nombre);
+    }
+
+    @Override
+    public void mostrarEstadoMano(String estadoMano) {
+        lblEstadoMano.setText(estadoMano);
+    }
+
+    @Override
+    public void mostrarNumeroMesa(String numeroMesa) {
+        lblNumeroMesa.setText(numeroMesa);
+    }
+
+    @Override
+    public void mostrarNumeroMano(String numeroMano) {
+        lblNumeroMano.setText(numeroMano);
+    }
+
+    @Override
+    public void mostrarMayorFiguraFormada(String tipoFigura) {
+        lblFiguraMayor.setText(tipoFigura);
+    }
+
+    @Override
+    public void cargarJugadores(ArrayList<Jugador> jugadores) {
+        lstJugadoresMismaSituacion.setListData(jugadores.toArray());
+    }
+
+    @Override
+    public void mostrarPozoActual(String pozoActual) {
+        lblValorActualPozo.setText(pozoActual);
+    }
+
+    @Override
+    public void cargarFiguras(ArrayList<String> figuras) {
+        lstFiguras.setListData(figuras.toArray());
     }
 
    
